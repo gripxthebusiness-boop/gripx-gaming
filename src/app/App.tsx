@@ -11,6 +11,8 @@ import { ForgotPassword } from '@/app/pages/ForgotPassword';
 import { Dashboard } from '@/app/pages/Dashboard';
 import { AdminEditor } from '@/app/pages/AdminEditor';
 import { AuthProvider } from '@/app/context/AuthContext';
+import { VisualBuilder } from '@/app/pages/VisualBuilder';
+
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/editor" element={<AdminEditor />} />
             <Route path="/editor" element={<AdminEditor />} />
+            <Route path="/visual-builder" element={<VisualBuilder />} />
+            <Route path="/builder" element={<VisualBuilder />} />
           </Routes>
           <Footer />
         </div>
