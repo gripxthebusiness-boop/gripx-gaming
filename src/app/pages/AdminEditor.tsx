@@ -81,18 +81,8 @@ export function AdminEditor() {
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
 
-  // Redirect if not admin
-  if (!loading && (!isAuthenticated || !isAdmin)) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-red-500 mb-4">Access Denied</h1>
-          <p className="text-gray-400">This area is for admins only.</p>
-          <a href="/" className="text-cyan-400 hover:underline mt-4 block">Go Home</a>
-        </div>
-      </div>
-    );
-  }
+  // No login required - direct access via 5 logo clicks
+  // Removed authentication check for easier access
 
   const handleDragStart = (e, position) => {
     dragItem.current = position;

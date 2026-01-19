@@ -1,5 +1,5 @@
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, LogIn, User, LogOut, Settings, ChevronDown, ChevronUp, Clock } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -10,8 +10,13 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, isAuthenticated, logout, sessionTimeRemaining } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Secret admin access: click logo 5 times
+  const [logoClickCount, setLogoClickCount] = useState(0);
+  const [showSecretToast, setShowSecretToast] = useState(false);
 
   const links = [
     { href: '/', label: 'Home' },
@@ -20,6 +25,24 @@ export function Navigation() {
   ];
 
   const isActive = (href: string) => location.pathname === href;
+
+  // Handle logo click for secret admin access
+  const handleLogoClick = () => {
+    const newCount = logoClickCount + 1;
+    setLogoClickCount(newCount);
+    
+    if (newCount === 5) {
+      setShowSecretToast(true);
+      setLogoClickCount(0);
+      navigate('/admin-editor');
+      setTimeout(() => setShowSecretToast(false), 3000);
+    }
+  };
+
+  // Reset click count when navigating away
+  useEffect(() => {
+    setLogoClickCount(0);
+  }, [location.pathname]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -44,13 +67,20 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-cyan-500/20">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          {/* Logo with secret click feature */}
+          <button
+            onClick={() => {
+              handleLogoClick();
+              navigate('/');
+            }}
+            className="flex items-center space-x-2 hover:scale-105 transition-transform"
+            title={logoClickCount > 0 ? `${5 - logoClickCount} more clicks for secret access` : 'Click 5 times to access editor'}
+          >
             <div className="text-3xl font-bold">
               <span className="text-white">Grip</span>
               <span className="text-cyan-400">X</span>
             </div>
-          </Link>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
