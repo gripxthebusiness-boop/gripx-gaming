@@ -34,7 +34,7 @@ export function Navigation() {
     if (newCount === 5) {
       setShowSecretToast(true);
       setLogoClickCount(0);
-      navigate('/admin-editor');
+      navigate('/admin/editor');
       setTimeout(() => setShowSecretToast(false), 3000);
     }
   };

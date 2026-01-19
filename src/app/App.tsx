@@ -28,6 +28,7 @@ export default function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/editor" element={<AdminEditor />} />
+            <Route path="/editor" element={<AdminEditor />} />
           </Routes>
           <Footer />
         </div>
