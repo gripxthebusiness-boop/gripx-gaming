@@ -58,7 +58,7 @@ const SECTION_TYPES = {
       title: 'Contact Us',
       phone1: '+91 9063032312',
       phone2: '+91 9923869222',
-      email: 'support@gripx.com'
+      email: 'gripxthebusiness@gmail.com'
     }
   }
 };

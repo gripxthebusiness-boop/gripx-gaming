@@ -395,7 +395,7 @@ export function Cart() {
 
                 {/* Proceed to Checkout Button */}
                 <button
-                  onClick={() => navigate('/checkout')}
+                  onClick={() => navigate('/contact')}
                   className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/25"
                 >
                   Proceed to Checkout
