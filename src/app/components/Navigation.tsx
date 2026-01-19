@@ -50,12 +50,16 @@ export function Navigation() {
               </Link>
             ))}
             {isAuthenticated ? (
-              <Link
-                to="/admin/dashboard"
-                className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
-              >
-                Dashboard
-              </Link>
+              <>
+                {user?.role === 'admin' && (
+                  <Link
+                    to="/admin/dashboard"
+                    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+              </>
             ) : (
               <Link
                 to="/login"

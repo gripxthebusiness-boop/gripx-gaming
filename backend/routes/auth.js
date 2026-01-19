@@ -6,7 +6,7 @@ import { verifyToken, verifyAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Register
+// Register - CUSTOMERS ONLY (cannot register as admin)
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -22,16 +22,17 @@ router.post('/register', async (req, res) => {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
+    // Always create as 'customer' - customers cannot become admins via registration
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
-      role: 'editor',
+      role: 'customer', // Changed from 'editor' to 'customer'
     });
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({ message: 'Account created successfully! You can now login.' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

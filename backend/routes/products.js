@@ -1,10 +1,10 @@
 import express from 'express';
 import { Product } from '../models/Product.js';
-import { verifyToken, verifyEditorOrAdmin } from '../middleware/auth.js';
+import { verifyToken, verifyAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Get all products
+// Get all products (PUBLIC - no auth needed)
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find({ isActive: true });
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get single product
+// Get single product (PUBLIC - no auth needed)
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -27,8 +27,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create product (editor/admin only)
-router.post('/', verifyToken, verifyEditorOrAdmin, async (req, res) => {
+// Create product (ADMIN ONLY)
+router.post('/', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { name, category, price, rating, image, specs, description } = req.body;
 
@@ -53,8 +53,8 @@ router.post('/', verifyToken, verifyEditorOrAdmin, async (req, res) => {
   }
 });
 
-// Update product (editor/admin only)
-router.put('/:id', verifyToken, verifyEditorOrAdmin, async (req, res) => {
+// Update product (ADMIN ONLY)
+router.put('/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const { name, category, price, rating, image, specs, description } = req.body;
 
@@ -74,8 +74,8 @@ router.put('/:id', verifyToken, verifyEditorOrAdmin, async (req, res) => {
   }
 });
 
-// Delete product (editor/admin only)
-router.delete('/:id', verifyToken, verifyEditorOrAdmin, async (req, res) => {
+// Delete product (ADMIN ONLY)
+router.delete('/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id,

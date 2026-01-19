@@ -28,6 +28,11 @@ export function Dashboard() {
       navigate('/login');
       return;
     }
+    // Check if user is admin
+    if (user.role !== 'admin') {
+      navigate('/products');
+      return;
+    }
     fetchProducts();
   }, [user, navigate]);
 
