@@ -1,13 +1,17 @@
+
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, LogIn } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, LogIn, User, LogOut, Settings, ChevronDown, ChevronUp, Clock } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '@/app/context/AuthContext';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const location = useLocation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout, sessionTimeRemaining } = useAuth();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const links = [
     { href: '/', label: 'Home' },
@@ -16,6 +20,25 @@ export function Navigation() {
   ];
 
   const isActive = (href: string) => location.pathname === href;
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Format session time
+  const formatSessionTime = (ms: number) => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}m ${seconds}s`;
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-cyan-500/20">
@@ -49,24 +72,105 @@ export function Navigation() {
                 )}
               </Link>
             ))}
+            
             {isAuthenticated ? (
-              <>
-                {user?.role === 'admin' && (
-                  <Link
-                    to="/admin/dashboard"
-                    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
-                  >
-                    Dashboard
-                  </Link>
-                )}
-              </>
+              <div className="relative" ref={dropdownRef}>
+                {/* User Menu Trigger */}
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">
+                      {user?.username?.charAt(0).toUpperCase() || 'U'}
+                    </span>
+                  </div>
+                  <div className="text-left hidden lg:block">
+                    <p className="text-xs text-gray-400">Hello,</p>
+                    <div className="flex items-center space-x-1">
+                      <span className="text-sm font-medium text-white">{user?.username || 'User'}</span>
+                      {userMenuOpen ? (
+                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      )}
+                    </div>
+                  </div>
+                </button>
+
+                {/* User Dropdown Menu */}
+                <AnimatePresence>
+                  {userMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-64 bg-gray-900 border border-cyan-500/20 rounded-xl shadow-xl overflow-hidden"
+                    >
+                      {/* Session Timer */}
+                      <div className="px-4 py-2 bg-gray-800/50 border-b border-cyan-500/10 flex items-center justify-between">
+                        <div className="flex items-center space-x-2 text-gray-400">
+                          <Clock className="w-4 h-4" />
+                          <span className="text-xs">Session expires in</span>
+                        </div>
+                        <span className="text-xs text-cyan-400 font-mono">
+                          {formatSessionTime(sessionTimeRemaining)}
+                        </span>
+                      </div>
+
+                      {/* Account Section */}
+                      <div className="p-4 border-b border-cyan-500/10">
+                        <p className="text-xs text-gray-500 mb-2">Your Account</p>
+                        <ul className="space-y-1">
+                          {user?.role === 'admin' && (
+                            <li>
+                              <Link
+                                to="/admin/dashboard"
+                                onClick={() => setUserMenuOpen(false)}
+                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                              >
+                                <Settings className="w-4 h-4 text-cyan-400" />
+                                <span className="text-sm text-gray-300">Dashboard</span>
+                              </Link>
+                            </li>
+                          )}
+                          <li>
+                            <Link
+                              to="/account"
+                              onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                            >
+                              <User className="w-4 h-4 text-gray-400" />
+                              <span className="text-sm text-gray-300">Your Account</span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+
+                      {/* Sign Out */}
+                      <div className="p-2">
+                        <button
+                          onClick={() => {
+                            logout();
+                            setUserMenuOpen(false);
+                          }}
+                          className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-colors"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span className="text-sm">Sign out</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <Link
                 to="/login"
                 className="inline-flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
               >
                 <LogIn size={18} />
-                <span>Login</span>
+                <span>Sign in</span>
               </Link>
             )}
           </div>
@@ -103,21 +207,49 @@ export function Navigation() {
                   {link.label}
                 </Link>
               ))}
+              
+              {/* Mobile User Section */}
               {isAuthenticated ? (
-                <Link
-                  to="/admin/dashboard"
-                  className="block text-sm font-medium px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
+                <>
+                  <div className="pt-4 border-t border-gray-800">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                        <span className="text-white font-bold">
+                          {user?.username?.charAt(0).toUpperCase() || 'U'}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-white">{user?.username || 'User'}</p>
+                        <p className="text-xs text-gray-400">{user?.email}</p>
+                      </div>
+                    </div>
+                    
+                    <Link
+                      to="/admin/dashboard"
+                      className="block text-sm font-medium px-4 py-2 bg-gray-800 rounded-lg mb-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    
+                    <button
+                      onClick={() => {
+                        logout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left text-sm font-medium px-4 py-2 text-red-400 rounded-lg hover:bg-red-500/10"
+                    >
+                      Sign out
+                    </button>
+                  </div>
+                </>
               ) : (
                 <Link
                   to="/login"
                   className="block text-sm font-medium px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Login
+                  Sign in
                 </Link>
               )}
             </div>
@@ -127,3 +259,4 @@ export function Navigation() {
     </nav>
   );
 }
+

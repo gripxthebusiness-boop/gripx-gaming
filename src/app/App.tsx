@@ -7,7 +7,9 @@ import { Cart } from '@/app/pages/Cart';
 import { Contact } from '@/app/pages/Contact';
 import { Login } from '@/app/pages/Login';
 import { Register } from '@/app/pages/Register';
+import { ForgotPassword } from '@/app/pages/ForgotPassword';
 import { Dashboard } from '@/app/pages/Dashboard';
+import { AdminEditor } from '@/app/pages/AdminEditor';
 import { AuthProvider } from '@/app/context/AuthContext';
 
 export default function App() {
@@ -23,7 +25,9 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/admin/editor" element={<AdminEditor />} />
           </Routes>
           <Footer />
         </div>
@@ -31,3 +35,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+
