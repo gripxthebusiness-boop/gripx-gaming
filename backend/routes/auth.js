@@ -125,15 +125,15 @@ router.post('/login', async (req, res) => {
     
     if (!isPasswordValid) {
       // Increment login attempts
-      await user.incrementLoginAttempts();
-      
-      const attemptsLeft = 5 - (user.loginAttempts + 1);
+      const updatedUser = await user.incrementLoginAttempts();
+
+      const attemptsLeft = 5 - updatedUser.loginAttempts;
       if (attemptsLeft > 0) {
-        return res.status(401).json({ 
-          message: `Incorrect email or password. ${attemptsLeft} attempts remaining before lockout.` 
+        return res.status(401).json({
+          message: `Incorrect email or password. ${attemptsLeft} attempts remaining before lockout.`
         });
       } else {
-        return res.status(423).json({ 
+        return res.status(423).json({
           message: 'Account temporarily locked due to too many failed login attempts. Please try again in 15 minutes.',
           locked: true
         });

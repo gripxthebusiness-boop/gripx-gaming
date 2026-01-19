@@ -1,13 +1,7 @@
 import { useState, useRef } from 'react';
-<<<<<<< HEAD
-import { Type, MousePointer, Square, Circle, Save, Eye, Check, X } from 'lucide-react';
-
-type ElementType = 'text' | 'button' | 'rectangle' | 'circle';
-=======
 import { Type, MousePointer, Square, Circle, Save, Eye, Check, X, Layout } from 'lucide-react';
 
 type ElementType = 'text' | 'button' | 'rectangle' | 'circle' | 'hero';
->>>>>>> 2ebc041b (first commit)
 
 interface BuilderElement {
   id: string;
@@ -164,6 +158,7 @@ export function VisualBuilder() {
             <span>{saved ? 'Saved!' : 'Save'}</span>
           </button>
         </div>
+      </div>
       <div className="flex-1 flex overflow-hidden">
         {!showPreview && (
           <div className="w-14 bg-gray-800 border-r border-gray-700 flex flex-col items-center py-4 space-y-2">
@@ -178,6 +173,7 @@ export function VisualBuilder() {
             <div ref={canvasRef} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} style={{ width: 1200, height: 700, background: '#000000' }} className="relative shadow-2xl">
               {elements.map(renderElement)}
             </div>
+          </div>
         </div>
         {!showPreview && selectedElementData && (
           <div className="w-56 bg-gray-800 border-l border-gray-700 flex flex-col">
@@ -193,20 +189,16 @@ export function VisualBuilder() {
               <div className="grid grid-cols-2 gap-2">
                 <div><label className="text-xs text-gray-500">X</label><input type="number" value={Math.round(selectedElementData.x)} onChange={(e) => setElements(prev => prev.map(el => el.id === selectedElement ? { ...el, x: parseInt(e.target.value) || 0 } : el))} className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-sm mt-1" /></div>
                 <div><label className="text-xs text-gray-500">Y</label><input type="number" value={Math.round(selectedElementData.y)} onChange={(e) => setElements(prev => prev.map(el => el.id === selectedElement ? { ...el, y: parseInt(e.target.value) || 0 } : el))} className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-sm mt-1" /></div>
-<<<<<<< HEAD
-              <div><label className="text-xs text-gray-500">Text Color</label><input type="color" value={selectedElementData.styles.color || '#ffffff'} onChange={(e) => updateStyle(selectedElement || '', 'color', e.target.value)} className="w-full h-8 mt-1 rounded cursor-pointer" /></div>
-              <div><label className="text-xs text-gray-500">Background</label><input type="color" value={selectedElementData.styles.background || '#000000'} onChange={(e) => updateStyle(selectedElement || '', 'background', e.target.value)} className="w-full h-8 mt-1 rounded cursor-pointer" /></div>
-              <div><button onClick={() => deleteElement(selectedElement || '')} className="w-full py-1 mt-1 bg-red-500/20 text-red-400 rounded text-xs">Delete Element</button></div>
-=======
-              <div className="grid grid-cols-2 gap-2">
                 <div><label className="text-xs text-gray-500">W</label><input type="number" value={selectedElementData.width} onChange={(e) => setElements(prev => prev.map(el => el.id === selectedElement ? { ...el, width: parseInt(e.target.value) || 50 } : el))} className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-sm mt-1" /></div>
                 <div><label className="text-xs text-gray-500">H</label><input type="number" value={selectedElementData.height} onChange={(e) => setElements(prev => prev.map(el => el.id === selectedElement ? { ...el, height: parseInt(e.target.value) || 50 } : el))} className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-white text-sm mt-1" /></div>
+              </div>
               <div><label className="text-xs text-gray-500">Color</label><input type="color" value={selectedElementData.styles.color || '#ffffff'} onChange={(e) => updateStyle(selectedElement || '', 'color', e.target.value)} className="w-full h-8 mt-1 rounded cursor-pointer" /></div>
               <div><label className="text-xs text-gray-500">Background</label><input type="color" value={selectedElementData.styles.background || '#000000'} onChange={(e) => updateStyle(selectedElement || '', 'background', e.target.value)} className="w-full h-8 mt-1 rounded cursor-pointer" /></div>
               <div><button onClick={() => deleteElement(selectedElement || '')} className="w-full py-1 mt-1 bg-red-500/20 text-red-400 rounded text-xs">Delete</button></div>
->>>>>>> 2ebc041b (first commit)
+            </div>
           </div>
         )}
       </div>
+    </div>
   );
 }
