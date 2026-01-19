@@ -1,8 +1,8 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShoppingCart, Delete, ArrowLeft, Star, 
-  CheckCircle, Package, Truck, Shield, 
-  Heart, RefreshCcw
+  CheckCircle, Heart, RefreshCcw, Trash2,
+  Minus, Plus, ShoppingBag
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -55,108 +55,82 @@ export function Cart() {
   const [cartItems, setCartItems] = useState(mockCartItems);
   const [subtotal, setSubtotal] = useState(0);
   const [savings, setSavings] = useState(0);
-  const [selectedItems, setSelectedItems] = useState(new Set(cartItems.map(item => item.id)));
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   // Calculate totals
   useEffect(() => {
-    const newSubtotal = cartItems.reduce((sum, item) => {
-      if (selectedItems.has(item.id)) {
-        return sum + (item.price * item.quantity);
-      }
-      return sum;
-    }, 0);
-    
-    const newSavings = cartItems.reduce((sum, item) => {
-      if (selectedItems.has(item.id)) {
-        return sum + ((item.originalPrice - item.price) * item.quantity);
-      }
-      return sum;
-    }, 0);
-
+    const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const newSavings = cartItems.reduce((sum, item) => sum + ((item.originalPrice - item.price) * item.quantity), 0);
     setSubtotal(newSubtotal);
     setSavings(newSavings);
-  }, [cartItems, selectedItems]);
+  }, [cartItems]);
 
-  const updateQuantity = (itemId, newQuantity) => {
+  const updateQuantity = (itemId: string, newQuantity: number) => {
     if (newQuantity < 1) return;
     setCartItems(prev => prev.map(item => 
       item.id === itemId ? { ...item, quantity: newQuantity } : item
     ));
   };
 
-  const removeItem = (itemId) => {
+  const removeItem = (itemId: string) => {
     setCartItems(prev => prev.filter(item => item.id !== itemId));
-    setSelectedItems(prev => {
-      const newSet = new Set(prev);
-      newSet.delete(itemId);
-      return newSet;
-    });
     setShowDeleteModal(false);
     setItemToDelete(null);
   };
 
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (itemId: string) => {
     setItemToDelete(itemId);
     setShowDeleteModal(true);
   };
 
   const freeDeliveryThreshold = 5000;
   const amountForFreeDelivery = Math.max(0, freeDeliveryThreshold - subtotal);
+  const deliveryDate = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' });
 
   return (
-    <div className="min-h-screen bg-[#EAEDED]">
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
       {/* Header Banner */}
-      <div className="bg-[#232F3E] text-white py-3 px-4">
+      <div className="bg-gradient-to-r from-cyan-900/80 to-blue-900/80 backdrop-blur-sm border-b border-cyan-500/30 py-4 px-4">
         <div className="max-w-[1500px] mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Link to="/" className="text-2xl font-bold">
-              <span className="text-white">Grip</span>
-              <span className="text-[#FF9900]">X</span>
+          <Link to="/" className="text-3xl font-bold">
+            <span className="text-white">Grip</span>
+            <span className="text-cyan-400">X</span>
+          </Link>
+          <div className="flex items-center gap-6 text-sm">
+            <Link to="/products" className="text-gray-300 hover:text-cyan-400 transition-colors">
+              Shop All
+            </Link>
+            <Link to="/contact" className="text-gray-300 hover:text-cyan-400 transition-colors">
+              Support
             </Link>
           </div>
-          <div className="flex items-center gap-4 text-sm">
-            <Link to="/products" className="hover:underline">Shop all deals</Link>
-            <Link to="/contact" className="hover:underline">Help</Link>
-          </div>
         </div>
       </div>
 
-      {/* Breadcrumb */}
-      <div className="bg-[#EAEDED] py-2 px-4 border-b border-[#DDD]">
-        <div className="max-w-[1500px] mx-auto text-xs text-[#555]">
-          <Link to="/" className="hover:underline text-[#007600]">Home</Link>
-          <span className="mx-2">›</span>
-          <Link to="/products" className="hover:underline text-[#007600]">Gaming Accessories</Link>
-          <span className="mx-2">›</span>
-          <span className="text-[#111]">Shopping Cart</span>
-        </div>
-      </div>
-
-      <div className="max-w-[1500px] mx-auto px-4 py-6">
+      <div className="max-w-[1500px] mx-auto px-6 py-8">
         {/* Page Title */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-[#111]">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-4xl font-bold text-white">
             Shopping Cart
-            <span className="text-lg font-normal text-[#555] ml-3">
-              ({selectedItems.size} item{selectedItems.size !== 1 ? 's' : ''})
+            <span className="text-lg font-normal text-cyan-400 ml-3">
+              ({cartItems.length} item{cartItems.length !== 1 ? 's' : ''})
             </span>
           </h1>
           <Link 
             to="/products" 
-            className="flex items-center gap-2 text-[#007600] hover:underline text-sm"
+            className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
           >
-            <ArrowLeft size={16} />
-            Continue shopping
+            <ArrowLeft size={20} />
+            Continue Shopping
           </Link>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-8">
           {/* Left Column - Cart Items */}
           <div className="flex-1">
             {/* Cart Items Card */}
-            <div className="bg-white rounded-lg border border-[#DDD] shadow-sm overflow-hidden">
+            <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl overflow-hidden">
               {cartItems.length > 0 ? (
                 <>
                   {cartItems.map((item, index) => (
@@ -165,14 +139,14 @@ export function Cart() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className={`flex gap-6 p-6 ${index !== cartItems.length - 1 ? 'border-b border-[#EAEDED]' : ''}`}
+                      className={`flex gap-8 p-8 ${index !== cartItems.length - 1 ? 'border-b border-cyan-500/20' : ''}`}
                     >
                       {/* Product Image */}
                       <div className="flex-shrink-0">
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-[180px] h-[180px] object-contain"
+                          className="w-[200px] h-[200px] object-contain rounded-lg bg-gradient-to-br from-gray-800 to-gray-900"
                         />
                       </div>
 
@@ -180,114 +154,118 @@ export function Cart() {
                       <div className="flex-1">
                         <Link 
                           to={`/products/${item.id}`}
-                          className="text-[#0F1111] hover:text-[#007600] hover:underline text-lg leading-tight mb-2 block"
+                          className="text-white text-xl hover:text-cyan-400 transition-colors block mb-3"
                         >
                           {item.name}
                         </Link>
 
                         {/* Rating */}
-                        <div className="flex items-center gap-1 mb-2">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star
-                              key={star}
-                              size={14}
-                              className={star <= Math.floor(item.rating) ? 'text-[#FFA41C] fill-current' : 'text-[#999]'}
-                            />
-                          ))}
-                          <span className="text-[#007600] text-sm ml-1 hover:underline cursor-pointer">
-                            {item.reviews.toLocaleString()} ratings
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="flex items-center gap-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                size={16}
+                                className={star <= Math.floor(item.rating) ? 'text-yellow-400 fill-current' : 'text-gray-600'}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-cyan-400 text-sm hover:underline cursor-pointer">
+                            {item.reviews.toLocaleString()} reviews
                           </span>
                         </div>
 
                         {/* Color/Size */}
-                        <p className="text-sm text-[#555] mb-2">
-                          Color: {item.color} | Size: {item.size}
+                        <p className="text-gray-400 text-sm mb-3">
+                          Color: <span className="text-white">{item.color}</span> | Size: <span className="text-white">{item.size}</span>
                         </p>
 
                         {/* Stock Status */}
-                        <div className="flex items-center gap-1 mb-3">
+                        <div className="flex items-center gap-2 mb-4">
                           {item.inStock ? (
                             <>
-                              <CheckCircle size={14} className="text-[#007600]" />
-                              <span className="text-[#007600] text-sm font-medium">In Stock</span>
+                              <CheckCircle size={16} className="text-green-400" />
+                              <span className="text-green-400 text-sm font-medium">In Stock</span>
                             </>
                           ) : (
                             <>
-                              <span className="text-[#555] text-sm">Currently unavailable</span>
+                              <span className="text-gray-400 text-sm">Currently unavailable</span>
                             </>
                           )}
                         </div>
 
                         {/* Price */}
-                        <div className="flex items-baseline gap-2 mb-4">
-                          <span className="text-xl font-bold text-[#B12704]">
+                        <div className="flex items-baseline gap-3 mb-4">
+                          <span className="text-2xl font-bold text-cyan-400">
                             ₹{item.price.toLocaleString()}
                           </span>
-                          <span className="text-sm text-[#555] line-through">
+                          <span className="text-lg text-gray-500 line-through">
                             ₹{item.originalPrice.toLocaleString()}
                           </span>
-                          <span className="text-sm text-[#B12704]">
-                            ({Math.round((1 - item.price / item.originalPrice) * 100)}% off)
+                          <span className="text-sm text-green-400">
+                            Save {Math.round((1 - item.price / item.originalPrice) * 100)}%
                           </span>
                         </div>
 
-                        {/* Prime Badge */}
-                        <div className="flex items-center gap-1 mb-4">
-                          <span className="text-xs font-bold text-[#00A8E1] bg-[#FFF] border border-[#00A8E1] px-1 rounded">
-                            prime
-                          </span>
-                          <span className="text-xs text-[#555]">
-                            FREE Delivery by {new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' })}
+                        {/* Free Delivery */}
+                        <div className="flex items-center gap-2 mb-5">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                            <span className="text-xs font-bold">prime</span>
+                          </div>
+                          <span className="text-sm text-gray-300">
+                            FREE Delivery by <span className="text-cyan-400">{deliveryDate}</span>
                           </span>
                         </div>
 
                         {/* Actions */}
                         <div className="flex items-center gap-4">
                           {/* Quantity Selector */}
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-[#555]">Qty:</span>
+                          <div className="flex items-center gap-3 bg-gray-800/50 rounded-lg px-3 py-2">
+                            <span className="text-sm text-gray-400">Qty:</span>
                             <select
                               value={item.quantity}
                               onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                              className="border border-[#D5D9D9] rounded py-1 px-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF9900] focus:border-[#FF9900]"
+                              className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
                             >
                               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                                <option key={num} value={num}>{num}</option>
+                                <option key={num} value={num} className="bg-gray-800">{num}</option>
                               ))}
                             </select>
                           </div>
 
-                          <span className="text-[#555]">|</span>
+                          <span className="text-gray-600">|</span>
 
                           {/* Delete Button */}
                           <button
                             onClick={() => handleDeleteClick(item.id)}
-                            className="text-[#007600] hover:underline text-sm"
+                            className="text-red-400 hover:text-red-300 text-sm flex items-center gap-1 transition-colors"
                           >
+                            <Trash2 size={14} />
                             Delete
                           </button>
 
-                          <span className="text-[#555]">|</span>
+                          <span className="text-gray-600">|</span>
 
                           {/* Save for Later */}
-                          <button className="text-[#007600] hover:underline text-sm flex items-center gap-1">
+                          <button className="text-cyan-400 hover:text-cyan-300 text-sm flex items-center gap-1 transition-colors">
                             <Heart size={14} />
                             Save for later
                           </button>
 
-                          <span className="text-[#555]">|</span>
+                          <span className="text-gray-600">|</span>
 
                           {/* Compare */}
-                          <button className="text-[#007600] hover:underline text-sm flex items-center gap-1">
+                          <button className="text-cyan-400 hover:text-cyan-300 text-sm flex items-center gap-1 transition-colors">
                             <RefreshCcw size={14} />
-                            Compare similar items
+                            Compare
                           </button>
                         </div>
                       </div>
 
                       {/* Right side - Item Subtotal */}
                       <div className="hidden xl:block text-right">
-                        <div className="text-xl font-bold text-[#B12704]">
+                        <p className="text-gray-400 text-sm mb-1">Item subtotal</p>
+                        <div className="text-2xl font-bold text-cyan-400">
                           ₹{(item.price * item.quantity).toLocaleString()}
                         </div>
                       </div>
@@ -296,116 +274,120 @@ export function Cart() {
                 </>
               ) : (
                 /* Empty Cart State */
-                <div className="p-12 text-center">
-                  <ShoppingCart size={64} className="mx-auto text-[#DDD] mb-4" />
-                  <h2 className="text-2xl font-bold text-[#111] mb-2">Your GripX Cart is empty</h2>
-                  <p className="text-[#555] mb-6">
-                    Shop today's deals
+                <div className="p-16 text-center">
+                  <div className="w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <ShoppingCart size={48} className="text-cyan-400" />
+                  </div>
+                  <h2 className="text-3xl font-bold text-white mb-3">Your Cart is Empty</h2>
+                  <p className="text-gray-400 mb-8 max-w-md mx-auto">
+                    Looks like you haven't added anything to your cart yet. Start shopping to fill it up!
                   </p>
                   <Link
                     to="/products"
-                    className="inline-block px-8 py-3 bg-[#FFD814] hover:bg-[#F7CA00] text-[#111] rounded-full font-medium text-sm transition-colors"
+                    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all group"
                   >
-                    Shop deals
+                    <ShoppingBag className="mr-2" size={20} />
+                    Browse Products
                   </Link>
                 </div>
               )}
             </div>
 
             {/* Saved for Later Section */}
-            <div className="mt-6 bg-white rounded-lg border border-[#DDD] shadow-sm p-6">
-              <h2 className="text-xl font-bold text-[#111] mb-4">
-                Items saved for later ({0})
+            <div className="mt-8 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-8">
+              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                <Heart className="text-cyan-400" size={24} />
+                Saved for Later (0)
               </h2>
-              <p className="text-[#555] text-sm">
+              <p className="text-gray-400 text-sm">
                 No items saved for later. Save items while you shop to buy them later.
               </p>
             </div>
 
-            {/* Buy It Again Section */}
-            <div className="mt-6 bg-white rounded-lg border border-[#DDD] shadow-sm p-6">
-              <h2 className="text-xl font-bold text-[#111] mb-4">
-                Buy it again
+            {/* Recently Viewed */}
+            <div className="mt-8 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-8">
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Recently Viewed
               </h2>
-              <p className="text-[#555] text-sm">
-                No recently purchased items. Your recently viewed items will appear here.
+              <p className="text-gray-400 text-sm">
+                Your recently viewed items will appear here.
               </p>
             </div>
           </div>
 
           {/* Right Column - Order Summary */}
-          <div className="w-[380px] flex-shrink-0">
+          <div className="w-[400px] flex-shrink-0">
             {/* Order Summary Card */}
-            <div className="bg-white rounded-lg border border-[#DDD] shadow-sm sticky top-6">
-              <div className="p-5 border-b border-[#EAEDED]">
-                <h2 className="text-xl font-bold text-[#111]">Order Summary</h2>
+            <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl sticky top-8">
+              <div className="p-6 border-b border-cyan-500/20">
+                <h2 className="text-2xl font-bold text-white">Order Summary</h2>
               </div>
 
-              <div className="p-5">
+              <div className="p-6 space-y-4">
                 {/* Subtotal */}
-                <div className="flex justify-between text-sm mb-3">
-                  <span className="text-[#555]">
-                    Subtotal ({selectedItems.size} item{selectedItems.size !== 1 ? 's' : ''}):
+                <div className="flex justify-between text-base">
+                  <span className="text-gray-400">
+                    Subtotal ({cartItems.length} item{cartItems.length !== 1 ? 's' : ''}):
                   </span>
-                  <span className="text-[#111] font-bold">
+                  <span className="text-white font-bold">
                     ₹{subtotal.toLocaleString()}
                   </span>
                 </div>
 
                 {/* Savings */}
                 {savings > 0 && (
-                  <div className="flex justify-between text-sm mb-3">
-                    <span className="text-[#007600]">You save:</span>
-                    <span className="text-[#007600] font-bold">
+                  <div className="flex justify-between text-base">
+                    <span className="text-green-400">You Save:</span>
+                    <span className="text-green-400 font-bold">
                       ₹{savings.toLocaleString()}
                     </span>
                   </div>
                 )}
 
-                {/* Free Delivery */}
-                <div className="mb-4">
+                {/* Free Delivery Progress */}
+                <div className="pt-2">
                   {amountForFreeDelivery > 0 ? (
                     <>
-                      <p className="text-sm text-[#007600] mb-2">
-                        Add ₹{amountForFreeDelivery.toLocaleString()} of eligible items to your order for FREE Delivery
+                      <p className="text-cyan-400 text-sm mb-3">
+                        Add ₹{amountForFreeDelivery.toLocaleString()} more for FREE Delivery
                       </p>
-                      <div className="w-full bg-[#EAEDED] rounded-full h-2 mb-1">
+                      <div className="w-full bg-gray-800 rounded-full h-3">
                         <div 
-                          className="bg-[#FF9900] h-2 rounded-full transition-all"
+                          className="bg-gradient-to-r from-cyan-500 to-blue-500 h-3 rounded-full transition-all"
                           style={{ width: `${Math.min(100, (subtotal / freeDeliveryThreshold) * 100)}%` }}
                         />
                       </div>
                     </>
                   ) : (
-                    <p className="text-sm text-[#007600] flex items-center gap-1">
-                      <CheckCircle size={14} />
+                    <p className="text-green-400 flex items-center gap-2 text-sm">
+                      <CheckCircle size={16} />
                       Your order is eligible for FREE Delivery
                     </p>
                   )}
                 </div>
 
                 {/* Promo Code */}
-                <div className="border-t border-[#EAEDED] pt-4 mb-4">
-                  <label className="text-sm text-[#111] block mb-2">
-                    Add a promotional code or gift card
+                <div className="border-t border-cyan-500/20 pt-4">
+                  <label className="text-white text-sm block mb-2">
+                    Have a promo code?
                   </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       placeholder="Enter code"
-                      className="flex-1 border border-[#D5D9D9] rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF9900]"
+                      className="flex-1 bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
                     />
-                    <button className="px-4 py-2 border border-[#D5D9D9] rounded text-sm text-[#111] hover:bg-[#F7F8F8] transition-colors">
+                    <button className="px-4 py-2 border border-cyan-500/30 rounded-lg text-cyan-400 hover:bg-cyan-500/10 transition-colors">
                       Apply
                     </button>
                   </div>
                 </div>
 
                 {/* Total */}
-                <div className="border-t border-[#EAEDED] pt-4 mb-5">
+                <div className="border-t border-cyan-500/20 pt-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-xl font-bold text-[#111]">Order Total:</span>
-                    <span className="text-xl font-bold text-[#B12704]">
+                    <span className="text-xl font-bold text-white">Order Total:</span>
+                    <span className="text-2xl font-bold text-cyan-400">
                       ₹{subtotal.toLocaleString()}
                     </span>
                   </div>
@@ -414,101 +396,101 @@ export function Cart() {
                 {/* Proceed to Checkout Button */}
                 <button
                   onClick={() => navigate('/checkout')}
-                  className="w-full py-3 bg-[#FFD814] hover:bg-[#F7CA00] text-[#111] rounded-full font-medium text-sm transition-colors mb-4"
+                  className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-700 transition-all shadow-lg shadow-cyan-500/25"
                 >
-                  Proceed to checkout
+                  Proceed to Checkout
                 </button>
 
                 {/* Secure Transaction */}
-                <div className="flex items-center gap-2 text-xs text-[#555] mb-4">
-                  <Shield size={14} className="text-[#007600]" />
+                <div className="flex items-center gap-2 text-sm text-gray-400">
+                  <CheckCircle size={16} className="text-green-400" />
                   <span>Secure transaction</span>
                 </div>
 
                 {/* Terms */}
-                <p className="text-xs text-[#555]">
+                <p className="text-xs text-gray-500">
                   By placing this order, you agree to GripX's{' '}
-                  <a href="#" className="text-[#007600] hover:underline">Conditions of Use</a> and{' '}
-                  <a href="#" className="text-[#007600] hover:underline">Privacy Notice</a>.
+                  <a href="#" className="text-cyan-400 hover:underline">Terms</a> and{' '}
+                  <a href="#" className="text-cyan-400 hover:underline">Privacy Policy</a>.
                 </p>
               </div>
             </div>
 
             {/* Delivery Address Card */}
-            <div className="mt-6 bg-white rounded-lg border border-[#DDD] shadow-sm p-5">
-              <h3 className="font-bold text-[#111] mb-2">Delivery to:</h3>
-              <p className="text-sm text-[#555]">
-                Your default address
+            <div className="mt-6 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-6">
+              <h3 className="font-bold text-white mb-2">Delivery to:</h3>
+              <p className="text-gray-400 text-sm mb-3">
+                Add a delivery address to see delivery options
               </p>
-              <button className="text-[#007600] text-sm hover:underline mt-2">
-                Add a delivery address
+              <button className="text-cyan-400 hover:text-cyan-300 text-sm hover:underline transition-colors">
+                + Add delivery address
               </button>
             </div>
 
             {/* Payment Methods */}
-            <div className="mt-6 bg-white rounded-lg border border-[#DDD] shadow-sm p-5">
-              <h3 className="font-bold text-[#111] mb-2">Payment methods</h3>
-              <div className="flex gap-2">
-                <div className="w-10 h-6 bg-[#FF9900] rounded text-[#111] text-xs font-bold flex items-center justify-center">
-                  VISA
+            <div className="mt-6 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-6">
+              <h3 className="font-bold text-white mb-3">Payment Methods</h3>
+              <div className="flex gap-3 flex-wrap">
+                <div className="w-12 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded flex items-center justify-center">
+                  <span className="text-xs font-bold text-white">VISA</span>
                 </div>
-                <div className="w-10 h-6 bg-[#1A1F71] rounded text-white text-xs font-bold flex items-center justify-center">
-                  MC
+                <div className="w-12 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded flex items-center justify-center">
+                  <span className="text-xs font-bold text-white">MC</span>
                 </div>
-                <div className="w-10 h-6 bg-[#0066B2] rounded text-white text-xs font-bold flex items-center justify-center">
-                  UPI
+                <div className="w-12 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded flex items-center justify-center">
+                  <span className="text-xs font-bold text-white">UPI</span>
                 </div>
-                <div className="w-10 h-6 bg-[#00A3E0] rounded text-white text-xs font-bold flex items-center justify-center">
-                  NB
+                <div className="w-12 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded flex items-center justify-center">
+                  <span className="text-xs font-bold text-white">NB</span>
                 </div>
-                <span className="text-xs text-[#007600] self-center">+2 more</span>
+                <div className="flex items-center text-sm text-cyan-400">
+                  +more
+                </div>
               </div>
             </div>
 
             {/* Need Help */}
-            <div className="mt-6 bg-white rounded-lg border border-[#DDD] shadow-sm p-5">
-              <h3 className="font-bold text-[#111] mb-2">Need help?</h3>
-              <ul className="text-sm space-y-2">
+            <div className="mt-6 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-6">
+              <h3 className="font-bold text-white mb-3">Need Help?</h3>
+              <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-[#007600] hover:underline">
-                    Track Package
+                  <a href="#" className="text-cyan-400 hover:text-cyan-300 text-sm hover:underline transition-colors">
+                    Track Your Order
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-[#007600] hover:underline">
-                    Delete items
+                  <a href="#" className="text-cyan-400 hover:text-cyan-300 text-sm hover:underline transition-colors">
+                    Delete Items
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-[#007600] hover:underline">
-                    Edit delivery address
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact" className="text-[#007600] hover:underline">
-                    Contact seller
+                  <a href="/contact" className="text-cyan-400 hover:text-cyan-300 text-sm hover:underline transition-colors">
+                    Contact Support
                   </a>
                 </li>
               </ul>
             </div>
 
             {/* Recommendations */}
-            <div className="mt-6">
-              <h3 className="text-lg font-bold text-[#111] mb-4">
-                Recommendations based on your recent purchases
+            <div className="mt-8">
+              <h3 className="text-xl font-bold text-white mb-5">
+                Recommended for You
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="bg-white rounded-lg border border-[#DDD] shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer">
+                  <div 
+                    key={i} 
+                    className="bg-gradient-to-br from-gray-900/80 to-black/80 border border-cyan-500/20 rounded-xl p-4 hover:border-cyan-500/40 transition-all cursor-pointer group"
+                  >
                     <img
                       src={`https://images.unsplash.com/photo-1595225476474-87563907a212?w=150&q=80`}
                       alt="Product"
-                      className="w-full h-24 object-contain mb-2"
+                      className="w-full h-24 object-contain mb-3 rounded-lg bg-gray-800/50"
                     />
-                    <p className="text-sm text-[#111] line-clamp-2 hover:text-[#007600]">
+                    <p className="text-sm text-gray-300 group-hover:text-white line-clamp-2 transition-colors">
                       Gaming Mouse Pad XXL Large
                     </p>
-                    <p className="text-lg font-bold text-[#B12704] mt-1">₹599</p>
+                    <p className="text-lg font-bold text-cyan-400 mt-2">₹599</p>
                   </div>
                 ))}
               </div>
@@ -524,30 +506,33 @@ export function Cart() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50"
             onClick={() => setShowDeleteModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg p-6 max-w-md mx-4"
+              className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-xl p-8 max-w-md mx-4"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-lg font-bold text-[#111] mb-2">Delete item?</h3>
-              <p className="text-[#555] mb-6">
-                Are you sure you want to delete this item from your cart?
+              <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trash2 size={32} className="text-red-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-white text-center mb-3">Delete Item?</h3>
+              <p className="text-gray-400 text-center mb-8">
+                Are you sure you want to remove this item from your cart?
               </p>
-              <div className="flex gap-3 justify-end">
+              <div className="flex gap-4">
                 <button
                   onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 border border-[#D5D9D9] rounded text-sm text-[#111] hover:bg-[#F7F8F8] transition-colors"
+                  className="flex-1 py-3 border border-cyan-500/30 rounded-lg text-white hover:bg-cyan-500/10 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => itemToDelete && removeItem(itemToDelete)}
-                  className="px-4 py-2 bg-[#FFD814] hover:bg-[#F7CA00] rounded text-sm text-[#111] font-medium transition-colors"
+                  className="flex-1 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg hover:from-red-600 hover:to-pink-700 transition-all"
                 >
                   Delete
                 </button>
