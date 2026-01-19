@@ -10,16 +10,25 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [sessionExpiry, setSessionExpiry] = useState(null);
   const [lastActivity, setLastActivity] = useState(Date.now());
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-  // Session timeout settings (30 minutes of inactivity)
+  // Performance: Increased session timeout check from 1 min to 5 mins
   const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
-  const EXTENDED_SESSION_TIMEOUT = 7 * 24 * 60 * 60 * 1000; // 7 days (for "Keep me signed in")
+  const EXTENDED_SESSION_TIMEOUT = 7 * 24 * 60 * 60 * 1000; // 7 days
+  const SESSION_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes (reduced API calls)
 
-  // Track user activity for session management
+  // Cache user data in localStorage for faster initial load
+  const CACHED_USER_KEY = 'gripx_cached_user';
+
+  // Track user activity for session management - debounced
   useEffect(() => {
-    const updateActivity = () => setLastActivity(Date.now());
+    let timeoutId;
+    const updateActivity = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => setLastActivity(Date.now()), 1000);
+    };
     
     window.addEventListener('mousemove', updateActivity);
     window.addEventListener('keypress', updateActivity);
@@ -27,6 +36,7 @@ export function AuthProvider({ children }) {
     window.addEventListener('scroll', updateActivity);
 
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener('mousemove', updateActivity);
       window.removeEventListener('keypress', updateActivity);
       window.removeEventListener('click', updateActivity);
@@ -34,14 +44,13 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  // Check session expiry
+  // Check session expiry - reduced frequency
   useEffect(() => {
     const checkSession = () => {
       const isKeepSignedIn = localStorage.getItem('keepSignedIn') === 'true';
       const timeout = isKeepSignedIn ? EXTENDED_SESSION_TIMEOUT : SESSION_TIMEOUT;
       
       if (user && (Date.now() - lastActivity > timeout)) {
-        // Session expired due to inactivity
         logout();
         setError('Your session has expired due to inactivity. Please sign in again.');
       }
@@ -49,14 +58,25 @@ export function AuthProvider({ children }) {
       setSessionExpiry(lastActivity + timeout);
     };
 
-    const interval = setInterval(checkSession, 60000); // Check every minute
+    const interval = setInterval(checkSession, SESSION_CHECK_INTERVAL);
     return () => clearInterval(interval);
   }, [user, lastActivity]);
 
-  // Check if user is logged in on mount
+  // Check if user is logged in on mount - with cached data for instant load
   useEffect(() => {
     if (token) {
-      verifyToken();
+      // Use cached user data for instant display
+      const cachedUser = localStorage.getItem(CACHED_USER_KEY);
+      if (cachedUser) {
+        try {
+          setUser(JSON.parse(cachedUser));
+        } catch (e) {
+          localStorage.removeItem(CACHED_USER_KEY);
+        }
+      }
+      // Verify token in background (debounced)
+      const timer = setTimeout(() => verifyToken(), 500);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -93,8 +113,11 @@ export function AuthProvider({ children }) {
   }, [sessionExpiry]);
 
   const verifyToken = async () => {
+    // Prevent duplicate verification calls
+    if (isVerifying) return;
+    
     try {
-      setLoading(true);
+      setIsVerifying(true);
       const response = await fetch(`${API_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -102,17 +125,21 @@ export function AuthProvider({ children }) {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
+        // Cache user data for faster initial load
+        localStorage.setItem(CACHED_USER_KEY, JSON.stringify(userData));
         // Extend session on token verification
         setLastActivity(Date.now());
       } else {
         localStorage.removeItem('token');
+        localStorage.removeItem(CACHED_USER_KEY);
         setToken(null);
+        setUser(null);
       }
     } catch (err) {
       console.error('Token verification failed:', err);
       setError(err.message);
     } finally {
-      setLoading(false);
+      setIsVerifying(false);
     }
   };
 
@@ -134,6 +161,8 @@ export function AuthProvider({ children }) {
       }
 
       localStorage.setItem('token', data.token);
+      // Cache user data for faster initial loads
+      localStorage.setItem(CACHED_USER_KEY, JSON.stringify(data.user));
       setToken(data.token);
       setUser(data.user);
       setLastActivity(Date.now());
@@ -176,6 +205,7 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('keepSignedIn');
+    localStorage.removeItem(CACHED_USER_KEY);
     setToken(null);
     setUser(null);
     setLastActivity(Date.now());

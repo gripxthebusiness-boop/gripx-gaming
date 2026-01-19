@@ -22,6 +22,7 @@ export function Register() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [marketingEmails, setMarketingEmails] = useState(false);
   const [showPasswordHelp, setShowPasswordHelp] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState({ level: 0, color: 'bg-gray-600', text: '' });
   
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -35,16 +36,26 @@ export function Register() {
     { regex: /[^A-Za-z0-9]/, label: 'At least one special character' },
   ];
 
-  const getPasswordStrength = () => {
-    const passed = passwordRequirements.filter(req => req.regex.test(formData.password)).length;
-    if (passed === 0) return { level: 0, color: 'bg-gray-600', text: '' };
-    if (passed <= 2) return { level: 1, color: 'bg-red-500', text: 'Weak' };
-    if (passed <= 3) return { level: 2, color: 'bg-yellow-500', text: 'Fair' };
-    if (passed <= 4) return { level: 3, color: 'bg-blue-500', text: 'Good' };
-    return { level: 4, color: 'bg-green-500', text: 'Strong' };
-  };
+  // Debounced password strength calculation (performance optimization)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const passed = passwordRequirements.filter(req => req.regex.test(formData.password)).length;
+      let level = 0;
+      let color = 'bg-gray-600';
+      let text = '';
+      
+      if (passed > 0) {
+        if (passed <= 2) { level = 1; color = 'bg-red-500'; text = 'Weak'; }
+        else if (passed <= 3) { level = 2; color = 'bg-yellow-500'; text = 'Fair'; }
+        else if (passed <= 4) { level = 3; color = 'bg-blue-500'; text = 'Good'; }
+        else { level = 4; color = 'bg-green-500'; text = 'Strong'; }
+      }
+      
+      setPasswordStrength({ level, color, text });
+    }, 150); // 150ms debounce
 
-  const passwordStrength = getPasswordStrength();
+    return () => clearTimeout(timer);
+  }, [formData.password]);
 
   // Clear error when user types
   useEffect(() => {
