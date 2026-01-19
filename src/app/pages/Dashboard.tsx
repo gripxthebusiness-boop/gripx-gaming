@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/app/context/AuthContext';
 
 export function Dashboard() {
-  const { user, token, logout } = useAuth();
+  const { user, token, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,12 +29,12 @@ export function Dashboard() {
       return;
     }
     // Check if user is admin
-    if (user.role !== 'admin') {
+    if (!isAdmin) {
       navigate('/products');
       return;
     }
     fetchProducts();
-  }, [user, navigate]);
+  }, [user, navigate, isAdmin]);
 
   const fetchProducts = async () => {
     try {

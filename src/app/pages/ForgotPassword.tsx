@@ -1,7 +1,7 @@
 
 import { motion, AnimatePresence } from 'motion/react';
-import { Mail, ArrowLeft, Lock, CheckCircle, AlertCircle } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Mail, ArrowLeft, Lock, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export function ForgotPassword() {

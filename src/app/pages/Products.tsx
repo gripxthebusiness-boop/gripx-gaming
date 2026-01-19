@@ -2,8 +2,11 @@ import { motion } from 'motion/react';
 import { Star, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LazyImage } from '@/app/components/LazyImage';
+import { useState } from 'react';
 
 export function Products() {
+  const [activeFilter, setActiveFilter] = useState('All');
+  
   const products = [
     {
       id: 1,
@@ -61,6 +64,12 @@ export function Products() {
     },
   ];
 
+  const categories = ['All', 'Mice', 'Keyboards', 'Headsets', 'Controllers'];
+  
+  const filteredProducts = activeFilter === 'All' 
+    ? products 
+    : products.filter(p => p.category === activeFilter);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6">
@@ -88,11 +97,12 @@ export function Products() {
           transition={{ delay: 0.1 }}
           className="flex flex-wrap gap-4 mb-12"
         >
-          {['All', 'Mice', 'Keyboards', 'Headsets', 'Controllers'].map((category) => (
+          {categories.map((category) => (
             <button
               key={category}
+              onClick={() => setActiveFilter(category)}
               className={`px-6 py-2 rounded-lg transition-all ${
-                category === 'All'
+                activeFilter === category
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
                   : 'bg-gray-900 text-gray-400 border border-cyan-500/20 hover:border-cyan-500/50'
               }`}
@@ -104,7 +114,7 @@ export function Products() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}

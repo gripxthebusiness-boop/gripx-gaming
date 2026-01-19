@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Phone, Mail, MapPin, Send, ShoppingCart, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Cart items would come from context in production
 const mockCartItems = [

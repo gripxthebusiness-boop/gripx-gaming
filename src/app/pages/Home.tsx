@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ChevronRight, Zap, TrendingUp } from 'lucide-react';
+import { ChevronRight, Zap, TrendingUp, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LazyImage } from '@/app/components/LazyImage';
 
@@ -14,6 +14,11 @@ export function Home() {
       icon: <TrendingUp className="w-6 h-6" />,
       title: 'Advanced Tech',
       description: 'Cutting-edge technology for the ultimate gaming edge',
+    },
+    {
+      icon: <Shield className="w-6 h-6" />,
+      title: 'Built to Last',
+      description: 'Premium materials backed by 1-year warranty',
     },
   ];
 
