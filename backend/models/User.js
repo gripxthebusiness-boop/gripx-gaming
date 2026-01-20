@@ -63,22 +63,25 @@ userSchema.virtual('isLocked').get(function () {
 
 // Method to increment login attempts
 userSchema.methods.incrementLoginAttempts = async function () {
+  // Reload to get current values from database
+  const doc = await this.constructor.findById(this._id);
+  this.loginAttempts = doc.loginAttempts;
+  this.lockUntil = doc.lockUntil;
+
   // Reset attempts if lock has expired
   if (this.lockUntil && this.lockUntil < Date.now()) {
-    return this.updateOne({
-      $set: { loginAttempts: 1 },
-      $unset: { lockUntil: 1 },
-    });
+    this.loginAttempts = 0;
+    this.lockUntil = undefined;
   }
-  
-  const updates = { $inc: { loginAttempts: 1 } };
-  
+
+  this.loginAttempts += 1;
+
   // Lock account after 5 failed attempts for 15 minutes
-  if (this.loginAttempts + 1 >= 5) {
-    updates.$set = { lockUntil: Date.now() + 15 * 60 * 1000 };
+  if (this.loginAttempts >= 5) {
+    this.lockUntil = Date.now() + 15 * 60 * 1000;
   }
-  
-  return this.updateOne(updates);
+
+  return this.save();
 };
 
 // Method to reset login attempts on successful login
@@ -102,4 +105,3 @@ userSchema.methods.toJSON = function () {
 };
 
 export const User = mongoose.model('User', userSchema);
-

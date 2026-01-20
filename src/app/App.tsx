@@ -8,7 +8,10 @@ import { Contact } from '@/app/pages/Contact';
 import { Login } from '@/app/pages/Login';
 import { Register } from '@/app/pages/Register';
 import { ForgotPassword } from '@/app/pages/ForgotPassword';
+<<<<<<< HEAD
 import { VisualBuilder } from '@/app/pages/VisualBuilder';
+=======
+>>>>>>> 2ebc041b (first commit)
 import { AuthProvider } from '@/app/context/AuthContext';
 
 export default function App() {
@@ -25,7 +28,10 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+<<<<<<< HEAD
             <Route path="/builder" element={<VisualBuilder />} />
+=======
+>>>>>>> 2ebc041b (first commit)
           </Routes>
           <Footer />
         </div>
