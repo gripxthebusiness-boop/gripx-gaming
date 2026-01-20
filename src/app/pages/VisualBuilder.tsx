@@ -39,10 +39,10 @@ export function VisualBuilder() {
         setElements(JSON.parse(savedElements));
       } catch (error) {
         console.error('Failed to load page elements:', error);
-        setElements([]);
+        loadPageTemplate();
       }
     } else {
-      setElements([]);
+      loadPageTemplate();
     }
   }, [currentPage]);
 
