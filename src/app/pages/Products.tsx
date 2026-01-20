@@ -141,7 +141,7 @@ export function Products() {
             Gaming Gear
           </h1>
           <p className="text-gray-400 text-lg">
-            Professional peripherals designed for competitive gaming
+            Curated gaming gear from trusted brands in India
           </p>
         </motion.div>
 

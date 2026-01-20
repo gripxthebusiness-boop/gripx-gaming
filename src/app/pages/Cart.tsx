@@ -427,26 +427,12 @@ export function Cart() {
               </button>
             </div>
 
-            {/* Payment Methods */}
+            {/* Payment Information */}
             <div className="mt-6 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-6">
-              <h3 className="font-bold text-white mb-3">Payment Methods</h3>
-              <div className="flex gap-3 flex-wrap">
-                <div className="w-12 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded flex items-center justify-center">
-                  <span className="text-xs font-bold text-white">VISA</span>
-                </div>
-                <div className="w-12 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded flex items-center justify-center">
-                  <span className="text-xs font-bold text-white">MC</span>
-                </div>
-                <div className="w-12 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded flex items-center justify-center">
-                  <span className="text-xs font-bold text-white">UPI</span>
-                </div>
-                <div className="w-12 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded flex items-center justify-center">
-                  <span className="text-xs font-bold text-white">NB</span>
-                </div>
-                <div className="flex items-center text-sm text-cyan-400">
-                  +more
-                </div>
-              </div>
+              <h3 className="font-bold text-white mb-3">How you will pay</h3>
+              <p className="text-gray-400 text-sm">
+                We currently accept Cash on Delivery (COD) only. After you place your order, our team will confirm details over WhatsApp or phone and ship via courier.
+              </p>
             </div>
 
             {/* Need Help */}

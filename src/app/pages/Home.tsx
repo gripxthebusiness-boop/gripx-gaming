@@ -51,7 +51,7 @@ export function Home() {
               </span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Professional gaming peripherals engineered for precision, speed, and victory.
+              Curated gaming gear from trusted brands in India.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -121,7 +121,7 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-white mb-4">Featured Products</h2>
-            <p className="text-gray-400">Engineered for champions</p>
+            <p className="text-gray-400">Handpicked gaming mice, headsets, and controllers from top manufacturers</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
