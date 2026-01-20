@@ -14,7 +14,7 @@ export function Navigation() {
   const { user, isAuthenticated, logout, sessionTimeRemaining } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Secret admin access: click logo 5 times
+  // Rick roll trick: click logo 5 times
   const [logoClickCount, setLogoClickCount] = useState(0);
   const [showSecretToast, setShowSecretToast] = useState(false);
 
@@ -26,15 +26,15 @@ export function Navigation() {
 
   const isActive = (href: string) => location.pathname === href;
 
-  // Handle logo click for secret admin access
+  // Handle logo click for rick roll
   const handleLogoClick = () => {
     const newCount = logoClickCount + 1;
     setLogoClickCount(newCount);
-    
+
     if (newCount === 5) {
       setShowSecretToast(true);
       setLogoClickCount(0);
-      navigate('/admin/editor');
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
       setTimeout(() => setShowSecretToast(false), 3000);
     }
   };
@@ -74,7 +74,7 @@ export function Navigation() {
               navigate('/');
             }}
             className="flex items-center space-x-2 hover:scale-105 transition-transform"
-            title={logoClickCount > 0 ? `${5 - logoClickCount} more clicks for secret access` : 'Click 5 times to access editor'}
+            title={logoClickCount > 0 ? `${5 - logoClickCount} more clicks for rick roll` : 'Click 5 times for a surprise'}
           >
             <div className="text-3xl font-bold">
               <span className="text-white">Grip</span>
