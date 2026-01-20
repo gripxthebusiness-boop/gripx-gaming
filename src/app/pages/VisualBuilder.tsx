@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { Type, MousePointer, Square, Circle, Save, Eye, Check, X, Layout } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Type, MousePointer, Square, Circle, Save, Eye, Check, X, Layout, FileText } from 'lucide-react';
 
 type ElementType = 'text' | 'button' | 'rectangle' | 'circle' | 'hero';
 
@@ -22,6 +22,29 @@ export function VisualBuilder() {
   const [showPreview, setShowPreview] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [currentPage, setCurrentPage] = useState<string>('home');
+
+  const pages = [
+    { id: 'home', name: 'Home Page' },
+    { id: 'products', name: 'Products Page' },
+    { id: 'contact', name: 'Contact Page' },
+    { id: 'about', name: 'About Page' },
+  ];
+
+  // Load page elements from localStorage
+  useEffect(() => {
+    const savedElements = localStorage.getItem(`gripx_builder_${currentPage}`);
+    if (savedElements) {
+      try {
+        setElements(JSON.parse(savedElements));
+      } catch (error) {
+        console.error('Failed to load page elements:', error);
+        setElements([]);
+      }
+    } else {
+      setElements([]);
+    }
+  }, [currentPage]);
 
   const selectedElementData = elements.find(el => el.id === selectedElement);
 
@@ -81,12 +104,116 @@ export function VisualBuilder() {
   const saveToBackend = async () => {
     setSaving(true);
     try {
-      localStorage.setItem('gripx_builder', JSON.stringify(elements));
+      localStorage.setItem(`gripx_builder_${currentPage}`, JSON.stringify(elements));
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } finally {
       setSaving(false);
     }
+  };
+
+  const loadPageTemplate = () => {
+    let templateElements: BuilderElement[] = [];
+
+    switch (currentPage) {
+      case 'home':
+        templateElements = [
+          {
+            id: 'hero-title',
+            type: 'text',
+            x: 400,
+            y: 200,
+            width: 400,
+            height: 60,
+            content: 'Welcome to GripX',
+            styles: { color: '#ffffff', fontSize: '32px', fontWeight: 'bold' }
+          },
+          {
+            id: 'hero-subtitle',
+            type: 'text',
+            x: 400,
+            y: 280,
+            width: 400,
+            height: 40,
+            content: 'Professional gaming peripherals',
+            styles: { color: '#06b6d4', fontSize: '18px' }
+          },
+          {
+            id: 'hero-button',
+            type: 'button',
+            x: 400,
+            y: 340,
+            width: 150,
+            height: 45,
+            content: 'Shop Now',
+            styles: { background: '#06b6d4', color: '#ffffff', borderRadius: '8px' }
+          }
+        ];
+        break;
+      case 'products':
+        templateElements = [
+          {
+            id: 'products-title',
+            type: 'text',
+            x: 400,
+            y: 100,
+            width: 400,
+            height: 50,
+            content: 'Our Products',
+            styles: { color: '#ffffff', fontSize: '28px', fontWeight: 'bold' }
+          },
+          {
+            id: 'product-card-1',
+            type: 'rectangle',
+            x: 200,
+            y: 200,
+            width: 200,
+            height: 150,
+            content: '',
+            styles: { background: '#1f2937', borderRadius: '8px' }
+          },
+          {
+            id: 'product-card-2',
+            type: 'rectangle',
+            x: 450,
+            y: 200,
+            width: 200,
+            height: 150,
+            content: '',
+            styles: { background: '#1f2937', borderRadius: '8px' }
+          }
+        ];
+        break;
+      case 'contact':
+        templateElements = [
+          {
+            id: 'contact-title',
+            type: 'text',
+            x: 400,
+            y: 150,
+            width: 300,
+            height: 50,
+            content: 'Contact Us',
+            styles: { color: '#ffffff', fontSize: '28px', fontWeight: 'bold' }
+          },
+          {
+            id: 'contact-form',
+            type: 'rectangle',
+            x: 350,
+            y: 250,
+            width: 300,
+            height: 200,
+            content: '',
+            styles: { background: '#1f2937', borderRadius: '8px' }
+          }
+        ];
+        break;
+      default:
+        templateElements = [];
+    }
+
+    setElements(templateElements);
+    setSelectedElement(null);
   };
 
   const renderElement = (element: BuilderElement) => {
@@ -140,11 +267,25 @@ export function VisualBuilder() {
   return (
     <div className="h-screen bg-gray-900 flex flex-col">
       <div className="h-14 bg-gray-800 border-b border-gray-700 flex items-center justify-between px-4">
-        <h1 className="text-xl font-bold">
-          <span className="text-white">Grip</span>
-          <span className="text-cyan-400">X</span>
-          <span className="text-gray-500 text-sm ml-2">Visual Builder</span>
-        </h1>
+        <div className="flex items-center space-x-4">
+          <h1 className="text-xl font-bold">
+            <span className="text-white">Grip</span>
+            <span className="text-cyan-400">X</span>
+            <span className="text-gray-500 text-sm ml-2">Visual Builder</span>
+          </h1>
+          <div className="flex items-center space-x-2">
+            <FileText size={16} className="text-gray-400" />
+            <select
+              value={currentPage}
+              onChange={(e) => setCurrentPage(e.target.value)}
+              className="bg-gray-700 border border-gray-600 rounded px-3 py-1 text-white text-sm"
+            >
+              {pages.map(page => (
+                <option key={page.id} value={page.id}>{page.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShowPreview(!showPreview)}
