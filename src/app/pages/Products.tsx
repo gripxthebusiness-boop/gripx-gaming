@@ -1,11 +1,66 @@
 import { motion } from 'motion/react';
 import { Star, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LazyImage } from '@/app/components/LazyImage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+interface BuilderElement {
+  id: string;
+  type: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  content: string;
+  styles: Record<string, string>;
+}
 
 export function Products() {
+  const [builderElements, setBuilderElements] = useState<BuilderElement[]>([]);
   const [activeFilter, setActiveFilter] = useState('All');
+
+  useEffect(() => {
+    const savedElements = localStorage.getItem('gripx_builder_products');
+    if (savedElements) {
+      try {
+        setBuilderElements(JSON.parse(savedElements));
+      } catch (error) {
+        console.error('Failed to load products page elements:', error);
+      }
+    }
+  }, []);
+
+  const renderBuilderElement = (element: BuilderElement) => {
+    const baseStyle: React.CSSProperties = {
+      position: 'absolute',
+      left: element.x,
+      top: element.y,
+      width: element.width,
+      height: element.height,
+      ...element.styles,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    };
+
+    if (element.type === 'text' || element.type === 'button') {
+      return (
+        <div key={element.id} style={baseStyle}>
+          {element.content}
+        </div>
+      );
+    }
+    return <div key={element.id} style={baseStyle} />;
+  };
+
+  if (builderElements.length > 0) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div style={{ width: 1200, height: 700, background: '#000000', position: 'relative' }}>
+          {builderElements.map(renderBuilderElement)}
+        </div>
+      </div>
+    );
+  }
   
   const products = [
     {
