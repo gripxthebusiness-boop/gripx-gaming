@@ -156,7 +156,7 @@ export function Navigation() {
                             <>
                               <li>
                                 <Link
-                                  to="/admin/editor"
+                                  to="/builder"
                                   onClick={() => setUserMenuOpen(false)}
                                   className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
                                 >
