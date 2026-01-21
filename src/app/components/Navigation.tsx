@@ -1,14 +1,16 @@
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, LogIn, User, LogOut, Settings, ChevronDown, ChevronUp, Clock } from 'lucide-react';
+import { Menu, X, LogIn, User, LogOut, Settings, ChevronDown, ChevronUp, Clock, ShoppingCart } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '@/app/context/AuthContext';
+import { useCart } from '@/app/context/CartContext';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [navHidden, setNavHidden] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout, sessionTimeRemaining } = useAuth();
@@ -23,7 +25,6 @@ export default function Navigation() {
     { href: '/products', label: 'Products' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
-    { href: '/cart', label: 'Cart' },
   ];
 
   const isActive = (href: string) => location.pathname === href;
@@ -64,6 +65,22 @@ export default function Navigation() {
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}m ${seconds}s`;
   };
+
+  const { cart, getTotalItems } = useCart();
+
+  if (navHidden) {
+    return (
+      <div className="fixed top-4 right-4 z-50">
+        <button
+          onClick={() => setNavHidden(false)}
+          className="bg-black/80 backdrop-blur-lg border border-cyan-500/20 rounded-lg p-2 text-gray-400 hover:text-white transition-colors"
+          title="Show Navigation"
+        >
+          <ChevronDown size={20} />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-cyan-500/20">
@@ -219,13 +236,39 @@ export default function Navigation() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Navigation Controls */}
+          <div className="flex items-center space-x-2">
+            {/* Cart Icon with Badge */}
+            <Link
+              to="/cart"
+              className="relative text-gray-400 hover:text-white transition-colors p-1"
+              title="Shopping Cart"
+            >
+              <ShoppingCart size={20} />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {getTotalItems()}
+                </span>
+              )}
+            </Link>
+
+            {/* Hide/Show Navigation Button */}
+            <button
+              onClick={() => setNavHidden(!navHidden)}
+              className="text-gray-400 hover:text-white transition-colors p-1"
+              title={navHidden ? 'Show Navigation' : 'Hide Navigation'}
+            >
+              {navHidden ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden text-white"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 

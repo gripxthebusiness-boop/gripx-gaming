@@ -1,11 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ShoppingCart, Delete, ArrowLeft, Star, 
+import {
+  ShoppingCart, Delete, ArrowLeft, Star,
   CheckCircle, Heart, RefreshCcw, Trash2,
   Minus, Plus, ShoppingBag
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useCart } from '../context/CartContext';
 
 // Mock cart data (in production, this would come from context/API)
 const mockCartItems = [
@@ -52,7 +53,7 @@ const mockCartItems = [
 
 export function Cart() {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState(mockCartItems);
+  const { cart, updateQuantity, removeFromCart, getTotalItems } = useCart();
   const [subtotal, setSubtotal] = useState(0);
   const [savings, setSavings] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -60,21 +61,17 @@ export function Cart() {
 
   // Calculate totals
   useEffect(() => {
-    const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const newSavings = cartItems.reduce((sum, item) => sum + ((item.originalPrice - item.price) * item.quantity), 0);
+    const newSubtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     setSubtotal(newSubtotal);
-    setSavings(newSavings);
-  }, [cartItems]);
+    setSavings(0); // No savings calculation for now
+  }, [cart]);
 
-  const updateQuantity = (itemId: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCartItems(prev => prev.map(item => 
-      item.id === itemId ? { ...item, quantity: newQuantity } : item
-    ));
+  const handleUpdateQuantity = (itemId: string, newQuantity: number) => {
+    updateQuantity(itemId, newQuantity);
   };
 
-  const removeItem = (itemId: string) => {
-    setCartItems(prev => prev.filter(item => item.id !== itemId));
+  const handleRemoveItem = (itemId: string) => {
+    removeFromCart(itemId);
     setShowDeleteModal(false);
     setItemToDelete(null);
   };
@@ -114,7 +111,7 @@ export function Cart() {
           <h1 className="text-4xl font-bold text-white">
             Shopping Cart
             <span className="text-lg font-normal text-cyan-400 ml-3">
-              ({cartItems.length} item{cartItems.length !== 1 ? 's' : ''})
+              ({cart.length} item{cart.length !== 1 ? 's' : ''})
             </span>
           </h1>
           <Link 
@@ -131,20 +128,20 @@ export function Cart() {
           <div className="flex-1">
             {/* Cart Items Card */}
             <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl overflow-hidden">
-              {cartItems.length > 0 ? (
+              {cart.length > 0 ? (
                 <>
-                  {cartItems.map((item, index) => (
+                  {cart.map((item, index) => (
                     <motion.div
-                      key={item.id}
+                      key={item._id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className={`flex gap-8 p-8 ${index !== cartItems.length - 1 ? 'border-b border-cyan-500/20' : ''}`}
+                      className={`flex gap-8 p-8 ${index !== cart.length - 1 ? 'border-b border-cyan-500/20' : ''}`}
                     >
                       {/* Product Image */}
                       <div className="flex-shrink-0">
                         <img
-                          src={item.image}
+                          src={item.images?.[0] || '/placeholder-image.jpg'}
                           alt={item.name}
                           className="w-[200px] h-[200px] object-contain rounded-lg bg-gradient-to-br from-gray-800 to-gray-900"
                         />
@@ -152,8 +149,8 @@ export function Cart() {
 
                       {/* Product Details */}
                       <div className="flex-1">
-                        <Link 
-                          to={`/products/${item.id}`}
+                        <Link
+                          to={`/products/${item._id}`}
                           className="text-white text-xl hover:text-cyan-400 transition-colors block mb-3"
                         >
                           {item.name}
@@ -170,15 +167,10 @@ export function Cart() {
                               />
                             ))}
                           </div>
-                          <span className="text-cyan-400 text-sm hover:underline cursor-pointer">
-                            {item.reviews.toLocaleString()} reviews
+                          <span className="text-cyan-400 text-sm">
+                            {item.rating} stars
                           </span>
                         </div>
-
-                        {/* Color/Size */}
-                        <p className="text-gray-400 text-sm mb-3">
-                          Color: <span className="text-white">{item.color}</span> | Size: <span className="text-white">{item.size}</span>
-                        </p>
 
                         {/* Stock Status */}
                         <div className="flex items-center gap-2 mb-4">
@@ -199,12 +191,6 @@ export function Cart() {
                           <span className="text-2xl font-bold text-cyan-400">
                             ₹{item.price.toLocaleString()}
                           </span>
-                          <span className="text-lg text-gray-500 line-through">
-                            ₹{item.originalPrice.toLocaleString()}
-                          </span>
-                          <span className="text-sm text-green-400">
-                            Save {Math.round((1 - item.price / item.originalPrice) * 100)}%
-                          </span>
                         </div>
 
                         {/* Free Delivery */}
@@ -224,7 +210,7 @@ export function Cart() {
                             <span className="text-sm text-gray-400">Qty:</span>
                             <select
                               value={item.quantity}
-                              onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+                              onChange={(e) => handleUpdateQuantity(item._id, parseInt(e.target.value))}
                               className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
                             >
                               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
@@ -237,7 +223,7 @@ export function Cart() {
 
                           {/* Delete Button */}
                           <button
-                            onClick={() => handleDeleteClick(item.id)}
+                            onClick={() => handleDeleteClick(item._id)}
                             className="text-red-400 hover:text-red-300 text-sm flex items-center gap-1 transition-colors"
                           >
                             <Trash2 size={14} />
@@ -327,7 +313,7 @@ export function Cart() {
                 {/* Subtotal */}
                 <div className="flex justify-between text-base">
                   <span className="text-gray-400">
-                    Subtotal ({cartItems.length} item{cartItems.length !== 1 ? 's' : ''}):
+                    Subtotal ({cart.length} item{cart.length !== 1 ? 's' : ''}):
                   </span>
                   <span className="text-white font-bold">
                     ₹{subtotal.toLocaleString()}
@@ -517,7 +503,7 @@ export function Cart() {
                   Cancel
                 </button>
                 <button
-                  onClick={() => itemToDelete && removeItem(itemToDelete)}
+                  onClick={() => itemToDelete && handleRemoveItem(itemToDelete)}
                   className="flex-1 py-3 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-lg hover:from-red-600 hover:to-pink-700 transition-all"
                 >
                   Delete

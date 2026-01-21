@@ -21,9 +21,15 @@ const productSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
-    image: {
-      type: String,
+    images: {
+      type: [String],
       required: true,
+      validate: {
+        validator: function(v) {
+          return v && v.length > 0;
+        },
+        message: 'At least one image is required'
+      }
     },
     specs: {
       type: String,

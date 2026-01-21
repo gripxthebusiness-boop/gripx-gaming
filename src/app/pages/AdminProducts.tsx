@@ -7,7 +7,7 @@ interface Product {
   name: string;
   brand: string;
   price: number;
-  image: string;
+  images: string[];
   description: string;
   category: string;
   specs: string;
@@ -24,7 +24,7 @@ export function AdminProducts() {
     name: '',
     brand: '',
     price: '',
-    image: '',
+    images: [''],
     description: '',
     category: '',
     specs: '',
@@ -121,7 +121,7 @@ export function AdminProducts() {
       name: product.name,
       brand: product.brand || '',
       price: product.price.toString(),
-      image: product.image,
+      images: product.images || [''],
       description: product.description || '',
       category: product.category,
       specs: product.specs,
@@ -225,14 +225,43 @@ export function AdminProducts() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-300 mb-2">Image URL</label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({...formData, image: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
-                  required
-                />
+                <label className="block text-sm font-medium text-gray-300 mb-2">Product Images</label>
+                {formData.images.map((image, index) => (
+                  <div key={index} className="flex items-center space-x-2 mb-2">
+                    <input
+                      type="url"
+                      value={image}
+                      onChange={(e) => {
+                        const newImages = [...formData.images];
+                        newImages[index] = e.target.value;
+                        setFormData({...formData, images: newImages});
+                      }}
+                      className="flex-1 px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                      placeholder="Enter image URL"
+                      required={index === 0}
+                    />
+                    {formData.images.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newImages = formData.images.filter((_, i) => i !== index);
+                          setFormData({...formData, images: newImages});
+                        }}
+                        className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                      >
+                        <X size={16} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setFormData({...formData, images: [...formData.images, '']})}
+                  className="flex items-center space-x-2 px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
+                >
+                  <Plus size={16} />
+                  <span>Add Another Image</span>
+                </button>
               </div>
 
               <div className="md:col-span-2">
@@ -308,7 +337,7 @@ export function AdminProducts() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-12 w-12">
-                          <img className="h-12 w-12 rounded-lg object-cover" src={product.image} alt={product.name} />
+                          <img className="h-12 w-12 rounded-lg object-cover" src={product.images?.[0] || ''} alt={product.name} />
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-white">{product.name}</div>
