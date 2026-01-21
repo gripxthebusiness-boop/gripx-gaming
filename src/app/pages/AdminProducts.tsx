@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon } from 'lucide-react';
 
 interface Product {

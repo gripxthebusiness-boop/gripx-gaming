@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Send, ShoppingCart, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 
