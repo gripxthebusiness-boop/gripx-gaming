@@ -168,12 +168,12 @@ export default function Navigation() {
                               </li>
                               <li>
                                 <Link
-                                  to="/admin/dashboard"
+                                  to="/admin/products"
                                   onClick={() => setUserMenuOpen(false)}
                                   className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
                                 >
                                   <Settings className="w-4 h-4 text-cyan-400" />
-                                  <span className="text-sm text-gray-300">Dashboard</span>
+                                  <span className="text-sm text-gray-300">Product Management</span>
                                 </Link>
                               </li>
                             </>
@@ -269,11 +269,11 @@ export default function Navigation() {
                     </div>
                     
                     <Link
-                      to="/admin/dashboard"
+                      to="/admin/products"
                       className="block text-sm font-medium px-4 py-2 bg-gray-800 rounded-lg mb-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      Dashboard
+                      Product Management
                     </Link>
                     
                     <button
