@@ -46,22 +46,26 @@ export function Products() {
   const nextImage = (productId: string, images: string[]) => {
     setCurrentImageIndexes(prev => ({
       ...prev,
-      [productId]: ((prev[productId] || 0) + 1) % images.length
+      [productId]: ((prev[productId] || 0) + 1) % images.length,
     }));
   };
 
   const prevImage = (productId: string, images: string[]) => {
     setCurrentImageIndexes(prev => ({
       ...prev,
-      [productId]: prev[productId] === 0 ? images.length - 1 : (prev[productId] || 0) - 1
+      [productId]:
+        prev[productId] === 0
+          ? images.length - 1
+          : (prev[productId] || 0) - 1,
     }));
   };
 
   const categories = ['All', 'Mice', 'Keyboards', 'Headsets', 'Controllers'];
 
-  const filteredProducts = activeFilter === 'All'
-    ? products
-    : products.filter(p => p.category === activeFilter);
+  const filteredProducts =
+    activeFilter === 'All'
+      ? products
+      : products.filter(p => p.category === activeFilter);
 
   if (loading) {
     return (
@@ -98,7 +102,7 @@ export function Products() {
           transition={{ delay: 0.1 }}
           className="flex flex-wrap gap-4 mb-12"
         >
-          {categories.map((category) => (
+          {categories.map(category => (
             <button
               key={category}
               onClick={() => setActiveFilter(category)}
@@ -128,71 +132,48 @@ export function Products() {
                 className="group"
               >
                 <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 hover:border-cyan-500/50 transition-all">
-                  {/* Product Image */}
+                  {/* Image */}
                   <div className="relative h-64 overflow-hidden">
                     <LazyImage
                       src={currentImage}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
-                    {/* Image Navigation */}
-                    {product.images && product.images.length > 1 && (
+                    {product.images.length > 1 && (
                       <>
                         <button
                           onClick={() => prevImage(product._id, product.images)}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full"
                         >
                           <ChevronLeft size={16} />
                         </button>
                         <button
                           onClick={() => nextImage(product._id, product.images)}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full"
                         >
                           <ChevronRight size={16} />
                         </button>
-
-                        {/* Image Indicators */}
-                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
-                          {product.images.map((_, imgIndex) => (
-                            <div
-                              key={imgIndex}
-                              className={`w-2 h-2 rounded-full ${
-                                imgIndex === currentImageIndex ? 'bg-cyan-400' : 'bg-white/50'
-                              }`}
-                            />
-                          ))}
-                        </div>
                       </>
                     )}
-
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-cyan-500/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
-                      {product.category}
-                    </div>
                   </div>
 
-                  {/* Product Info */}
                   <div className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-bold text-white">{product.name}</h3>
-                      <div className="flex items-center space-x-1 text-yellow-400">
-                        <Star size={16} fill="currentColor" />
-                        <span className="text-sm">{product.rating}</span>
-                      </div>
-                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-400 mb-4">{product.specs}</p>
 
-                    <p className="text-gray-400 text-sm mb-4">{product.specs}</p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-cyan-400">₹{product.price}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="text-2xl text-cyan-400 font-bold">
+                        ₹{product.price}
+                      </span>
                       <button
                         onClick={() => addToCart(product)}
-                        className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all flex items-center space-x-2"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
                       >
                         <ShoppingCart size={18} />
-                        <span>Add to Cart</span>
+                        Add to Cart
                       </button>
                     </div>
                   </div>
@@ -205,3 +186,6 @@ export function Products() {
     </div>
   );
 }
+
+/* ✅ THIS LINE FIXES VERCEL */
+export default Products;
