@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '@/app/context/AuthContext';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
-export function Navigation() {
+export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const location = useLocation();
