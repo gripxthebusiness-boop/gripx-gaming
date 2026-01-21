@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { ChevronRight, Zap, TrendingUp, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import LazyImage from '../components/LazyImage';
+import { LazyImage } from '../components/LazyImage';
 
 export function Home() {
   const features = [
