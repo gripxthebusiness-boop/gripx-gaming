@@ -126,9 +126,9 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: 'GripX Pro Mouse', image: 'https://images.unsplash.com/photo-1616296425622-4560a2ad83de?w=400&q=80', price: '$79.99' },
-              { name: 'GripX Elite Keyboard', image: 'https://images.unsplash.com/photo-1656711081969-9d16ebc2d210?w=400&q=80', price: '$149.99' },
-              { name: 'GripX Ultra Headset', image: 'https://images.unsplash.com/photo-1629429407756-4a7703614972?w=400&q=80', price: '$199.99' },
+              { name: 'GripX Pro Mouse', image: 'https://images.unsplash.com/photo-1616296425622-4560a2ad83de?w=400&q=80', price: '₹6,599' },
+              { name: 'GripX Elite Keyboard', image: 'https://images.unsplash.com/photo-1656711081969-9d16ebc2d210?w=400&q=80', price: '₹12,499' },
+              { name: 'GripX Ultra Headset', image: 'https://images.unsplash.com/photo-1629429407756-4a7703614972?w=400&q=80', price: '₹16,599' },
             ].map((product, index) => (
               <motion.div
                 key={index}

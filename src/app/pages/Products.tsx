@@ -1,74 +1,18 @@
 import { motion } from 'motion/react';
 import { Star, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LazyImage } from '../components/LazyImage';
 
-interface BuilderElement {
-  id: string;
-  type: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  content: string;
-  styles: Record<string, string>;
-}
-
 export function Products() {
-  const [builderElements, setBuilderElements] = useState<BuilderElement[]>([]);
   const [activeFilter, setActiveFilter] = useState('All');
-
-  useEffect(() => {
-    const savedElements = localStorage.getItem('gripx_builder_products');
-    if (savedElements) {
-      try {
-        setBuilderElements(JSON.parse(savedElements));
-      } catch (error) {
-        console.error('Failed to load products page elements:', error);
-      }
-    }
-  }, []);
-
-  const renderBuilderElement = (element: BuilderElement) => {
-    const baseStyle: React.CSSProperties = {
-      position: 'absolute',
-      left: element.x,
-      top: element.y,
-      width: element.width,
-      height: element.height,
-      ...element.styles,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    };
-
-    if (element.type === 'text' || element.type === 'button') {
-      return (
-        <div key={element.id} style={baseStyle}>
-          {element.content}
-        </div>
-      );
-    }
-    return <div key={element.id} style={baseStyle} />;
-  };
-
-  if (builderElements.length > 0) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div style={{ width: 1200, height: 700, background: '#000000', position: 'relative' }}>
-          {builderElements.map(renderBuilderElement)}
-        </div>
-      </div>
-    );
-  }
   
   const products = [
     {
       id: 1,
       name: 'GripX Pro Mouse',
       category: 'Mice',
-      price: '$79.99',
+      price: '₹6,599',
       rating: 4.9,
       image: 'https://images.unsplash.com/photo-1616296425622-4560a2ad83de?w=400&q=80',
       specs: '20,000 DPI, RGB, Wireless',
@@ -77,7 +21,7 @@ export function Products() {
       id: 2,
       name: 'GripX Elite Keyboard',
       category: 'Keyboards',
-      price: '$149.99',
+      price: '₹12,499',
       rating: 4.8,
       image: 'https://images.unsplash.com/photo-1656711081969-9d16ebc2d210?w=400&q=80',
       specs: 'Mechanical, RGB, Hot-Swappable',
@@ -86,7 +30,7 @@ export function Products() {
       id: 3,
       name: 'GripX Ultra Headset',
       category: 'Headsets',
-      price: '$199.99',
+      price: '₹16,599',
       rating: 5.0,
       image: 'https://images.unsplash.com/photo-1629429407756-4a7703614972?w=400&q=80',
       specs: '7.1 Surround, Wireless, 50mm Drivers',
@@ -95,7 +39,7 @@ export function Products() {
       id: 4,
       name: 'GripX Precision Controller',
       category: 'Controllers',
-      price: '$89.99',
+      price: '₹7,439',
       rating: 4.7,
       image: 'https://images.unsplash.com/photo-1611138290962-2c550ffd4002?w=400&q=80',
       specs: 'Hall Effect, Programmable, RGB',
@@ -104,7 +48,7 @@ export function Products() {
       id: 5,
       name: 'GripX Speed Mouse',
       category: 'Mice',
-      price: '$59.99',
+      price: '₹4,979',
       rating: 4.6,
       image: 'https://images.unsplash.com/photo-1616296425622-4560a2ad83de?w=400&q=80',
       specs: '16,000 DPI, Lightweight, Wired',
@@ -113,7 +57,7 @@ export function Products() {
       id: 6,
       name: 'GripX Compact Keyboard',
       category: 'Keyboards',
-      price: '$99.99',
+      price: '₹8,299',
       rating: 4.5,
       image: 'https://images.unsplash.com/photo-1656711081969-9d16ebc2d210?w=400&q=80',
       specs: '60%, Mechanical, RGB',
