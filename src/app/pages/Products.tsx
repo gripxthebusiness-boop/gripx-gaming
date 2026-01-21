@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Star, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -169,7 +169,16 @@ export function Products() {
                         ₹{product.price}
                       </span>
                       <button
-                        onClick={() => addToCart(product)}
+                        onClick={() =>
+                          addToCart({
+                            id: product._id,
+                            name: product.name,
+                            price: product.price,
+                            quantity: 1,
+                            image: product.images[0],
+                          })
+                        }
+    
                         className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
                       >
                         <ShoppingCart size={18} />
