@@ -2,7 +2,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, LogIn, User, LogOut, Settings, ChevronDown, ChevronUp, Clock, ShoppingCart } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
