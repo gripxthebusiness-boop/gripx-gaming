@@ -16,8 +16,10 @@ interface Product {
 }
 
 export function AdminProducts() {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,14 +39,21 @@ export function AdminProducts() {
   }, []);
 
   const fetchProducts = async () => {
+    setError(null);
     try {
-      const response = await fetch('/api/products');
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE}/products`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
       if (response.ok) {
         const data = await response.json();
         setProducts(data);
+      } else {
+        setError('Failed to load products');
       }
     } catch (error) {
       console.error('Failed to fetch products:', error);
+      setError('Failed to load products');
     } finally {
       setLoading(false);
     }
@@ -59,24 +68,28 @@ export function AdminProducts() {
     };
 
     try {
-      const url = editingProduct ? `/api/products/${editingProduct._id}` : '/api/products';
+      const url = editingProduct ? `${API_BASE}/products/${editingProduct._id}` : `${API_BASE}/products`;
       const method = editingProduct ? 'PUT' : 'POST';
+      const token = localStorage.getItem('token');
 
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify(productData)
+        body: JSON.stringify(productData),
       });
 
       if (response.ok) {
         fetchProducts();
         resetForm();
+      } else {
+        setError('Failed to save product');
       }
     } catch (error) {
       console.error('Failed to save product:', error);
+      setError('Failed to save product');
     }
   };
 
@@ -84,18 +97,20 @@ export function AdminProducts() {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE}/products/${productId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
 
       if (response.ok) {
         fetchProducts();
+      } else {
+        setError('Failed to delete product');
       }
     } catch (error) {
       console.error('Failed to delete product:', error);
+      setError('Failed to delete product');
     }
   };
 
@@ -104,7 +119,7 @@ export function AdminProducts() {
       name: '',
       brand: '',
       price: '',
-      image: '',
+      images: [''],
       description: '',
       category: '',
       specs: '',
@@ -152,6 +167,12 @@ export function AdminProducts() {
             <span>Add Product</span>
           </button>
         </div>
+
+        {error && (
+          <div className="mb-4 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200">
+            {error}
+          </div>
+        )}
 
         {/* Add/Edit Form */}
         {showAddForm && (
@@ -388,3 +409,5 @@ export function AdminProducts() {
     </div>
   );
 }
+
+export default AdminProducts;

@@ -343,3 +343,5 @@ export function VisualBuilder() {
     </div>
   );
 }
+
+export default VisualBuilder;

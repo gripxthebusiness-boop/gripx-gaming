@@ -19,8 +19,10 @@ interface Product {
 }
 
 export function Products() {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState('All');
   const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<string, number>>({});
   const { addToCart } = useCart();
@@ -30,14 +32,18 @@ export function Products() {
   }, []);
 
   const fetchProducts = async () => {
+    setError(null);
     try {
-      const response = await fetch('/api/products');
+      const response = await fetch(`${API_BASE}/products`);
       if (response.ok) {
         const data = await response.json();
         setProducts(data);
+      } else {
+        setError('Unable to load products right now.');
       }
     } catch (error) {
       console.error('Failed to fetch products:', error);
+      setError('Unable to load products right now.');
     } finally {
       setLoading(false);
     }
@@ -94,6 +100,12 @@ export function Products() {
             Curated gaming gear from trusted brands in India
           </p>
         </motion.div>
+
+        {error && (
+          <div className="mb-6 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200">
+            {error}
+          </div>
+        )}
 
         {/* Filters */}
         <motion.div
@@ -178,11 +190,15 @@ export function Products() {
                             image: product.images[0],
                           })
                         }
-    
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
+                        disabled={!product.inStock}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
+                          product.inStock
+                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                        }`}
                       >
                         <ShoppingCart size={18} />
-                        Add to Cart
+                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                       </button>
                     </div>
                   </div>
@@ -190,6 +206,11 @@ export function Products() {
               </motion.div>
             );
           })}
+          {!filteredProducts.length && !error && (
+            <div className="col-span-full text-center text-gray-400 py-12">
+              No products found in this category.
+            </div>
+          )}
         </div>
       </div>
     </div>

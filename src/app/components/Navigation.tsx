@@ -66,7 +66,7 @@ export default function Navigation() {
     return `${minutes}m ${seconds}s`;
   };
 
-  const { cart, getTotalItems } = useCart();
+  const { cartItems, getTotalItems } = useCart();
 
   if (navHidden) {
     return (
