@@ -13,7 +13,7 @@ export function Footer() {
               <span className="text-cyan-400">X</span>
             </div>
             <p className="text-sm">
-              Premium gaming peripherals designed for champions.
+              Curated gaming gear from trusted brands in India.
             </p>
           </div>
 
@@ -32,10 +32,7 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-cyan-400 transition-colors">Downloads</a></li>
-              <li><a href="#" className="hover:text-cyan-400 transition-colors">Warranty</a></li>
               <li><Link to="/contact" className="hover:text-cyan-400 transition-colors">Contact Us</Link></li>
-              <li><a href="#" className="hover:text-cyan-400 transition-colors">FAQ</a></li>
             </ul>
           </div>
 
@@ -55,8 +52,8 @@ export function Footer() {
         <div className="border-t border-cyan-500/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
           <p>&copy; 2026 GripX. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
+            <Link to="/privacy" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-cyan-400 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

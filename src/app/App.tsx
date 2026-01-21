@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Navigation from './components/Navigation';
+import { Navigation } from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Products from './pages/Products';

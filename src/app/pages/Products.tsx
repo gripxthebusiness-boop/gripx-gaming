@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Star, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { LazyImage } from '../components/LazyImage';
 
 interface BuilderElement {
   id: string;
