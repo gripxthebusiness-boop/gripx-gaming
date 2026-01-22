@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import path from 'path'
-import { readFileSync, existsSync } from 'fs'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 
@@ -10,26 +9,15 @@ export default defineConfig({
     // Tailwind is not being actively used – do not remove them
     react(),
     tailwindcss(),
-    // Plugin to fix framer-motion module resolution
+    // Plugin to fix framer-motion module resolution - must run early
     {
-      name: 'fix-framer-motion-resolve',
+      name: 'fix-framer-motion',
+      enforce: 'pre',
       resolveId(id, importer) {
-        // Handle relative imports from framer-motion
-        if (id.startsWith('./') && importer?.includes('framer-motion')) {
+        // Fix relative imports from framer-motion
+        if (id === './value/use-follow-value.mjs' && importer?.includes('framer-motion')) {
           const baseDir = path.dirname(importer)
-          const resolvedPath = path.resolve(baseDir, id)
-          
-          // Try .mjs extension if not already present
-          if (!id.endsWith('.mjs') && !id.includes('.')) {
-            const mjsPath = resolvedPath + '.mjs'
-            if (existsSync(mjsPath)) {
-              return mjsPath
-            }
-          } else if (id.endsWith('.mjs')) {
-            if (existsSync(resolvedPath)) {
-              return resolvedPath
-            }
-          }
+          return path.join(baseDir, 'value', 'use-follow-value.mjs')
         }
         return null
       },
