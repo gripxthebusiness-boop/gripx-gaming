@@ -15,5 +15,23 @@ export default defineConfig({
       // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
     },
+    conditions: ['import', 'module', 'browser', 'default'],
+    extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'],
+  },
+  optimizeDeps: {
+    include: ['framer-motion'],
+    esbuildOptions: {
+      conditions: ['import', 'module', 'browser', 'default'],
+    },
+  },
+  build: {
+    commonjsOptions: {
+      include: [/framer-motion/, /node_modules/],
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
   },
 })
