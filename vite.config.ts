@@ -9,19 +9,6 @@ export default defineConfig({
     // Tailwind is not being actively used – do not remove them
     react(),
     tailwindcss(),
-    // Plugin to fix framer-motion module resolution - must run early
-    {
-      name: 'fix-framer-motion',
-      enforce: 'pre',
-      resolveId(id, importer) {
-        // Fix relative imports from framer-motion
-        if (id === './value/use-follow-value.mjs' && importer?.includes('framer-motion')) {
-          const baseDir = path.dirname(importer)
-          return path.join(baseDir, 'value', 'use-follow-value.mjs')
-        }
-        return null
-      },
-    },
   ],
   resolve: {
     alias: {
