@@ -183,7 +183,8 @@ export function Products() {
                     <h3 className="text-xl font-bold text-white mb-2">
                       {product.name}
                     </h3>
-                    <p className="text-gray-400 mb-4">{product.specs}</p>
+                    <p className="text-gray-400 mb-2 line-clamp-2">{product.description}</p>
+                    <p className="text-gray-500 text-sm mb-4">{product.specs}</p>
 
                     <div className="flex justify-between items-center">
                       <span className="text-2xl text-cyan-400 font-bold">
