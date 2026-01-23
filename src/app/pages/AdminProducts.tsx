@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 interface Product {
   _id: string;
@@ -17,9 +17,12 @@ interface Product {
 
 export function AdminProducts() {
   const API_BASE = import.meta.env.VITE_API_URL || '';
+  console.log('API_BASE:', API_BASE); // Debug API URL
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -61,35 +64,58 @@ export function AdminProducts() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    setSuccess(null);
+
     const productData = {
       ...formData,
       price: parseFloat(formData.price),
       rating: parseFloat(formData.rating)
     };
 
+    console.log('Submitting product data:', productData); // Debug form data
+
     try {
       const url = editingProduct ? `${API_BASE}/products/${editingProduct._id}` : `${API_BASE}/products`;
       const method = editingProduct ? 'PUT' : 'POST';
       const token = localStorage.getItem('token');
 
+      console.log('Submitting to:', url, 'Method:', method); // Debug API call
+      console.log('Token present:', !!token); // Debug token
+
+      if (!token) {
+        throw new Error('Authentication required. Please log in as an admin.');
+      }
+
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(productData),
       });
 
+      const data = await response.json();
+      console.log('Response:', response.status, data); // Debug response
+
       if (response.ok) {
+        const message = editingProduct ? 'Product updated successfully!' : `Product "${formData.name}" created successfully!`;
+        setSuccess(message);
+        console.log('Product saved successfully:', message); // Debug success
         fetchProducts();
         resetForm();
       } else {
-        setError('Failed to save product');
+        const errorMessage = data.message || `Failed to ${editingProduct ? 'update' : 'create'} product`;
+        setError(errorMessage);
+        console.error('Error saving product:', errorMessage); // Debug error
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to save product:', error);
-      setError('Failed to save product');
+      setError(error.message || 'Failed to save product. Please check your connection and try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -169,8 +195,16 @@ export function AdminProducts() {
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200">
-            {error}
+          <div className="mb-4 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200 flex items-center space-x-2">
+            <AlertCircle size={18} />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-4 px-4 py-3 rounded-lg border border-green-500/40 bg-green-500/10 text-green-200 flex items-center space-x-2">
+            <CheckCircle size={18} />
+            <span>{success}</span>
           </div>
         )}
 
@@ -322,16 +356,27 @@ export function AdminProducts() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="px-6 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
+                  disabled={submitting}
+                  className="px-6 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
+                  disabled={submitting}
+                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Save size={18} />
-                  <span>{editingProduct ? 'Update' : 'Create'} Product</span>
+                  {submitting ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      <span>Creating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save size={18} />
+                      <span>Create Product</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>
