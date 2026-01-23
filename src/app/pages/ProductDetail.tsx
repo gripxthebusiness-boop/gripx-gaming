@@ -92,6 +92,31 @@ export function ProductDetail() {
     ));
   };
 
+  // Parse specs string into key-value pairs for table display
+  const parseSpecs = (specsText: string) => {
+    if (!specsText) return [];
+    const lines = specsText.split('\n');
+    const specs: { key: string; value: string }[] = [];
+    
+    lines.forEach(line => {
+      if (line.includes(':')) {
+        const colonIndex = line.indexOf(':');
+        const key = line.substring(0, colonIndex);
+        const value = line.substring(colonIndex + 1);
+        specs.push({ key: key.trim(), value: value.trim() });
+      } else if (line.includes('-') && !line.startsWith('-')) {
+        const dashIndex = line.indexOf('-');
+        const key = line.substring(0, dashIndex);
+        const value = line.substring(dashIndex + 1);
+        specs.push({ key: key.trim(), value: value.trim() });
+      } else if (line.trim()) {
+        specs.push({ key: '', value: line.trim() });
+      }
+    });
+    
+    return specs;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center pt-20">
@@ -118,6 +143,8 @@ export function ProductDetail() {
       </div>
     );
   }
+
+  const parsedSpecs = parseSpecs(product.specs);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
@@ -246,8 +273,27 @@ export function ProductDetail() {
               )}
 
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Specifications</h3>
-                <p className="text-gray-400 leading-relaxed">{product.specs}</p>
+                <h3 className="text-lg font-semibold text-white mb-3">Specifications</h3>
+                {parsedSpecs.length > 0 && (
+                  <div className="bg-gray-900/50 rounded-lg overflow-hidden border border-gray-700">
+                    <table className="w-full">
+                      <tbody>
+                        {parsedSpecs.map((spec, index) => (
+                          <tr key={index} className={index !== parsedSpecs.length - 1 ? 'border-b border-gray-700' : ''}>
+                            {spec.key && (
+                              <td className="px-4 py-3 text-gray-400 text-sm font-medium w-1/3">
+                                {spec.key}
+                              </td>
+                            )}
+                            <td className={`px-4 py-3 text-white text-sm ${spec.key ? '' : 'col-span-2'}`}>
+                              {spec.value}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
