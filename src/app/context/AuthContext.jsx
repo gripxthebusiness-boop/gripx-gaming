@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 
 const AuthContext = createContext();
 
@@ -11,6 +11,10 @@ export function AuthProvider({ children }) {
   const [sessionExpiry, setSessionExpiry] = useState(null);
   const [lastActivity, setLastActivity] = useState(Date.now());
   const [isVerifying, setIsVerifying] = useState(false);
+  
+  // Refs for performance optimization
+  const activityTimeoutRef = useRef(null);
+  const activityHandlerRef = useRef(null);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -22,23 +26,28 @@ export function AuthProvider({ children }) {
   // Cache user data in localStorage for faster initial load
   const CACHED_USER_KEY = 'gripx_cached_user';
 
-  // Track user activity for session management - debounced
+  // Track user activity for session management - optimized with single listener
   useEffect(() => {
-    let timeoutId;
+    // Create handler once
     const updateActivity = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => setLastActivity(Date.now()), 1000);
+      clearTimeout(activityTimeoutRef.current);
+      activityTimeoutRef.current = setTimeout(() => {
+        setLastActivity(Date.now());
+      }, 1000);
     };
     
+    activityHandlerRef.current = updateActivity;
+
+    // Use a single event listener with event delegation for better performance
     window.addEventListener('mousemove', updateActivity);
-    window.addEventListener('keypress', updateActivity);
+    window.addEventListener('keydown', updateActivity);
     window.addEventListener('click', updateActivity);
-    window.addEventListener('scroll', updateActivity);
+    window.addEventListener('scroll', updateActivity, { passive: true });
 
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(activityTimeoutRef.current);
       window.removeEventListener('mousemove', updateActivity);
-      window.removeEventListener('keypress', updateActivity);
+      window.removeEventListener('keydown', updateActivity);
       window.removeEventListener('click', updateActivity);
       window.removeEventListener('scroll', updateActivity);
     };

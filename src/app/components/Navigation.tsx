@@ -3,9 +3,47 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, LogIn, User, LogOut, Settings, ChevronDown, ChevronUp, Clock, ShoppingCart } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+
+// Prefetch API helper
+const prefetchProducts = () => {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
+  fetch(`${API_BASE}/products?page=1&limit=9`).catch(() => {});
+};
+
+// Route prefetch hook
+function useRoutePrefetch() {
+  const prefetchTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (prefetchTimeoutRef.current) {
+        clearTimeout(prefetchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  return {
+    prefetchOnHover: (route: string) => {
+      // Prefetch products page on hover
+      if (route === '/products' && !prefetchTimeoutRef.current) {
+        prefetchTimeoutRef.current = setTimeout(() => {
+          prefetchProducts();
+          prefetchTimeoutRef.current = null;
+        }, 200); // 200ms delay to avoid unnecessary prefetches
+      }
+    },
+    cancelPrefetch: () => {
+      if (prefetchTimeoutRef.current) {
+        clearTimeout(prefetchTimeoutRef.current);
+        prefetchTimeoutRef.current = null;
+      }
+    },
+  };
+}
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,6 +53,7 @@ export default function Navigation() {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout, sessionTimeRemaining } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { prefetchOnHover, cancelPrefetch } = useRoutePrefetch();
 
   // Rick roll trick: click logo 5 times
   const [logoClickCount, setLogoClickCount] = useState(0);
@@ -107,6 +146,8 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 to={link.href}
+                onMouseEnter={() => prefetchOnHover(link.href)}
+                onMouseLeave={cancelPrefetch}
                 className={`relative text-sm font-medium transition-colors ${
                   isActive(link.href) ? 'text-cyan-400' : 'text-gray-300 hover:text-white'
                 }`}

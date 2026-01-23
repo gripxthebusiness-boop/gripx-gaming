@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 import { Star, ShoppingCart, ChevronLeft, ChevronRight, ArrowLeft, Package, AlertCircle } from 'lucide-react';
 import { LazyImage } from '../components/LazyImage';
 import { useCart } from '../context/CartContext';
@@ -19,55 +20,41 @@ interface Product {
   stockQuantity: number | null;
 }
 
+interface ProductDetailsResponse {
+  product: Product;
+  relatedProducts: Product[];
+}
+
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const API_BASE = import.meta.env.VITE_API_URL || '';
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const { addToCart } = useCart();
 
+  // Use React Query for caching and single API call fetching product + related products
+  const { data, isLoading, error, isError } = useQuery<ProductDetailsResponse>({
+    queryKey: ['product', id],
+    queryFn: async () => {
+      const response = await fetch(`${API_BASE}/products/${id}/details`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Product not found');
+        }
+        throw new Error('Failed to fetch product');
+      }
+      return response.json();
+    },
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    enabled: !!id,
+  });
+
+  const product = data?.product;
+  const relatedProducts = data?.relatedProducts || [];
+
   useEffect(() => {
-    fetchProduct();
     window.scrollTo(0, 0);
+    setCurrentImageIndex(0);
   }, [id]);
-
-  const fetchProduct = async () => {
-    setError(null);
-    setLoading(true);
-    try {
-      const response = await fetch(`${API_BASE}/products/${id}`);
-      if (response.ok) {
-        const data = await response.json();
-        setProduct(data);
-        fetchRelatedProducts(data.category, data._id);
-      } else {
-        setError('Product not found');
-      }
-    } catch (error) {
-      console.error('Failed to fetch product:', error);
-      setError('Unable to load product details');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchRelatedProducts = async (category: string, excludeId: string) => {
-    try {
-      const response = await fetch(`${API_BASE}/products`);
-      if (response.ok) {
-        const data = await response.json();
-        const filtered = data.filter(
-          (p: Product) => p.category === category && p._id !== excludeId
-        );
-        setRelatedProducts(filtered.slice(0, 4));
-      }
-    } catch (error) {
-      console.error('Failed to fetch related products:', error);
-    }
-  };
 
   const nextImage = () => {
     if (product && product.images.length > 1) {
@@ -118,21 +105,26 @@ export function ProductDetail() {
     return specs;
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center pt-20">
-        <div className="text-cyan-400 text-lg">Loading product details...</div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-cyan-400 text-lg">Loading product details...</p>
+        </div>
       </div>
     );
   }
 
-  if (error || !product) {
+  if (isError || !product) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center pt-20">
         <div className="text-center">
           <AlertCircle size={64} className="mx-auto text-red-400 mb-4" />
           <h2 className="text-2xl font-bold text-white mb-2">Product Not Found</h2>
-          <p className="text-gray-400 mb-6">{error || 'The product you are looking for does not exist.'}</p>
+          <p className="text-gray-400 mb-6">
+            {error instanceof Error ? error.message : 'The product you are looking for does not exist.'}
+          </p>
           <Link
             to="/products"
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"

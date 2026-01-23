@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Star, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { LazyImage } from '../components/LazyImage';
 import { useCart } from '../context/CartContext';
 
@@ -18,36 +19,49 @@ interface Product {
   inStock: boolean;
 }
 
+interface ProductsResponse {
+  products: Product[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalProducts: number;
+    productsPerPage: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
+
 export function Products() {
   const API_BASE = import.meta.env.VITE_API_URL || '';
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState('All');
   const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<string, number>>({});
+  const [currentPage, setCurrentPage] = useState(1);
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  // Use React Query for caching and automatic refetching
+  const { data, isLoading, error, isFetching } = useQuery<ProductsResponse>({
+    queryKey: ['products', activeFilter, currentPage],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: '9',
+      });
 
-  const fetchProducts = async () => {
-    setError(null);
-    try {
-      const response = await fetch(`${API_BASE}/products`);
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      } else {
-        setError('Unable to load products right now.');
+      if (activeFilter !== 'All') {
+        params.append('category', activeFilter);
       }
-    } catch (error) {
-      console.error('Failed to fetch products:', error);
-      setError('Unable to load products right now.');
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      const response = await fetch(`${API_BASE}/products?${params}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      return response.json();
+    },
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
+  const products = data?.products || [];
+  const pagination = data?.pagination;
 
   const nextImage = (productId: string, images: string[]) => {
     setCurrentImageIndexes(prev => ({
@@ -68,15 +82,23 @@ export function Products() {
 
   const categories = ['All', 'Mice', 'Keyboards', 'Headsets', 'Controllers'];
 
-  const filteredProducts =
-    activeFilter === 'All'
-      ? products
-      : products.filter(p => p.category === activeFilter);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  if (loading) {
+  const handleFilterChange = (category: string) => {
+    setActiveFilter(category);
+    setCurrentPage(1);
+  };
+
+  if (isLoading && !data) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-cyan-400">Loading products...</div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-cyan-400">Loading products...</p>
+        </div>
       </div>
     );
   }
@@ -103,7 +125,7 @@ export function Products() {
 
         {error && (
           <div className="mb-6 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200">
-            {error}
+            {error instanceof Error ? error.message : 'Unable to load products right now.'}
           </div>
         )}
 
@@ -117,7 +139,7 @@ export function Products() {
           {categories.map(category => (
             <button
               key={category}
-              onClick={() => setActiveFilter(category)}
+              onClick={() => handleFilterChange(category)}
               className={`px-6 py-2 rounded-lg transition-all ${
                 activeFilter === category
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
@@ -129,9 +151,20 @@ export function Products() {
           ))}
         </motion.div>
 
+        {/* Loading overlay when fetching new data */}
+        {isFetching && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-4 px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-center"
+          >
+            Updating products...
+          </motion.div>
+        )}
+
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product, index) => {
+          {products.map((product, index) => {
             const currentImageIndex = currentImageIndexes[product._id] || 0;
             const currentImage = product.images?.[currentImageIndex] || '';
 
@@ -140,7 +173,7 @@ export function Products() {
                 key={product._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.05 }}
                 className="group"
               >
                 <Link
@@ -177,7 +210,7 @@ export function Products() {
                         </button>
                       </>
                     )}
-</div>
+                  </div>
 
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2">
@@ -187,7 +220,7 @@ export function Products() {
 
                     <div className="flex justify-between items-center">
                       <span className="text-2xl text-cyan-400 font-bold">
-                        ₹{product.price}
+                        ₹{product.price.toLocaleString()}
                       </span>
                       <button
                         onClick={(e) => {
@@ -216,12 +249,76 @@ export function Products() {
               </motion.div>
             );
           })}
-          {!filteredProducts.length && !error && (
+          {!products.length && !isLoading && (
             <div className="col-span-full text-center text-gray-400 py-12">
               No products found in this category.
             </div>
           )}
         </div>
+
+        {/* Pagination */}
+        {pagination && pagination.totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center items-center gap-2 mt-12"
+          >
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-cyan-500/50 transition-all"
+            >
+              Previous
+            </button>
+            
+            {/* Page numbers */}
+            {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+              let pageNum: number;
+              const current = pagination.currentPage;
+              const total = pagination.totalPages;
+              
+              if (total <= 5) {
+                pageNum = i + 1;
+              } else if (current <= 3) {
+                pageNum = i + 1;
+              } else if (current >= total - 2) {
+                pageNum = total - 4 + i;
+              } else {
+                pageNum = current - 2 + i;
+              }
+              
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-10 h-10 rounded-lg transition-all ${
+                    currentPage === pageNum
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
+                      : 'bg-gray-900 text-gray-400 border border-cyan-500/20 hover:border-cyan-500/50'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+            
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === pagination.totalPages}
+              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-cyan-500/50 transition-all"
+            >
+              Next
+            </button>
+          </motion.div>
+        )}
+
+        {/* Products count */}
+        {pagination && (
+          <p className="text-center text-gray-500 mt-6">
+            Showing {products.length} of {pagination.totalProducts} products
+          </p>
+        )}
       </div>
     </div>
   );
