@@ -81,7 +81,8 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-white font-semibold">Phone</p>
-                    <p className="text-gray-400">+91 XXXXX XXXXX</p>
+                    <p className="text-gray-400">+91 99238 69222 (Main)</p>
+                    <p className="text-gray-400">+91 90630 32312</p>
                   </div>
                 </div>
 
@@ -91,7 +92,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-white font-semibold">Email</p>
-                    <p className="text-gray-400">support@gripxgaming.com</p>
+                    <p className="text-gray-400">gripxthebusiness@gmail.com</p>
                   </div>
                 </div>
 
@@ -101,7 +102,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-white font-semibold">Location</p>
-                    <p className="text-gray-400">Delhi, India</p>
+                    <p className="text-gray-400">Palghar, India</p>
                   </div>
                 </div>
               </div>
@@ -221,3 +222,4 @@ export function Contact() {
 }
 
 export default Contact;
+
