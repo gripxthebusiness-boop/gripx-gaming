@@ -110,59 +110,6 @@ export function Home() {
           </div>
         </div>
       </section>
-
-      {/* Featured Products Preview */}
-      <section className="py-20 px-6 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-white mb-4">Featured Products</h2>
-            <p className="text-gray-400">Handpicked gaming mice, headsets, and controllers from top manufacturers</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: 'GripX Pro Mouse', image: 'https://images.unsplash.com/photo-1616296425622-4560a2ad83de?w=400&q=80', price: '₹6,599' },
-              { name: 'GripX Elite Keyboard', image: 'https://images.unsplash.com/photo-1656711081969-9d16ebc2d210?w=400&q=80', price: '₹12,499' },
-              { name: 'GripX Ultra Headset', image: 'https://images.unsplash.com/photo-1629429407756-4a7703614972?w=400&q=80', price: '₹16,599' },
-            ].map((product, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group cursor-pointer"
-              >
-                <div className="relative overflow-hidden rounded-xl mb-4 bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 hover:border-cyan-500/50 transition-all">
-                  <LazyImage
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{product.name}</h3>
-                <p className="text-cyan-400 text-lg font-semibold">{product.price}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              to="/products"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all group"
-            >
-              View All Products
-              <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
