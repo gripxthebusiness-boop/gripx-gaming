@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 
 import Home from './pages/Home';
 import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -27,14 +28,15 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/builder" element={<VisualBuilder />} />
-          <Route path="/account" element={<Account />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/builder" element={<VisualBuilder />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
 
           <Footer />
@@ -45,3 +47,4 @@ function App() {
 }
 
 export default App;
+

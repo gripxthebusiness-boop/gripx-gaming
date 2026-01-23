@@ -143,7 +143,10 @@ export function Products() {
                 transition={{ delay: index * 0.1 }}
                 className="group"
               >
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 hover:border-cyan-500/50 transition-all">
+                <Link
+                  to={`/products/${product._id}`}
+                  className="block relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 hover:border-cyan-500/50 transition-all"
+                >
                   {/* Image */}
                   <div className="relative h-64 overflow-hidden">
                     <LazyImage
@@ -155,14 +158,20 @@ export function Products() {
                     {product.images.length > 1 && (
                       <>
                         <button
-                          onClick={() => prevImage(product._id, product.images)}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            prevImage(product._id, product.images);
+                          }}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full z-10"
                         >
                           <ChevronLeft size={16} />
                         </button>
                         <button
-                          onClick={() => nextImage(product._id, product.images)}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            nextImage(product._id, product.images);
+                          }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full z-10"
                         >
                           <ChevronRight size={16} />
                         </button>
@@ -181,15 +190,16 @@ export function Products() {
                         ₹{product.price}
                       </span>
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.preventDefault();
                           addToCart({
                             id: product._id,
                             name: product.name,
                             price: product.price,
                             quantity: 1,
                             image: product.images[0],
-                          })
-                        }
+                          });
+                        }}
                         disabled={!product.inStock}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
                           product.inStock
@@ -202,7 +212,7 @@ export function Products() {
                       </button>
                     </div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             );
           })}
@@ -219,3 +229,4 @@ export function Products() {
 
 /* ✅ THIS LINE FIXES VERCEL */
 export default Products;
+
