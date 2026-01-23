@@ -20,7 +20,7 @@ export default defineConfig({
     dedupe: ['framer-motion'],
   },
   optimizeDeps: {
-    include: ['framer-motion'],
+    include: ['framer-motion', 'framer-motion/value'],
     esbuildOptions: {
       conditions: ['import', 'module', 'browser', 'default'],
     },
