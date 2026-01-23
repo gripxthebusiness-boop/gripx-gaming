@@ -1,55 +1,136 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import OrderSummary from '../components/OrderSummary';
 
 const Cart: React.FC = () => {
-  const { cartItems, removeFromCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
 
   if (cartItems.length === 0) {
     return (
-      <div style={{ textAlign: 'center', marginTop: '80px' }}>
-        <h2>Your Cart is Empty</h2>
-        <Link to="/products">
-          <button style={{ marginTop: '20px' }}>
-            Browse Products
-          </button>
-        </Link>
+      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-16"
+          >
+            <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+              <ShoppingBag className="w-12 h-12 text-cyan-400" />
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">Your Cart is Empty</h2>
+            <p className="text-gray-400 mb-8">Looks like you haven't added any items to your cart yet.</p>
+            <Link
+              to="/products"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all group"
+            >
+              Browse Products
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ display: 'flex', gap: '40px', padding: '40px' }}>
-      <div style={{ flex: 2 }}>
-        <h2>Your Cart</h2>
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl font-bold text-white mb-2">
+            Shopping Cart
+          </h1>
+          <p className="text-gray-400">{cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart</p>
+        </motion.div>
 
-        {cartItems.map(item => (
-          <div
-            key={item.id}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '20px',
-              borderBottom: '1px solid #ddd',
-              paddingBottom: '10px',
-            }}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Cart Items */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex-1"
           >
-            <div>
-              <h4>{item.name}</h4>
-              <p>Qty: {item.quantity}</p>
-              <p>₹{item.price}</p>
+            <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl overflow-hidden">
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex flex-col sm:flex-row items-center gap-4 p-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-800/30 transition-colors"
+                >
+                  {/* Product Image */}
+                  <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <ShoppingBag className="w-8 h-8 text-gray-600" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Product Info */}
+                  <div className="flex-1 text-center sm:text-left">
+                    <h4 className="text-lg font-semibold text-white mb-1">{item.name}</h4>
+                    <p className="text-cyan-400 font-bold">₹{item.price.toLocaleString('en-IN')}</p>
+                  </div>
+
+                  {/* Quantity Controls */}
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                      className="w-8 h-8 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors flex items-center justify-center"
+                    >
+                      -
+                    </button>
+                    <span className="text-white font-medium w-8 text-center">{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      className="w-8 h-8 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors flex items-center justify-center"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Remove Button */}
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
+                    title="Remove item"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+                </div>
+              ))}
             </div>
 
-            <button onClick={() => removeFromCart(item.id)}>
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
+            {/* Continue Shopping */}
+            <Link
+              to="/products"
+              className="inline-flex items-center mt-6 text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
+              Continue Shopping
+            </Link>
+          </motion.div>
 
-      <div style={{ flex: 1 }}>
-        <OrderSummary />
+          {/* Order Summary */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:w-96"
+          >
+            <OrderSummary />
+          </motion.div>
+        </div>
       </div>
     </div>
   );
