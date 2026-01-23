@@ -172,28 +172,16 @@ export default function Navigation() {
                         <p className="text-xs text-gray-500 mb-2">Your Account</p>
                         <ul className="space-y-1">
                           {user?.role === 'admin' && (
-                            <>
-                              <li>
-                                <Link
-                                  to="/builder"
-                                  onClick={() => setUserMenuOpen(false)}
-                                  className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-                                >
-                                  <span className="text-purple-400 text-lg">🎨</span>
-                                  <span className="text-sm text-gray-300">Website Editor</span>
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  to="/admin/products"
-                                  onClick={() => setUserMenuOpen(false)}
-                                  className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-                                >
-                                  <Settings className="w-4 h-4 text-cyan-400" />
-                                  <span className="text-sm text-gray-300">Product Management</span>
-                                </Link>
-                              </li>
-                            </>
+                            <li>
+                              <Link
+                                to="/admin/products"
+                                onClick={() => setUserMenuOpen(false)}
+                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                              >
+                                <Settings className="w-4 h-4 text-cyan-400" />
+                                <span className="text-sm text-gray-300">Product Management</span>
+                              </Link>
+                            </li>
                           )}
                           <li>
                             <Link

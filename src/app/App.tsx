@@ -15,7 +15,6 @@ import Register from './pages/Register';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import AdminProducts from './pages/AdminProducts';
-import VisualBuilder from './pages/VisualBuilder';
 import Account from './pages/Account';
 
 function App() {
@@ -35,7 +34,6 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin/products" element={<AdminProducts />} />
-            <Route path="/builder" element={<VisualBuilder />} />
             <Route path="/account" element={<Account />} />
           </Routes>
 
