@@ -16,6 +16,7 @@ interface Product {
   specs: string;
   rating: number;
   inStock: boolean;
+  stockQuantity: number | null;
 }
 
 export function ProductDetail() {
@@ -301,7 +302,12 @@ export function ProductDetail() {
                 <span className={`text-sm font-medium ${
                   product.inStock ? 'text-green-400' : 'text-red-400'
                 }`}>
-                  {product.inStock ? 'In Stock' : 'Out of Stock'}
+                  {product.inStock 
+                    ? product.stockQuantity !== null 
+                      ? `In Stock (${product.stockQuantity} units available)`
+                      : 'In Stock'
+                    : 'Out of Stock'
+                  }
                 </span>
               </div>
             </div>

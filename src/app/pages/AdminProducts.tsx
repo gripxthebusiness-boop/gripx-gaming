@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon, CheckCircle, AlertCircle, Loader2, Table, Trash } from 'lucide-react';
 
 interface Product {
   _id: string;
@@ -13,6 +13,12 @@ interface Product {
   specs: string;
   rating: number;
   inStock: boolean;
+  stockQuantity: number | null;
+}
+
+interface SpecItem {
+  key: string;
+  value: string;
 }
 
 export function AdminProducts() {
@@ -25,6 +31,7 @@ export function AdminProducts() {
   const [submitting, setSubmitting] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [specItems, setSpecItems] = useState<SpecItem[]>([{ key: '', value: '' }]);
   const [formData, setFormData] = useState({
     name: '',
     brand: '',
@@ -32,9 +39,9 @@ export function AdminProducts() {
     images: [''],
     description: '',
     category: '',
-    specs: '',
     rating: '4.5',
-    inStock: true
+    inStock: true,
+    stockQuantity: ''
   });
 
   useEffect(() => {
@@ -62,16 +69,58 @@ export function AdminProducts() {
     }
   };
 
+  // Parse specs string to array for editing
+  const parseSpecsToArray = (specsText: string): SpecItem[] => {
+    if (!specsText) return [{ key: '', value: '' }];
+    const lines = specsText.split('\n');
+    const specs: SpecItem[] = [];
+    
+    lines.forEach(line => {
+      if (line.includes(':')) {
+        const colonIndex = line.indexOf(':');
+        const key = line.substring(0, colonIndex);
+        const value = line.substring(colonIndex + 1);
+        if (key.trim() || value.trim()) {
+          specs.push({ key: key.trim(), value: value.trim() });
+        }
+      } else if (line.includes('-') && !line.startsWith('-')) {
+        const dashIndex = line.indexOf('-');
+        const key = line.substring(0, dashIndex);
+        const value = line.substring(dashIndex + 1);
+        if (key.trim() || value.trim()) {
+          specs.push({ key: key.trim(), value: value.trim() });
+        }
+      } else if (line.trim()) {
+        specs.push({ key: '', value: line.trim() });
+      }
+    });
+    
+    return specs.length > 0 ? specs : [{ key: '', value: '' }];
+  };
+
+  // Convert spec items array to string for storage
+  const specsArrayToString = (items: SpecItem[]): string => {
+    return items
+      .filter(item => item.key || item.value)
+      .map(item => `${item.key}: ${item.value}`)
+      .join('\n');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
     setSuccess(null);
 
+    const specsString = specsArrayToString(specItems);
+    const stockQuantityValue = formData.stockQuantity ? parseInt(formData.stockQuantity) : null;
+
     const productData = {
       ...formData,
       price: parseFloat(formData.price),
-      rating: parseFloat(formData.rating)
+      rating: parseFloat(formData.rating),
+      specs: specsString,
+      stockQuantity: stockQuantityValue
     };
 
     console.log('Submitting product data:', productData); // Debug form data
@@ -148,10 +197,11 @@ export function AdminProducts() {
       images: [''],
       description: '',
       category: '',
-      specs: '',
       rating: '4.5',
-      inStock: true
+      inStock: true,
+      stockQuantity: ''
     });
+    setSpecItems([{ key: '', value: '' }]);
     setEditingProduct(null);
     setShowAddForm(false);
   };
@@ -165,11 +215,30 @@ export function AdminProducts() {
       images: product.images || [''],
       description: product.description || '',
       category: product.category,
-      specs: product.specs,
       rating: product.rating.toString(),
-      inStock: product.inStock
+      inStock: product.inStock,
+      stockQuantity: product.stockQuantity?.toString() || ''
     });
+    setSpecItems(parseSpecsToArray(product.specs));
     setShowAddForm(true);
+  };
+
+  // Spec table handlers
+  const addSpecRow = () => {
+    setSpecItems([...specItems, { key: '', value: '' }]);
+  };
+
+  const removeSpecRow = (index: number) => {
+    if (specItems.length > 1) {
+      const newItems = specItems.filter((_, i) => i !== index);
+      setSpecItems(newItems);
+    }
+  };
+
+  const updateSpecRow = (index: number, field: 'key' | 'value', value: string) => {
+    const newItems = [...specItems];
+    newItems[index] = { ...newItems[index], [field]: value };
+    setSpecItems(newItems);
   };
 
   if (loading) {
@@ -329,30 +398,104 @@ export function AdminProducts() {
                 />
               </div>
 
+              {/* Specifications Table */}
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-300 mb-2">Specifications</label>
-                <textarea
-                  value={formData.specs}
-                  onChange={(e) => setFormData({...formData, specs: e.target.value})}
-                  rows={2}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
-                  required
-                />
+                <label className="block text-sm font-medium text-gray-300 mb-3">
+                  <div className="flex items-center gap-2">
+                    <Table size={16} />
+                    <span>Specifications</span>
+                  </div>
+                </label>
+                <div className="bg-gray-800/50 rounded-lg overflow-hidden border border-gray-600">
+                  <table className="w-full">
+                    <thead className="bg-gray-700/50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Specification</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase">Value</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase w-16">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-700">
+                      {specItems.map((spec, index) => (
+                        <tr key={index}>
+                          <td className="px-2 py-2">
+                            <input
+                              type="text"
+                              value={spec.key}
+                              onChange={(e) => updateSpecRow(index, 'key', e.target.value)}
+                              placeholder="e.g., Sensor"
+                              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:border-cyan-500 focus:outline-none"
+                            />
+                          </td>
+                          <td className="px-2 py-2">
+                            <input
+                              type="text"
+                              value={spec.value}
+                              onChange={(e) => updateSpecRow(index, 'value', e.target.value)}
+                              placeholder="e.g., Optical"
+                              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:border-cyan-500 focus:outline-none"
+                            />
+                          </td>
+                          <td className="px-2 py-2">
+                            <button
+                              type="button"
+                              onClick={() => removeSpecRow(index)}
+                              disabled={specItems.length === 1}
+                              className="p-2 bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            >
+                              <Trash size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className="p-3 border-t border-gray-700">
+                    <button
+                      type="button"
+                      onClick={addSpecRow}
+                      className="flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 rounded-lg hover:bg-cyan-600/30 transition-colors text-sm"
+                    >
+                      <Plus size={16} />
+                      Add Specification
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex items-center space-x-4">
-                <label className="flex items-center space-x-2 text-gray-300">
+              {/* Stock Quantity */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Package size={16} />
+                    <span>Stock Quantity</span>
+                  </div>
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.stockQuantity}
+                  onChange={(e) => setFormData({...formData, stockQuantity: e.target.value})}
+                  placeholder="Leave empty for unlimited"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                />
+                <p className="text-xs text-gray-500 mt-1">Leave empty to not show stock count to customers</p>
+              </div>
+
+              {/* In Stock Toggle */}
+              <div className="flex items-center">
+                <label className="flex items-center space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={formData.inStock}
                     onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
-                    className="rounded border-gray-600 text-cyan-500 focus:ring-cyan-500"
+                    className="w-5 h-5 rounded border-gray-600 text-cyan-500 focus:ring-cyan-500 bg-gray-800"
                   />
-                  <span>In Stock</span>
+                  <span className="text-gray-300">Product is in stock</span>
                 </label>
               </div>
 
-              <div className="flex justify-end space-x-4">
+              <div className="md:col-span-2 flex justify-end space-x-4 pt-4">
                 <button
                   type="button"
                   onClick={resetForm}
@@ -369,12 +512,12 @@ export function AdminProducts() {
                   {submitting ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      <span>Creating...</span>
+                      <span>Saving...</span>
                     </>
                   ) : (
                     <>
                       <Save size={18} />
-                      <span>Create Product</span>
+                      <span>{editingProduct ? 'Update Product' : 'Create Product'}</span>
                     </>
                   )}
                 </button>
@@ -392,7 +535,6 @@ export function AdminProducts() {
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Product</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Brand</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Stock</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -407,19 +549,23 @@ export function AdminProducts() {
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-white">{product.name}</div>
-                          <div className="text-sm text-gray-400 truncate max-w-xs">{product.specs}</div>
+                          <div className="text-sm text-gray-400 truncate max-w-xs">{product.category}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{product.brand || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-cyan-400">₹{product.price}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{product.category}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
-                        {product.inStock ? 'In Stock' : 'Out of Stock'}
-                      </span>
+                      <div className="flex flex-col">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full w-fit ${
+                          product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {product.inStock ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                        {product.inStock && product.stockQuantity !== null && (
+                          <span className="text-xs text-gray-500 mt-1">{product.stockQuantity} units</span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
@@ -456,3 +602,4 @@ export function AdminProducts() {
 }
 
 export default AdminProducts;
+

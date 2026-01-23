@@ -47,6 +47,10 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    stockQuantity: {
+      type: Number,
+      default: null, // null means unlimited or not specified
+    },
     isActive: {
       type: Boolean,
       default: true,
@@ -56,3 +60,4 @@ const productSchema = new mongoose.Schema(
 );
 
 export const Product = mongoose.model('Product', productSchema);
+
