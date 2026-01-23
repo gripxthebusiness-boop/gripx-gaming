@@ -66,7 +66,9 @@ export function AdminProducts() {
 
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
+        // Handle both array response and paginated object response
+        const productsArray = Array.isArray(data) ? data : (data.products || []);
+        setProducts(productsArray);
       } else if (response.status === 401) {
         setError('Session expired. Please log in again.');
       } else if (response.status === 500 || !response.ok) {
