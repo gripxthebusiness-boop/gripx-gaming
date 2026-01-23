@@ -31,6 +31,7 @@ export function AdminProducts() {
   const [submitting, setSubmitting] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showRetry, setShowRetry] = useState(false);
   const [specItems, setSpecItems] = useState<SpecItem[]>([{ key: '', value: '' }]);
   const [formData, setFormData] = useState({
     name: '',
@@ -50,20 +51,38 @@ export function AdminProducts() {
 
   const fetchProducts = async () => {
     setError(null);
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
       const response = await fetch(`${API_BASE}/products`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
+
       if (response.ok) {
         const data = await response.json();
         setProducts(data);
+      } else if (response.status === 401) {
+        setError('Session expired. Please log in again.');
+      } else if (response.status === 500 || !response.ok) {
+        setError('Unable to connect to server. Please ensure the backend is running.');
       } else {
         setError('Failed to load products');
       }
-    } catch (error) {
-      console.error('Failed to fetch products:', error);
-      setError('Failed to load products');
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        setError('Request timed out. Server may be unreachable.');
+      } else if (error.message === 'Failed to fetch' || error.message.includes('fetch')) {
+        setError('Unable to connect to server. Please check that the backend is running on http://localhost:5000');
+      } else {
+        console.error('Failed to fetch products:', error);
+        setError('Failed to load products: ' + error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -264,9 +283,21 @@ export function AdminProducts() {
         </div>
 
         {error && (
-          <div className="mb-4 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200 flex items-center space-x-2">
-            <AlertCircle size={18} />
-            <span>{error}</span>
+          <div className="mb-4 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <AlertCircle size={18} />
+              <span>{error}</span>
+            </div>
+            <button
+              onClick={() => {
+                setError(null);
+                fetchProducts();
+              }}
+              className="px-3 py-1 bg-red-600/30 hover:bg-red-600/50 text-red-200 rounded-lg transition-colors text-sm flex items-center space-x-1"
+            >
+              <Loader2 size={14} />
+              <span>Retry</span>
+            </button>
           </div>
         )}
 
