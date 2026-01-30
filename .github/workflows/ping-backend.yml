@@ -1,0 +1,50 @@
+name: Ping Backend - Keep Alive
+
+on:
+  schedule:
+    # Run every 14 minutes to keep Render backend awake
+    # Free Render instances sleep after 15 minutes of inactivity
+    - cron: '*/14 * * * *'
+  workflow_dispatch:
+  # Manual trigger option
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Ping Backend Health Endpoint
+        id: ping
+        run: |
+          echo "Pinging backend health endpoint..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" https://gripx-backend.onrender.com/api/health)
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response: $BODY"
+          
+          # Extract uptime from response
+          UPTIME=$(echo "$BODY" | grep -o '"uptime":[0-9.]*' | cut -d':' -f2)
+          echo "Backend uptime: ${UPTIME}s"
+          
+          # Fail if backend is not responding
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ Backend is not responding! HTTP Code: $HTTP_CODE"
+            exit 1
+          else
+            echo "✅ Backend is healthy and awake"
+          fi
+          
+      - name: Report Status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "🎉 Keep-alive ping completed successfully"
+          else
+            echo "⚠️ Keep-alive ping failed - backend may be sleeping"
+          fi
