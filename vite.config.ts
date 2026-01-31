@@ -17,10 +17,14 @@ export default defineConfig({
     dedupe: ['framer-motion'],
   },
   optimizeDeps: {
-    include: ['framer-motion', 'framer-motion/value'],
+    include: ['framer-motion'],
+    exclude: ['framer-motion'],
     esbuildOptions: {
       conditions: ['import', 'module', 'browser', 'default'],
     },
+  },
+  ssr: {
+    noExternal: ['framer-motion'],
   },
   build: {
     commonjsOptions: {
