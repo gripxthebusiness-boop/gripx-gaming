@@ -1,7 +1,7 @@
 {
-  "name": "gripx-backend",
+  "name": "neosell-backend",
   "version": "1.0.0",
-  "description": "GripX Backend API - Optimized for Production",
+  "description": "NeoSell Backend API - Electronics Reseller - Optimized for Production",
   "main": "server.js",
   "type": "module",
   "scripts": {

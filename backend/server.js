@@ -48,9 +48,9 @@ app.use(compression()); // Compress responses (performance optimization)
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  'https://gripx.store',
-  'https://www.gripx.store',
-  'https://gripx-gaming.vercel.app',
+  'https://neosell.store',
+  'https://www.neosell.store',
+  'https://neosell-gaming.vercel.app',
   'https://*.vercel.app',
 ];
 
@@ -201,7 +201,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health check: https://gripx-backend.onrender.com/api/health`);
+  console.log(`🔗 Health check: https://neosell-backend.onrender.com/api/health`);
 });
 
 // Graceful shutdown

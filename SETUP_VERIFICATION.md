@@ -25,7 +25,7 @@ Use this checklist to ensure everything is properly installed and configured.
 - [ ] Start dev server: `npm run dev`
 - [ ] Frontend runs on `http://localhost:5173`
 - [ ] No errors in terminal
-- [ ] Browser shows GripX homepage
+- [ ] Browser shows NeoSell homepage
 - [ ] Navigation links work
 
 ## ✅ Backend Setup
@@ -37,7 +37,7 @@ Use this checklist to ensure everything is properly installed and configured.
 
 ### Configuration
 - [ ] Create `.env` file in `backend/` directory
-- [ ] Added `MONGO_URI=mongodb://localhost:27017/gripx`
+- [ ] Added `MONGO_URI=mongodb://localhost:27017/neosell`
 - [ ] Added `JWT_SECRET=your_secret_key_here` (any string)
 - [ ] Added `PORT=5000`
 - [ ] Added `NODE_ENV=development`
@@ -303,7 +303,7 @@ Test in multiple browsers:
 
 ## ✅ Setup Complete! 🎉
 
-All items checked? Great! Your GripX website is fully functional!
+All items checked? Great! Your NeoSell website is fully functional!
 
 ### Next Steps
 1. Customize the branding and colors

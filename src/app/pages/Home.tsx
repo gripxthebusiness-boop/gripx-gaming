@@ -7,18 +7,18 @@ export function Home() {
   const features = [
     {
       icon: <Zap className="w-6 h-6" />,
-      title: 'Ultra Precision',
-      description: 'Professional-grade sensors for pixel-perfect accuracy',
+      title: 'Wide Selection',
+      description: 'Extensive range of electronics from top brands',
     },
     {
       icon: <TrendingUp className="w-6 h-6" />,
-      title: 'Advanced Tech',
-      description: 'Cutting-edge technology for the ultimate gaming edge',
+      title: 'Best Prices',
+      description: 'Competitive pricing on all products',
     },
     {
       icon: <Shield className="w-6 h-6" />,
-      title: 'Built to Last',
-      description: 'Premium materials backed by 1-year warranty',
+      title: 'Guaranteed Quality',
+      description: 'Authentic products with warranty support',
     },
   ];
 
@@ -44,14 +44,14 @@ export function Home() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="text-white">Dominate the</span>
+              <span className="text-white">Your Trusted</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-                Competition
+                Electronics Store
               </span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Curated gaming gear from trusted brands in India.
+              Shop premium electronics and gadgets from trusted brands at unbeatable prices.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -86,8 +86,8 @@ export function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">Why Choose GripX?</h2>
-            <p className="text-gray-400">The edge you need to win</p>
+            <h2 className="text-4xl font-bold text-white mb-4">Why Choose NeoSell?</h2>
+            <p className="text-gray-400">Premium electronics at unbeatable prices</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

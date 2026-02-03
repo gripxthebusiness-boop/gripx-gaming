@@ -80,7 +80,7 @@ export function Products() {
     }));
   };
 
-  const categories = ['All', 'Mice', 'Keyboards', 'Headsets', 'Controllers'];
+  const categories = ['All', 'Smartphones', 'Laptops', 'Tablets', 'Accessories'];
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);

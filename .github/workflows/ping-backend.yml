@@ -21,7 +21,7 @@ jobs:
         id: ping
         run: |
           echo "Pinging backend health endpoint..."
-          RESPONSE=$(curl -s -w "\n%{http_code}" https://gripx-backend.onrender.com/api/health)
+          RESPONSE=$(curl -s -w "\n%{http_code}" https://neosell-backend.onrender.com/api/health)
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | sed '$d')
           

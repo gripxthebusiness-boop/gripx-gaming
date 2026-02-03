@@ -1,4 +1,4 @@
-# 🚀 Deploy GripX For FREE - Complete Guide
+# 🚀 Deploy NeoSell For FREE - Complete Guide
 
 Get your website live **completely free** with Vercel, Render, and MongoDB Atlas. No credit card needed!
 
@@ -74,7 +74,7 @@ Get your website live **completely free** with Vercel, Render, and MongoDB Atlas
 
 **Final string should look like:**
 ```
-mongodb+srv://admin:YourPassword123@cluster0.abc123.mongodb.net/gripx?retryWrites=true&w=majority
+mongodb+srv://admin:YourPassword123@cluster0.abc123.mongodb.net/neosell?retryWrites=true&w=majority
 ```
 
 ## Step 5: Allow All IPs (Important!)
@@ -101,9 +101,9 @@ mongodb+srv://admin:YourPassword123@cluster0.abc123.mongodb.net/gripx?retryWrite
 
 1. In Render dashboard, click **"New +"** → **"Web Service"**
 2. Choose **"Deploy an existing repository"**
-3. Connect GitHub → Select `gripxthebusiness-boop/gripx-gaming`
+3. Connect GitHub → Select `neosell-store/neosell-gaming`
 4. Fill in:
-   - **Name**: `gripx-backend` (or your choice)
+   - **Name**: `neosell-backend` (or your choice)
    - **Environment**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node server.js`
@@ -117,7 +117,7 @@ Add these variables:
 
 | Key | Value |
 |-----|-------|
-| `MONGO_URI` | `mongodb+srv://admin:YourPassword123@cluster0.abc123.mongodb.net/gripx?retryWrites=true&w=majority` |
+| `MONGO_URI` | `mongodb+srv://admin:YourPassword123@cluster0.abc123.mongodb.net/neosell?retryWrites=true&w=majority` |
 | `JWT_SECRET` | `your_super_secret_jwt_key_12345_random_string` |
 | `NODE_ENV` | `production` |
 | `PORT` | `5000` |
@@ -153,14 +153,14 @@ When you see `Server running on port 5000`, it's ready!
 ## Step 6: Get Backend URL
 
 1. At top of Render dashboard, find your service URL
-2. Looks like: `https://gripx-backend.onrender.com`
+2. Looks like: `https://neosell-backend.onrender.com`
 3. **Copy this URL!** You'll need it next.
 
 ### Test Backend
 
 Open in browser:
 ```
-https://gripx-backend.onrender.com/api/products
+https://neosell-backend.onrender.com/api/products
 ```
 
 Should return: `[]` (empty array)
@@ -182,7 +182,7 @@ Should return: `[]` (empty array)
 
 1. In Vercel dashboard, click **"Add New..."** → **"Project"**
 2. Click **"Import Git Repository"**
-3. Find your repo: `gripxthebusiness-boop/gripx-gaming`
+3. Find your repo: `neosell-store/neosell-gaming`
 4. Click **"Import"**
 
 ## Step 3: Configure Project
@@ -208,7 +208,7 @@ Add this variable:
 
 | Name | Value |
 |------|-------|
-| `VITE_API_URL` | `https://gripx-backend.onrender.com/api` |
+| `VITE_API_URL` | `https://neosell-backend.onrender.com/api` |
 
 **Important**: Use the Render URL you copied earlier!
 
@@ -222,7 +222,7 @@ When you see `Deployment successful!`, you're done!
 ## Step 6: Get Frontend URL
 
 1. After deployment succeeds
-2. Click on the **domain name** at top (looks like `gripx-gaming.vercel.app`)
+2. Click on the **domain name** at top (looks like `neosell-gaming.vercel.app`)
 3. Your website is LIVE! 🎉
 
 ### Test Frontend
@@ -243,7 +243,7 @@ When you see `Deployment successful!`, you're done!
 
 ## Test 1: Frontend Loads
 - [ ] Visit frontend URL
-- [ ] See GripX homepage
+- [ ] See NeoSell homepage
 
 ## Test 2: Navigation Works
 - [ ] Click "Products" → see products
@@ -285,8 +285,8 @@ When you see `Deployment successful!`, you're done!
 # 🎉 Success! Your Site is LIVE
 
 **Your URLs:**
-- **Frontend**: `https://gripx-gaming.vercel.app`
-- **Backend**: `https://gripx-backend.onrender.com`
+- **Frontend**: `https://neosell-gaming.vercel.app`
+- **Backend**: `https://neosell-backend.onrender.com`
 - **Database**: MongoDB Atlas (free)
 
 ## What Happens Now?
@@ -319,16 +319,16 @@ Create a file called `.env.production` and save:
 
 ```
 # Frontend
-FRONTEND_URL=https://gripx-gaming.vercel.app
+FRONTEND_URL=https://neosell-gaming.vercel.app
 
 # Backend
-BACKEND_URL=https://gripx-backend.onrender.com
+BACKEND_URL=https://neosell-backend.onrender.com
 
 # Database
-MONGO_URI=mongodb+srv://admin:YourPassword@cluster0.abc123.mongodb.net/gripx?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://admin:YourPassword@cluster0.abc123.mongodb.net/neosell?retryWrites=true&w=majority
 
 # GitHub
-GITHUB_REPO=https://github.com/gripxthebusiness-boop/gripx-gaming
+GITHUB_REPO=https://github.com/neosell-store/neosell-gaming
 
 # Database Credentials
 MONGO_USERNAME=admin
@@ -408,7 +408,7 @@ MONGO_PASSWORD=YourPassword
 1. **Add Custom Domain** (~$10/year)
    - Buy domain on Namecheap
    - Connect to Vercel
-   - Website at `gripx.com` instead of vercel.app
+   - Website at `neosell.com` instead of vercel.app
 
 2. **Upgrade Render Backend** (~$7/month)
    - Pay for always-on backend
@@ -438,7 +438,7 @@ MONGO_PASSWORD=YourPassword
                       ↓
         ┌─────────────────────────────┐
         │   Vercel (Frontend)         │
-        │ gripx-gaming.vercel.app     │
+        │ neosell-gaming.vercel.app     │
         │ - React app                 │
         │ - Hosted worldwide          │
         │ - Auto-deploys from GitHub  │
@@ -447,7 +447,7 @@ MONGO_PASSWORD=YourPassword
                    ↓
         ┌─────────────────────────────┐
         │   Render (Backend)          │
-        │ gripx-backend.onrender.com  │
+        │ neosell-backend.onrender.com  │
         │ - Node.js server            │
         │ - Free tier (sleeps)        │
         │ - Auto-deploys from GitHub  │
@@ -525,4 +525,4 @@ If something doesn't work:
 
 ---
 
-**Congratulations! 🚀 Your GripX website is LIVE and READY FOR BUSINESS!**
+**Congratulations! 🚀 Your NeoSell website is LIVE and READY FOR BUSINESS!**

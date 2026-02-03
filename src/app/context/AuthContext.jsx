@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
   const SESSION_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes (reduced API calls)
 
   // Cache user data in localStorage for faster initial load
-  const CACHED_USER_KEY = 'gripx_cached_user';
+  const CACHED_USER_KEY = 'neosell_cached_user';
 
   // Track user activity for session management - optimized with single listener
   useEffect(() => {

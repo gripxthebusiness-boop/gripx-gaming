@@ -48,6 +48,6 @@ export default defineConfig({
     host: true,
   },
   define: {
-    'import.meta.env.VITE_APP_TITLE': JSON.stringify('GripX'),
+    'import.meta.env.VITE_APP_TITLE': JSON.stringify('NeoSell'),
   },
 })

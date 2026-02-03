@@ -187,7 +187,7 @@ router.post('/login/otp', async (req, res) => {
       const username = `user_${phone.slice(-4)}`;
       user = new User({
         username,
-        email: `${username}@gripx.local`,
+        email: `${username}@neosell.local`,
         password: await bcryptjs.hash(phone, BCRYPT_ROUNDS),
         phone,
         role: 'customer',

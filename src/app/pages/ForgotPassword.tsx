@@ -199,7 +199,7 @@ export function ForgotPassword() {
             >
               <h2 className="text-2xl font-bold text-white mb-2">Password help</h2>
               <p className="text-gray-400 mb-6">
-                Enter the email address associated with your GripX account.
+                Enter the email address associated with your NeoSell account.
               </p>
 
               <form onSubmit={handleSendCode} className="space-y-4">

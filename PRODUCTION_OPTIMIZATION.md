@@ -1,15 +1,15 @@
-# 🏆 GripX Production Optimization Plan
+# 🏆 NeoSell Production Optimization Plan
 
-**Domain**: gripx.store  
-**Backend**: gripx-backend.onrender.com  
-**Frontend**: Vercel (configured for gripx.store)
+**Domain**: neosell.store  
+**Backend**: neosell-backend.onrender.com  
+**Frontend**: Vercel (configured for neosell.store)
 
 ---
 
 ## 📋 Executive Summary
 
 This plan covers 5 major improvements:
-1. ✅ Custom Domain Setup (gripx.store)
+1. ✅ Custom Domain Setup (neosell.store)
 2. ⚡ Performance Optimization
 3. 🔒 Security Enhancements
 4. 🚀 Backend Sleep Solution
@@ -17,22 +17,22 @@ This plan covers 5 major improvements:
 
 ---
 
-## Phase 1: Custom Domain Setup (gripx.store)
+## Phase 1: Custom Domain Setup (neosell.store)
 
 ### 1.1 Vercel Domain Configuration
 
 **Step 1: Add Domain to Vercel**
 1. Go to [Vercel Dashboard](https://vercel.com)
-2. Navigate to your project: `gripx-gaming`
+2. Navigate to your project: `neosell-gaming`
 3. Click **Settings** → **Domains**
-4. Click **Add** and enter: `gripx.store`
+4. Click **Add** and enter: `neosell.store`
 5. Click **Add**
 
 **Step 2: Configure DNS Settings**
 
 **If using Cloudflare:**
 1. Go to Cloudflare Dashboard
-2. Select your domain: `gripx.store`
+2. Select your domain: `neosell.store`
 3. Navigate to **DNS** → **Records**
 4. Add/Update CNAME record:
    ```
@@ -62,7 +62,7 @@ This plan covers 5 major improvements:
 
 **Step 3: Wait for DNS Propagation**
 - DNS takes 5-60 minutes to propagate
-- Verify with: `dig gripx.store` or [dnschecker.org](https://dnschecker.org)
+- Verify with: `dig neosell.store` or [dnschecker.org](https://dnschecker.org)
 
 **Step 4: Enable HTTPS**
 1. Vercel will automatically provision SSL
@@ -72,14 +72,14 @@ This plan covers 5 major improvements:
 
 ### 1.2 Backend CORS Configuration
 
-Update `backend/server.js` to allow gripx.store:
+Update `backend/server.js` to allow neosell.store:
 
 ```javascript
 // Add this after CORS middleware
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://gripx.store',  // Your frontend domain
-  'https://gripx-gaming.vercel.app',  // Vercel preview
+  'https://neosell.store',  // Your frontend domain
+  'https://neosell-gaming.vercel.app',  // Vercel preview
 ];
 
 app.use(cors({
@@ -165,7 +165,7 @@ Update `vercel.json` with full optimization:
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://gripx-backend.onrender.com/api/:path*"
+      "destination": "https://neosell-backend.onrender.com/api/:path*"
     }
   ]
 }
@@ -246,8 +246,8 @@ app.use(cors({
   origin: function(origin, callback) {
     const allowedOrigins = [
       'http://localhost:5173',
-      'https://gripx.store',
-      'https://gripx-gaming.vercel.app',
+      'https://neosell.store',
+      'https://neosell-gaming.vercel.app',
     ];
     if(!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
@@ -328,20 +328,20 @@ Update `index.html` with SEO and performance meta tags:
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="GripX - Premium Gaming Peripherals. Shop high-quality gaming mice, keyboards, headsets, and controllers for professional gamers.">
-    <meta name="keywords" content="gaming mouse, gaming keyboard, gaming headset, gaming controller, gaming peripherals, GripX">
-    <meta name="author" content="GripX">
+    <meta name="description" content="NeoSell - Premium Electronics Reseller. Shop high-quality gaming mice, keyboards, headsets, and controllers for professional gamers.">
+    <meta name="keywords" content="gaming mouse, gaming keyboard, gaming headset, gaming controller, gaming peripherals, NeoSell">
+    <meta name="author" content="NeoSell">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gripx.store">
-    <meta property="og:title" content="GripX - Premium Gaming Peripherals">
+    <meta property="og:url" content="https://neosell.store">
+    <meta property="og:title" content="NeoSell - Premium Electronics Reseller">
     <meta property="og:description" content="Shop high-quality gaming peripherals for professional gamers">
-    <meta property="og:image" content="https://gripx.store/og-image.jpg">
+    <meta property="og:image" content="https://neosell.store/og-image.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="GripX - Premium Gaming Peripherals">
+    <meta name="twitter:title" content="NeoSell - Premium Electronics Reseller">
     <meta name="twitter:description" content="Shop high-quality gaming peripherals for professional gamers">
-    <link rel="canonical" href="https://gripx.store">
-    <title>GripX - Premium Gaming Peripherals</title>
+    <link rel="canonical" href="https://neosell.store">
+    <title>NeoSell - Premium Electronics Reseller</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   </head>
@@ -415,8 +415,8 @@ export default App;
 
 **Vercel Environment Variables:**
 ```
-VITE_API_URL=https://gripx-backend.onrender.com/api
-VITE_APP_TITLE=GripX
+VITE_API_URL=https://neosell-backend.onrender.com/api
+VITE_APP_TITLE=NeoSell
 ```
 
 **Render Environment Variables:**
@@ -541,7 +541,7 @@ Create a simple keep-alive service:
 1. Go to [cron-job.org](https://cron-job.org)
 2. Create free account
 3. Create new job:
-   - URL: `https://gripx-backend.onrender.com/api/health`
+   - URL: `https://neosell-backend.onrender.com/api/health`
    - Schedule: `*/14 * * * *` (every 14 minutes)
    - Enable: Yes
 4. Save
@@ -563,7 +563,7 @@ jobs:
     steps:
       - name: Ping Backend
         run: |
-          curl -s -o /dev/null -w "%{http_code}" https://gripx-backend.onrender.com/api/health
+          curl -s -o /dev/null -w "%{http_code}" https://neosell-backend.onrender.com/api/health
 ```
 
 **Option C: Use UptimeRobot (Free Monitoring)**
@@ -571,7 +571,7 @@ jobs:
 2. Create free account
 3. Add new monitor:
    - Type: HTTP(s)
-   - URL: `https://gripx-backend.onrender.com/api/health`
+   - URL: `https://neosell-backend.onrender.com/api/health`
    - Interval: 5 minutes
 4. Save
 
@@ -640,8 +640,8 @@ app.use('/api/products', cacheMiddleware(5 * 60 * 1000));
 ### 5.1 Set Up Monitoring
 
 **UptimeRobot (Free)**
-1. Monitor frontend: `https://gripx.store`
-2. Monitor backend: `https://gripx-backend.onrender.com/api/health`
+1. Monitor frontend: `https://neosell.store`
+2. Monitor backend: `https://neosell-backend.onrender.com/api/health`
 3. Set alerts for email/SMS
 
 **Vercel Analytics**
@@ -716,7 +716,7 @@ createRoot(document.getElementById("root")!).render(
 ## 📊 Implementation Checklist
 
 ### Phase 1: Domain Setup
-- [ ] Add gripx.store to Vercel
+- [ ] Add neosell.store to Vercel
 - [ ] Configure DNS CNAME records
 - [ ] Wait for DNS propagation
 - [ ] Verify HTTPS certificate

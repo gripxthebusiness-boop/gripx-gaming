@@ -92,7 +92,7 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-white font-semibold">Email</p>
-                    <p className="text-gray-400">gripxthebusiness@gmail.com</p>
+                    <p className="text-gray-400">support@neosell.com</p>
                   </div>
                 </div>
 
@@ -108,7 +108,7 @@ export function Contact() {
               </div>
 
               <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-xl p-6">
-                <h3 className="text-xl font-bold text-white mb-4">Why Choose GripX?</h3>
+                <h3 className="text-xl font-bold text-white mb-4">Why Choose NeoSell?</h3>
                 <ul className="space-y-3 text-gray-300">
                   <li className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />

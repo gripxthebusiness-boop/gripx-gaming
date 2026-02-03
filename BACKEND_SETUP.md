@@ -1,4 +1,4 @@
-# GripX Gaming Website - Full Stack Setup Guide
+# NeoSell Electronics Reseller - Full Stack Setup Guide
 
 ## Project Structure
 
@@ -87,7 +87,7 @@ PORT=5000
 NODE_ENV=development
 
 # For MongoDB Atlas, use:
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/gripx?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/neosell?retryWrites=true&w=majority
 
 # Start the backend server
 npm start
@@ -191,7 +191,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ### Backend (.env)
 ```
-MONGO_URI=mongodb://localhost:27017/gripx
+MONGO_URI=mongodb://localhost:27017/neosell
 JWT_SECRET=your_secure_secret_here
 PORT=5000
 NODE_ENV=development

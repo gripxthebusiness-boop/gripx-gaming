@@ -182,7 +182,7 @@ export function Login() {
         {/* Login Card */}
         <div className="p-6 bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-lg">
           <h2 className="text-2xl font-bold text-white mb-4">Sign in</h2>
-          <p className="text-gray-400 text-sm mb-4">to access your GripX account</p>
+          <p className="text-gray-400 text-sm mb-4">to access your NeoSell account</p>
 
           {/* OTP Modal */}
           <Dialog.Root open={showOTPModal} onOpenChange={setShowOTPModal}>
@@ -443,7 +443,7 @@ export function Login() {
           </div>
         </div>
 
-        {/* New to GripX? */}
+        {/* New to NeoSell? */}
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -451,7 +451,7 @@ export function Login() {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-black text-gray-500">
-                New to GripX?
+                New to NeoSell?
               </span>
             </div>
           </div>
@@ -472,7 +472,7 @@ export function Login() {
             <a href="#" className="hover:text-cyan-400 hover:underline">Help</a>
           </div>
           <p className="text-center text-xs text-gray-600 mt-2">
-            © 2026 GripX. All rights reserved.
+            © 2026 NeoSell. All rights reserved.
           </p>
         </div>
       </motion.div>

@@ -12,11 +12,11 @@ if (existing) {
   process.exit(0);
 }
 
-const hashedPassword = await bcrypt.hash('gripxthebusiness', 10);
+const hashedPassword = await bcrypt.hash('neosellAdmin123', 10);
 
 await User.create({
   username: 'admin',
-  email: 'admin@gripx.local',
+  email: 'admin@neosell.local',
   password: hashedPassword,
   role: 'admin',
 });

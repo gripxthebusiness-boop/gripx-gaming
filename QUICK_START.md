@@ -20,7 +20,7 @@ cd backend
 npm install
 
 # Create .env file with:
-MONGO_URI=mongodb://localhost:27017/gripx
+MONGO_URI=mongodb://localhost:27017/neosell
 JWT_SECRET=test_secret_key
 PORT=5000
 NODE_ENV=development
@@ -31,7 +31,7 @@ Backend runs on: `http://localhost:5000`
 
 ### Step 3: First Time Setup
 1. Open `http://localhost:5173/register`
-2. Create an account (e.g., admin@gripx.com / password123)
+2. Create an account (e.g., admin@neosell.com / password123)
 3. Go to `http://localhost:5173/login` and login
 4. Access dashboard at `http://localhost:5173/admin/dashboard`
 
@@ -54,7 +54,7 @@ In MongoDB or terminal:
 ```javascript
 // Update your user to admin in MongoDB
 db.users.updateOne(
-  { email: "admin@gripx.com" },
+  { email: "admin@neosell.com" },
   { $set: { role: "admin" } }
 )
 ```

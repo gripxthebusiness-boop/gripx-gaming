@@ -161,7 +161,7 @@ cat .env.local
 **Solution - Check database**:
 ```javascript
 // In MongoDB
-use gripx
+use neosell
 db.users.find()
 // You should see your user entry
 ```
@@ -172,7 +172,7 @@ db.users.find()
 **Solution**:
 ```bash
 # 1. Clear browser localStorage
-# Open DevTools → Application → LocalStorage → delete gripx site
+# Open DevTools → Application → LocalStorage → delete neosell site
 # 2. Login again
 ```
 
@@ -248,7 +248,7 @@ curl http://localhost:5000/api/health
 3. To check role:
 ```javascript
 // In MongoDB
-use gripx
+use neosell
 db.users.findOne({email: "your@email.com"})
 // Should show: "role": "editor" or "role": "admin"
 
@@ -360,7 +360,7 @@ mongo
 mongosh
 
 # Then:
-use gripx
+use neosell
 show collections
 db.users.count()
 ```

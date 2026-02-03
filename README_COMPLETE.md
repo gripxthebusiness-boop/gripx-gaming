@@ -1,10 +1,10 @@
-# GripX Premium Gaming Website - Complete Project
+# NeoSell Premium Gaming Website - Complete Project
 
-A full-stack e-commerce website for GripX gaming peripherals with a complete admin dashboard for managing products and users.
+A full-stack e-commerce website for NeoSell gaming peripherals with a complete admin dashboard for managing products and users.
 
 ## 🎮 Project Overview
 
-GripX is a professional gaming peripherals e-commerce platform featuring:
+NeoSell is a professional gaming peripherals e-commerce platform featuring:
 - Modern responsive design with dark gaming theme
 - Product catalog with multiple categories
 - Contact page with dedicated phone numbers
@@ -140,7 +140,7 @@ Premiumgamingwebsitedesign-main/
 
 ## 🔑 Contact Information
 
-**GripX Sales**
+**NeoSell Sales**
 - **Phone 1**: +91 9063032312
 - **Phone 2**: +91 9923869222
 - **Email**: sales@gripx.com
@@ -237,7 +237,7 @@ VITE_API_URL=http://localhost:5000/api
 
 **Backend (.env)**
 ```
-MONGO_URI=mongodb://localhost:27017/gripx
+MONGO_URI=mongodb://localhost:27017/neosell
 JWT_SECRET=your_secure_key_here
 PORT=5000
 NODE_ENV=development
@@ -299,7 +299,7 @@ If you need help:
 
 ## 📄 License
 
-GripX Premium Gaming Website © 2026
+NeoSell Premium Gaming Website © 2026
 
 ## 📝 Files Changed/Created
 

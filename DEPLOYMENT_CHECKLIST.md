@@ -1,4 +1,4 @@
-# 🚀 Deployment Checklist for gripx.store
+# 🚀 Deployment Checklist for neosell.store
 
 After making the code changes, follow these steps to deploy and verify everything is working.
 
@@ -23,7 +23,7 @@ Since we added `express-rate-limit`, you need to install it on Render:
 
 **Option A: Via Render Dashboard (Recommended)**
 1. Go to [Render Dashboard](https://dashboard.render.com)
-2. Select your backend service: `gripx-backend`
+2. Select your backend service: `neosell-backend`
 3. Click **"Shell"** tab
 4. Run:
    ```bash
@@ -46,11 +46,11 @@ Go to [Vercel Dashboard](https://vercel.com) → gripx-gaming → Settings → E
 **Verify these variables exist:**
 | Variable | Value |
 |----------|-------|
-| `VITE_API_URL` | `https://gripx-backend.onrender.com/api` |
-| `VITE_APP_TITLE` | `GripX` |
+| `VITE_API_URL` | `https://neosell-backend.onrender.com/api` |
+| `VITE_APP_TITLE` | `NeoSell` |
 
 ### Render (Backend)
-Go to [Render Dashboard](https://dashboard.render.com) → gripx-backend → Environment
+Go to [Render Dashboard](https://dashboard.render.com) → neosell-backend → Environment
 
 **Verify these variables exist:**
 | Variable | Value |
@@ -66,21 +66,21 @@ Go to [Render Dashboard](https://dashboard.render.com) → gripx-backend → Env
 
 ### Check Vercel Domain Settings
 1. Go to Vercel Dashboard → gripx-gaming → Settings → Domains
-2. Verify `gripx.store` is listed and has:
+2. Verify `neosell.store` is listed and has:
    - ✅ SSL Certificate (green checkmark)
    - ✅ A/CNAME records configured
 
 ### Test Domain Resolution
 ```bash
 # Check if domain points to Vercel
-dig gripx.store
+dig neosell.store
 
 # Expected result:
-# gripx.store.    3600    IN    CNAME    cname.vercel-dns.com.
+# neosell.store.    3600    IN    CNAME    cname.vercel-dns.com.
 ```
 
 ### Verify HTTPS
-1. Open browser to: `https://gripx.store`
+1. Open browser to: `https://neosell.store`
 2. Check for 🔒 lock icon in address bar
 3. Click lock → Connection is secure
 
@@ -90,7 +90,7 @@ dig gripx.store
 
 ### Backend Health Check
 ```bash
-curl https://gripx-backend.onrender.com/api/health
+curl https://neosell-backend.onrender.com/api/health
 ```
 
 **Expected Response:**
@@ -107,11 +107,11 @@ curl https://gripx-backend.onrender.com/api/health
 
 ### Products Endpoint
 ```bash
-curl https://gripx-backend.onrender.com/api/products
+curl https://neosell-backend.onrender.com/api/products
 ```
 
 ### Frontend
-1. Open: `https://gripx.store`
+1. Open: `https://neosell.store`
 2. Check page loads without errors (F12 → Console)
 3. Navigate to different pages
 4. Test login/register flow
@@ -122,7 +122,7 @@ curl https://gripx-backend.onrender.com/api/products
 
 ### Check Response Headers
 ```bash
-curl -I https://gripx.store
+curl -I https://neosell.store
 ```
 
 **Expected Headers:**
@@ -137,7 +137,7 @@ Cache-Control: public, max-age=31536000, immutable
 
 ### Check Caching Headers
 ```bash
-curl -I https://gripx.store/assets/app-xxx.js
+curl -I https://neosell.store/assets/app-xxx.js
 ```
 
 **Expected:**
@@ -147,7 +147,7 @@ Cache-Control: public, max-age=31536000, immutable
 
 ### Check Backend Caching
 ```bash
-curl https://gripx-backend.onrender.com/api/products
+curl https://neosell-backend.onrender.com/api/products
 ```
 
 **Response Headers should include:**
@@ -164,7 +164,7 @@ X-Cache: HIT (subsequent requests)
 ```bash
 # Make 15 rapid requests
 for i in {1..15}; do
-  curl -s -o /dev/null -w "%{http_code}\n" https://gripx-backend.onrender.com/api/products
+  curl -s -o /dev/null -w "%{http_code}\n" https://neosell-backend.onrender.com/api/products
 done
 ```
 
@@ -175,7 +175,7 @@ done
 # Request from different origin
 curl -H "Origin: https://evil.com" \
      -H "Access-Control-Request-Method: GET" \
-     -I https://gripx-backend.onrender.com/api/products
+     -I https://neosell-backend.onrender.com/api/products
 ```
 
 **Expected Response:**
@@ -192,8 +192,8 @@ curl -H "Origin: https://evil.com" \
 
 | Monitor Name | URL | Interval |
 |--------------|-----|----------|
-| GripX Frontend | `https://gripx.store` | 5 minutes |
-| GripX Backend | `https://gripx-backend.onrender.com/api/health` | 5 minutes |
+| NeoSell Frontend | `https://neosell.store` | 5 minutes |
+| NeoSell Backend | `https://neosell-backend.onrender.com/api/health` | 5 minutes |
 
 4. Set up email/SMS alerts
 
@@ -207,7 +207,7 @@ curl -H "Origin: https://evil.com" \
    - Performance score
 
 ### Render Logs
-1. Go to Render Dashboard → gripx-backend → Logs
+1. Go to Render Dashboard → neosell-backend → Logs
 2. Enable log alerts (optional)
 3. Check for errors
 
@@ -230,7 +230,7 @@ curl -H "Origin: https://evil.com" \
 5. Clear localStorage
 
 ### Products Don't Load
-1. Check backend health: `https://gripx-backend.onrender.com/api/health`
+1. Check backend health: `https://neosell-backend.onrender.com/api/health`
 2. Verify MongoDB connection in Render logs
 3. Check Network tab for failed requests
 
@@ -242,7 +242,7 @@ curl -H "Origin: https://evil.com" \
 
 ### SSL Certificate Issues
 1. Wait 10-15 minutes after DNS setup
-2. Check DNS propagation: `dig gripx.store`
+2. Check DNS propagation: `dig neosell.store`
 3. Verify SSL in Vercel: Settings → Domains → SSL
 
 ---
@@ -258,14 +258,14 @@ Open DevTools → Lighthouse tab
 ### Response Times
 ```bash
 # Time the response
-time curl -s https://gripx.store/api/products
+time curl -s https://neosell.store/api/products
 
 # Expected: < 2 seconds (warm), < 30 seconds (cold start)
 ```
 
 ### Cache Hit Rate
 ```bash
-curl https://gripx-backend.onrender.com/api/cache/stats
+curl https://neosell-backend.onrender.com/api/cache/stats
 ```
 
 **Expected after some usage:**
@@ -281,9 +281,9 @@ curl https://gripx-backend.onrender.com/api/cache/stats
 ## ✅ Deployment Complete!
 
 **Your URLs:**
-- 🌐 Frontend: `https://gripx.store`
-- 🔧 Backend: `https://gripx-backend.onrender.com`
-- 📊 Health: `https://gripx-backend.onrender.com/api/health`
+- 🌐 Frontend: `https://neosell.store`
+- 🔧 Backend: `https://neosell-backend.onrender.com`
+- 📊 Health: `https://neosell-backend.onrender.com/api/health`
 
 **What was improved:**
 - ✅ Performance optimization (caching, compression)

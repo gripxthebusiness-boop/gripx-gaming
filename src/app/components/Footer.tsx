@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
       </div>
 
       <p style={{ fontSize: '14px', opacity: 0.8 }}>
-        © {new Date().getFullYear()} GripX Gaming. All rights reserved.
+        © {new Date().getFullYear()} NeoSell. All rights reserved.
       </p>
     </footer>
   );

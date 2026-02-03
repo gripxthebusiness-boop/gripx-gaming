@@ -6,13 +6,13 @@ export function Terms() {
         <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-8">
           <div className="prose prose-invert max-w-none">
             <p className="text-gray-300 mb-6">
-              Welcome to GripX Gaming. These terms and conditions outline the rules and regulations
+              Welcome to NeoSell. These terms and conditions outline the rules and regulations
               for the use of our website and services.
             </p>
 
             <h2 className="text-2xl font-bold text-white mb-4">Acceptance of Terms</h2>
             <p className="text-gray-300 mb-6">
-              By accessing and using GripX Gaming, you accept and agree to be bound by the terms
+              By accessing and using NeoSell, you accept and agree to be bound by the terms
               and provision of this agreement.
             </p>
 

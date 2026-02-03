@@ -1,6 +1,6 @@
 # Deployment Guide - Making Your Website Live Forever
 
-This guide will help you deploy your GripX website to production and keep it running 24/7.
+This guide will help you deploy your NeoSell website to production and keep it running 24/7.
 
 ## 🌍 Deployment Architecture
 
@@ -34,7 +34,7 @@ VITE_API_URL=https://your-backend-url.railway.app/api
 
 **Backend (will set on hosting platform)**
 ```env
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/gripx
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/neosell
 JWT_SECRET=your_super_secure_secret_here
 PORT=5000
 NODE_ENV=production
@@ -77,7 +77,7 @@ Railway is perfect for Node.js apps. Free to start, $5/month minimum for product
    git add .
    git commit -m "Initial commit"
    git branch -M main
-   git remote add origin https://github.com/yourusername/gripx.git
+   git remote add origin https://github.com/yourusername/neosell.git
    git push -u origin main
    ```
 
@@ -91,7 +91,7 @@ Railway is perfect for Node.js apps. Free to start, $5/month minimum for product
    - Go to Variables tab
    - Add:
      ```
-     MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/gripx
+     MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/neosell
      JWT_SECRET=your_super_secure_secret_key_here
      NODE_ENV=production
      ```
@@ -116,7 +116,7 @@ Railway is perfect for Node.js apps. Free to start, $5/month minimum for product
 ### 2.3 Get Your Backend URL
 
 After deployment:
-- Railway gives you a URL like: `https://gripx-production-xxxx.railway.app`
+- Railway gives you a URL like: `https://neosell-production-xxxx.railway.app`
 - Use this as `VITE_API_URL` in frontend
 
 ---
@@ -180,7 +180,7 @@ MongoDB Atlas is free tier (512MB) or pay-as-you-go for more.
 4. Replace `<username>` and `<password>` with your credentials
 5. Add to `.env` files:
    ```
-   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/gripx?retryWrites=true&w=majority
+   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/neosell?retryWrites=true&w=majority
    ```
 
 ### 4.4 Create Database User
@@ -204,7 +204,7 @@ MongoDB Atlas is free tier (512MB) or pay-as-you-go for more.
 ### 5.1 Register Domain
 
 1. Go to [namecheap.com](https://namecheap.com) or [godaddy.com](https://godaddy.com)
-2. Search for your domain (e.g., gripx.com)
+2. Search for your domain (e.g., neosell.com)
 3. Purchase domain (~$10/year)
 
 ### 5.2 Connect to Vercel
@@ -212,7 +212,7 @@ MongoDB Atlas is free tier (512MB) or pay-as-you-go for more.
 **For Vercel Frontend:**
 
 1. Go to Vercel project → Settings → Domains
-2. Add domain (e.g., gripx.com)
+2. Add domain (e.g., neosell.com)
 3. Vercel shows DNS records to add
 
 4. In Namecheap:
@@ -224,15 +224,15 @@ MongoDB Atlas is free tier (512MB) or pay-as-you-go for more.
      ```
 
 5. Wait 24-48 hours for DNS propagation
-6. Your site is now at `https://gripx.com`
+6. Your site is now at `https://neosell.com`
 
 ### 5.3 Setup API Domain (Optional)
 
 For better experience, use separate domain for API:
 
-1. Register `api.gripx.com`
+1. Register `api.neosell.com`
 2. In Vercel:
-   - Add `api.gripx.com` as domain
+   - Add `api.neosell.com` as domain
    - Point to Railway backend
 
 ---
@@ -278,7 +278,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 # Visit your Vercel URL
 https://your-project-name.vercel.app
 
-# Should show GripX homepage
+# Should show NeoSell homepage
 # Navigation links should work
 ```
 
@@ -350,7 +350,7 @@ Use free services to check if site is online:
 1. Go to [uptimerobot.com](https://uptimerobot.com) (free)
 2. Create account
 3. Add monitors:
-   - `https://gripx.com/` (frontend)
+   - `https://neosell.com/` (frontend)
    - `https://your-backend-url.railway.app/api/health` (backend)
 4. Get alerts if site goes down
 
@@ -367,7 +367,7 @@ Use free services to check if site is online:
 
 **Manual Backup:**
 ```bash
-mongodump --uri="mongodb+srv://user:pass@cluster.mongodb.net/gripx"
+mongodump --uri="mongodb+srv://user:pass@cluster.mongodb.net/neosell"
 # Exports database to local folder
 ```
 

@@ -5,23 +5,23 @@ export function About() {
   const values = [
     {
       icon: <Target className="w-6 h-6" />,
-      title: 'Precision',
-      description: 'Every product is crafted with meticulous attention to detail and performance.',
+      title: 'Quality',
+      description: 'We curate only authentic, high-quality products from trusted brands.',
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: 'Community',
-      description: 'Building a community of gamers who share our passion for excellence.',
+      title: 'Customer Focus',
+      description: 'Your satisfaction is our top priority. Excellent customer service always.',
     },
     {
       icon: <Award className="w-6 h-6" />,
-      title: 'Quality',
-      description: 'Only the best products make it to our curated collection.',
+      title: 'Best Prices',
+      description: 'Competitive pricing on all electronics without compromising quality.',
     },
     {
       icon: <Zap className="w-6 h-6" />,
-      title: 'Innovation',
-      description: 'Staying ahead with cutting-edge technology and trends.',
+      title: 'Fast Delivery',
+      description: 'Quick and reliable shipping to get your products to you on time.',
     },
   ];
 
@@ -45,11 +45,11 @@ export function About() {
               <span className="text-white">About</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
-                GripX
+                NeoSell
               </span>
             </h1>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              We're passionate about connecting gamers with the best gaming gear available in India.
+              Your trusted source for premium electronics and gadgets at unbeatable prices.
             </p>
           </motion.div>
         </div>
@@ -65,7 +65,7 @@ export function About() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-white mb-4">Our Values</h2>
-            <p className="text-gray-400">What drives us to deliver the best gaming experience</p>
+            <p className="text-gray-400">What makes us your trusted electronics partner</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

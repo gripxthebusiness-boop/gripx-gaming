@@ -153,7 +153,7 @@ export function Register() {
         {/* Register Card */}
         <div className="p-6 bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-lg">
           <h2 className="text-2xl font-bold text-white mb-2">Create account</h2>
-          <p className="text-gray-400 mb-6">Join GripX for exclusive deals and offers</p>
+          <p className="text-gray-400 mb-6">Join NeoSell for exclusive deals on electronics</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name */}
@@ -373,7 +373,7 @@ export function Register() {
                 </>
               ) : (
                 <>
-                  <span>Create your GripX account</span>
+                  <span>Create your NeoSell account</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -460,7 +460,7 @@ export function Register() {
             <a href="#" className="hover:text-cyan-400 hover:underline">Help</a>
           </div>
           <p className="text-center text-xs text-gray-600 mt-2">
-            © 2026 GripX. All rights reserved.
+            © 2026 NeoSell. All rights reserved.
           </p>
         </div>
       </motion.div>
