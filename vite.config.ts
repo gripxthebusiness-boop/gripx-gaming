@@ -17,22 +17,23 @@ export default defineConfig({
     dedupe: ['framer-motion'],
   },
   optimizeDeps: {
-    include: ['framer-motion'],
-    exclude: ['framer-motion'],
+    include: ['framer-motion', 'react-router', 'react-router-dom'],
     esbuildOptions: {
       conditions: ['import', 'module', 'browser', 'default'],
     },
   },
   ssr: {
-    noExternal: ['framer-motion'],
+    noExternal: ['framer-motion', 'react-router', 'react-router-dom'],
   },
   build: {
     commonjsOptions: {
-      include: [/framer-motion/, /node_modules/],
+      include: [/framer-motion/, /react-router/, /node_modules/],
     },
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: {
+          'react-router': ['react-router', 'react-router-dom'],
+        },
       },
     },
     minify: 'esbuild',
