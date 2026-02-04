@@ -48,6 +48,8 @@ app.use(compression()); // Compress responses (performance optimization)
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  'https://gripx.store',
+  'https://www.gripx.store',
   'https://neosell.store',
   'https://www.neosell.store',
   'https://neosell-gaming.vercel.app',
