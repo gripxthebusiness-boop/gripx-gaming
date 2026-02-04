@@ -171,7 +171,7 @@ export function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-24 pb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -181,7 +181,7 @@ export function ForgotPassword() {
         <div className="text-center mb-6">
           <Link to="/">
             <h1 className="text-4xl font-bold inline-block">
-              <span className="text-white">Grip</span>
+              <span className="text-gray-900">Grip</span>
               <span className="text-red-500">X</span>
             </h1>
           </Link>
@@ -195,16 +195,16 @@ export function ForgotPassword() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              className="p-6 bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-lg"
+              className="p-6 bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-lg"
             >
-              <h2 className="text-2xl font-bold text-white mb-2">Password help</h2>
-              <p className="text-gray-400 mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Password help</h2>
+              <p className="text-gray-600 mb-6">
                 Enter the email address associated with your NeoSell account.
               </p>
 
               <form onSubmit={handleSendCode} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email address
                   </label>
                   <div className="relative">
@@ -217,7 +217,7 @@ export function ForgotPassword() {
                         setError('');
                       }}
                       placeholder="your@email.com"
-                      className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-red-600/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
+                      className="w-full pl-10 pr-4 py-2 bg-gray-100 border border-red-600/30 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
                     />
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export function ForgotPassword() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50"
+                  className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50"
                 >
                   {loading ? 'Sending code...' : 'Continue'}
                 </button>
@@ -260,10 +260,10 @@ export function ForgotPassword() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
-              className="p-6 bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-lg"
+              className="p-6 bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-lg"
             >
-              <h2 className="text-2xl font-bold text-white mb-2">Check your email</h2>
-              <p className="text-gray-400 mb-2">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Check your email</h2>
+              <p className="text-gray-600 mb-2">
                 We've sent a verification code to:
               </p>
               <p className="text-red-500 mb-6">{email}</p>
@@ -278,7 +278,7 @@ export function ForgotPassword() {
                       maxLength={1}
                       value={digit}
                       onChange={(e) => handleCodeChange(index, e.target.value)}
-                      className="w-12 h-12 text-center text-xl font-bold bg-gray-800 border border-red-600/30 rounded-lg text-white focus:outline-none focus:border-red-600"
+                      className="w-12 h-12 text-center text-xl font-bold bg-gray-200 border border-red-600/30 rounded-lg text-gray-900 focus:outline-none focus:border-red-600"
                     />
                   ))}
                 </div>
@@ -300,7 +300,7 @@ export function ForgotPassword() {
                 <button
                   onClick={handleVerifyCode}
                   disabled={loading || code.join('').length !== 6}
-                  className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50"
+                  className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50"
                 >
                   {loading ? 'Verifying...' : 'Verify code'}
                 </button>
@@ -342,16 +342,16 @@ export function ForgotPassword() {
               key="reset"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="p-6 bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-lg"
+              className="p-6 bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-lg"
             >
-              <h2 className="text-2xl font-bold text-white mb-2">Create new password</h2>
-              <p className="text-gray-400 mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Create new password</h2>
+              <p className="text-gray-600 mb-6">
                 Your new password must be different from your previous password.
               </p>
 
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     New password
                   </label>
                   <div className="relative">
@@ -364,12 +364,12 @@ export function ForgotPassword() {
                         setError('');
                       }}
                       placeholder="At least 8 characters"
-                      className="w-full pl-10 pr-10 py-2 bg-gray-900 border border-red-600/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
+                      className="w-full pl-10 pr-10 py-2 bg-gray-100 border border-red-600/30 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -426,7 +426,7 @@ export function ForgotPassword() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Re-enter new password
                   </label>
                   <div className="relative">
@@ -439,10 +439,10 @@ export function ForgotPassword() {
                         setError('');
                       }}
                       placeholder="Re-enter password"
-                      className={`w-full pl-10 pr-4 py-2 bg-gray-900 border ${
+                      className={`w-full pl-10 pr-4 py-2 bg-gray-100 border ${
                         confirmPassword && newPassword !== confirmPassword
                           ? 'border-red-500' : 'border-red-600/30'
-                      } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors`}
+                      } rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors`}
                     />
                     {confirmPassword && (
                       <span className={`absolute right-3 top-1/2 -translate-y-1/2 ${
@@ -487,7 +487,7 @@ export function ForgotPassword() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50"
+                  className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50"
                 >
                   {loading ? 'Resetting...' : 'Reset password'}
                 </button>
@@ -504,7 +504,7 @@ export function ForgotPassword() {
         </AnimatePresence>
 
         {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-gray-800">
+        <div className="mt-8 pt-6 border-t border-gray-300">
           <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
             <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
             <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>

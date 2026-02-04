@@ -94,7 +94,7 @@ export function Products() {
 
   if (isLoading && !data) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
           <p className="text-red-500">Loading products...</p>
@@ -104,7 +104,7 @@ export function Products() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -112,13 +112,13 @@ export function Products() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <h1 className="text-5xl font-bold text-white mb-4">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
               Premium
             </span>{' '}
             Gaming Gear
           </h1>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-600 text-lg">
             Curated gaming gear from trusted brands in India
           </p>
         </motion.div>
@@ -142,8 +142,8 @@ export function Products() {
               onClick={() => handleFilterChange(category)}
               className={`px-6 py-2 rounded-lg transition-all ${
                 activeFilter === category
-                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white'
-                  : 'bg-gray-900 text-gray-400 border border-red-600/20 hover:border-red-600/50'
+                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900'
+                  : 'bg-gray-100 text-gray-600 border border-red-600/20 hover:border-red-600/50'
               }`}
             >
               {category}
@@ -178,7 +178,7 @@ export function Products() {
               >
                 <Link
                   to={`/products/${product._id}`}
-                  className="block relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-red-600/20 hover:border-red-600/50 transition-all"
+                  className="block relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-white border border-red-600/20 hover:border-red-600/50 transition-all"
                 >
                   {/* Image */}
                   <div className="relative h-64 overflow-hidden">
@@ -195,7 +195,7 @@ export function Products() {
                             e.preventDefault();
                             prevImage(product._id, product.images);
                           }}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full z-10"
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full z-10"
                         >
                           <ChevronLeft size={16} />
                         </button>
@@ -204,7 +204,7 @@ export function Products() {
                             e.preventDefault();
                             nextImage(product._id, product.images);
                           }}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full z-10"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full z-10"
                         >
                           <ChevronRight size={16} />
                         </button>
@@ -213,10 +213,10 @@ export function Products() {
                   </div>
 
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
                       {product.name}
                     </h3>
-                    <p className="text-gray-400 mb-4 line-clamp-2">{product.description}</p>
+                    <p className="text-gray-600 mb-4 line-clamp-2">{product.description}</p>
 
                     <div className="flex justify-between items-center">
                       <span className="text-2xl text-red-500 font-bold">
@@ -236,8 +236,8 @@ export function Products() {
                         disabled={!product.inStock}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
                           product.inStock
-                            ? 'bg-gradient-to-r from-red-600 to-red-700 text-white'
-                            : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                            ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900'
+                            : 'bg-gray-700 text-gray-600 cursor-not-allowed'
                         }`}
                       >
                         <ShoppingCart size={18} />
@@ -250,7 +250,7 @@ export function Products() {
             );
           })}
           {!products.length && !isLoading && (
-            <div className="col-span-full text-center text-gray-400 py-12">
+            <div className="col-span-full text-center text-gray-600 py-12">
               No products found in this category.
             </div>
           )}
@@ -267,7 +267,7 @@ export function Products() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
+              className="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
             >
               Previous
             </button>
@@ -294,8 +294,8 @@ export function Products() {
                   onClick={() => handlePageChange(pageNum)}
                   className={`w-10 h-10 rounded-lg transition-all ${
                     currentPage === pageNum
-                      ? 'bg-gradient-to-r from-red-600 to-red-700 text-white'
-                      : 'bg-gray-900 text-gray-400 border border-red-600/20 hover:border-red-600/50'
+                      ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900'
+                      : 'bg-gray-100 text-gray-600 border border-red-600/20 hover:border-red-600/50'
                   }`}
                 >
                   {pageNum}
@@ -306,7 +306,7 @@ export function Products() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === pagination.totalPages}
-              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
+              className="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
             >
               Next
             </button>

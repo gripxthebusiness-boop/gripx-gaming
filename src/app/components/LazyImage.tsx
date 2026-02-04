@@ -48,7 +48,7 @@ export function LazyImage({
             className="absolute inset-0 w-full h-full object-cover filter blur-lg scale-105 animate-fade"
           />
         ) : (
-          <div className="absolute inset-0 bg-gray-800 animate-pulse" />
+          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
         )
       )}
 

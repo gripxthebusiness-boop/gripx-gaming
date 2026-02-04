@@ -26,12 +26,12 @@ export function About() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-black/50 to-transparent" />
         </div>
 
         {/* Hero Content */}
@@ -42,13 +42,13 @@ export function About() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="text-white">About</span>
+              <span className="text-gray-900">About</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
                 NeoSell
               </span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
               Your trusted source for premium electronics and gadgets at unbeatable prices.
             </p>
           </motion.div>
@@ -64,8 +64,8 @@ export function About() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">Our Values</h2>
-            <p className="text-gray-400">What makes us your trusted electronics partner</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
+            <p className="text-gray-600">What makes us your trusted electronics partner</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -78,12 +78,12 @@ export function About() {
                 transition={{ delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-red-600/20 hover:border-red-600/50 transition-all p-8 text-center">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-white border border-red-600/20 hover:border-red-600/50 transition-all p-8 text-center">
                   <div className="text-red-500 mb-4 flex justify-center">
                     {value.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
-                  <p className="text-gray-400">{value.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
+                  <p className="text-gray-600">{value.description}</p>
                 </div>
               </motion.div>
             ))}

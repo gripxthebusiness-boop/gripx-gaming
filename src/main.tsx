@@ -27,10 +27,10 @@ class ErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-black flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-gray-900 border border-red-500/30 rounded-xl p-6">
+        <div className="min-h-screen bg-white flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-gray-100 border border-red-500/30 rounded-xl p-6">
             <h1 className="text-xl font-bold text-red-400 mb-4">Application Error</h1>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-700 mb-4">
               {this.state.error?.message || 'An unknown error occurred'}
             </p>
             <button

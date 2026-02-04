@@ -107,7 +107,7 @@ export function ProductDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-20">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
           <p className="text-red-500 text-lg">Loading product details...</p>
@@ -118,16 +118,16 @@ export function ProductDetail() {
 
   if (isError || !product) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-20">
         <div className="text-center">
           <AlertCircle size={64} className="mx-auto text-red-400 mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Product Not Found</h2>
-          <p className="text-gray-400 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h2>
+          <p className="text-gray-600 mb-6">
             {error instanceof Error ? error.message : 'The product you are looking for does not exist.'}
           </p>
           <Link
             to="/products"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
           >
             <ArrowLeft size={18} />
             Back to Products
@@ -140,7 +140,7 @@ export function ProductDetail() {
   const parsedSpecs = parseSpecs(product.specs);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 mb-6">
         <Link
@@ -161,7 +161,7 @@ export function ProductDetail() {
         >
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-red-600/20">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 to-white border border-red-600/20">
               <div className="relative h-[400px] md:h-[500px] overflow-hidden">
                 <LazyImage
                   src={product.images[currentImageIndex]}
@@ -173,13 +173,13 @@ export function ProductDetail() {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white hover:bg-black/70 transition-colors"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 p-3 rounded-full text-gray-900 hover:bg-white/70 transition-colors"
                     >
                       <ChevronLeft size={24} />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white hover:bg-black/70 transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 p-3 rounded-full text-gray-900 hover:bg-white/70 transition-colors"
                     >
                       <ChevronRight size={24} />
                     </button>
@@ -237,21 +237,21 @@ export function ProductDetail() {
                   {product.category}
                 </span>
                 {product.brand && (
-                  <span className="text-gray-400 text-sm">{product.brand}</span>
+                  <span className="text-gray-600 text-sm">{product.brand}</span>
                 )}
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 {product.name}
               </h1>
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex">{renderStars(product.rating)}</div>
-                <span className="text-gray-400 text-sm">
+                <span className="text-gray-600 text-sm">
                   {product.rating.toFixed(1)} rating
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-b border-gray-800 py-6">
+            <div className="border-t border-b border-gray-300 py-6">
               <span className="text-4xl font-bold text-red-500">
                 ₹{product.price.toLocaleString()}
               </span>
@@ -260,25 +260,25 @@ export function ProductDetail() {
             <div className="space-y-4">
               {product.description && (
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Description</h3>
-                  <p className="text-gray-400 leading-relaxed">{product.description}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
+                  <p className="text-gray-600 leading-relaxed">{product.description}</p>
                 </div>
               )}
 
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Specifications</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h3>
                 {parsedSpecs.length > 0 && (
-                  <div className="bg-gray-900/50 rounded-lg overflow-hidden border border-gray-700">
+                  <div className="bg-gray-100/50 rounded-lg overflow-hidden border border-gray-700">
                     <table className="w-full">
                       <tbody>
                         {parsedSpecs.map((spec, index) => (
                           <tr key={index} className={index !== parsedSpecs.length - 1 ? 'border-b border-gray-700' : ''}>
                             {spec.key && (
-                              <td className="px-4 py-3 text-gray-400 text-sm font-medium w-1/3">
+                              <td className="px-4 py-3 text-gray-600 text-sm font-medium w-1/3">
                                 {spec.key}
                               </td>
                             )}
-                            <td className={`px-4 py-3 text-white text-sm ${spec.key ? '' : 'col-span-2'}`}>
+                            <td className={`px-4 py-3 text-gray-900 text-sm ${spec.key ? '' : 'col-span-2'}`}>
                               {spec.value}
                             </td>
                           </tr>
@@ -318,8 +318,8 @@ export function ProductDetail() {
                 disabled={!product.inStock}
                 className={`w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-lg font-semibold transition-all ${
                   product.inStock
-                    ? 'bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-600/25'
-                    : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                    ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900 hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-600/25'
+                    : 'bg-gray-700 text-gray-600 cursor-not-allowed'
                 }`}
               >
                 <ShoppingCart size={22} />
@@ -336,7 +336,7 @@ export function ProductDetail() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <h2 className="text-2xl font-bold text-white mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">
               Related <span className="text-red-500">Products</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -349,7 +349,7 @@ export function ProductDetail() {
                 >
                   <Link
                     to={`/products/${relatedProduct._id}`}
-                    className="group block bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden hover:border-red-600/50 transition-all"
+                    className="group block bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden hover:border-red-600/50 transition-all"
                   >
                     <div className="aspect-square overflow-hidden">
                       <LazyImage
@@ -359,10 +359,10 @@ export function ProductDetail() {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="text-white font-semibold truncate mb-1">
+                      <h3 className="text-gray-900 font-semibold truncate mb-1">
                         {relatedProduct.name}
                       </h3>
-                      <p className="text-gray-400 text-sm truncate mb-2">
+                      <p className="text-gray-600 text-sm truncate mb-2">
                         {relatedProduct.specs}
                       </p>
                       <span className="text-red-500 font-bold">

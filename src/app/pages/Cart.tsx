@@ -10,21 +10,21 @@ const Cart: React.FC = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
+      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16"
           >
-            <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-12 h-12 text-red-500" />
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">Your Cart is Empty</h2>
-            <p className="text-gray-400 mb-8">Looks like you haven't added any items to your cart yet.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h2>
+            <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet.</p>
             <Link
               to="/products"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all group"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all group"
             >
               Browse Products
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -36,17 +36,17 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Shopping Cart
           </h1>
-          <p className="text-gray-400">{cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart</p>
+          <p className="text-gray-600">{cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart</p>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -56,14 +56,14 @@ const Cart: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             className="flex-1"
           >
-            <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+            <div className="bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-center gap-4 p-4 border-b border-gray-800 last:border-b-0 hover:bg-gray-800/30 transition-colors"
+                  className="flex flex-col sm:flex-row items-center gap-4 p-4 border-b border-gray-300 last:border-b-0 hover:bg-gray-200/30 transition-colors"
                 >
                   {/* Product Image */}
-                  <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
                     {item.image ? (
                       <img
                         src={item.image}
@@ -79,7 +79,7 @@ const Cart: React.FC = () => {
 
                   {/* Product Info */}
                   <div className="flex-1 text-center sm:text-left">
-                    <h4 className="text-lg font-semibold text-white mb-1">{item.name}</h4>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-1">{item.name}</h4>
                     <p className="text-red-500 font-bold">₹{item.price.toLocaleString('en-IN')}</p>
                   </div>
 
@@ -87,14 +87,14 @@ const Cart: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                      className="w-8 h-8 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
                     >
                       -
                     </button>
-                    <span className="text-white font-medium w-8 text-center">{item.quantity}</span>
+                    <span className="text-gray-900 font-medium w-8 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
                     >
                       +
                     </button>

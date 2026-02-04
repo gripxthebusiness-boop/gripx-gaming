@@ -147,36 +147,36 @@ export default function Account() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 px-6">
-        <div className="max-w-3xl mx-auto bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl p-8 text-center">
+      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 px-6">
+        <div className="max-w-3xl mx-auto bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl p-8 text-center">
           <User className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Sign In Required</h2>
-          <p className="text-gray-400">Please sign in to view and manage your account.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In Required</h2>
+          <p className="text-gray-600">Please sign in to view and manage your account.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 px-6 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 px-6 pb-12">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Page Header */}
         <div className="flex items-center space-x-4 mb-8">
           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
-            <User className="w-6 h-6 text-white" />
+            <User className="w-6 h-6 text-gray-900" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-white">Account Settings</h1>
-            <p className="text-gray-400">Manage your profile and account preferences</p>
+            <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
+            <p className="text-gray-600">Manage your profile and account preferences</p>
           </div>
         </div>
 
         {/* Profile Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+        <div className="bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-red-600/10 flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Shield className="w-5 h-5 text-red-500" />
-              <h2 className="text-lg font-semibold text-white">Profile Information</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Profile Information</h2>
             </div>
             {!isEditing ? (
               <button
@@ -196,14 +196,14 @@ export default function Account() {
                       phone: user.phone || '',
                     });
                   }}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
                 <button
                   onClick={handleSaveProfile}
                   disabled={loading}
-                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-gray-900 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save</span>
@@ -230,7 +230,7 @@ export default function Account() {
             {/* Profile Fields */}
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="flex items-center space-x-2 text-sm text-gray-400">
+                <label className="flex items-center space-x-2 text-sm text-gray-600">
                   <User className="w-4 h-4" />
                   <span>Username</span>
                 </label>
@@ -240,15 +240,15 @@ export default function Account() {
                     name="username"
                     value={profileData.username}
                     onChange={handleProfileChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-200/50 border border-red-600/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-600 transition-colors"
                   />
                 ) : (
-                  <p className="px-4 py-3 bg-gray-800/30 rounded-lg text-white font-medium">{user.username}</p>
+                  <p className="px-4 py-3 bg-gray-200/30 rounded-lg text-gray-900 font-medium">{user.username}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <label className="flex items-center space-x-2 text-sm text-gray-400">
+                <label className="flex items-center space-x-2 text-sm text-gray-600">
                   <Mail className="w-4 h-4" />
                   <span>Email</span>
                 </label>
@@ -258,15 +258,15 @@ export default function Account() {
                     name="email"
                     value={profileData.email}
                     onChange={handleProfileChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-200/50 border border-red-600/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-600 transition-colors"
                   />
                 ) : (
-                  <p className="px-4 py-3 bg-gray-800/30 rounded-lg text-white font-medium">{user.email}</p>
+                  <p className="px-4 py-3 bg-gray-200/30 rounded-lg text-gray-900 font-medium">{user.email}</p>
                 )}
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <label className="flex items-center space-x-2 text-sm text-gray-400">
+                <label className="flex items-center space-x-2 text-sm text-gray-600">
                   <Phone className="w-4 h-4" />
                   <span>Phone Number</span>
                 </label>
@@ -277,10 +277,10 @@ export default function Account() {
                     value={profileData.phone}
                     onChange={handleProfileChange}
                     placeholder="Enter your phone number"
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-200/50 border border-red-600/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-600 transition-colors"
                   />
                 ) : (
-                  <p className="px-4 py-3 bg-gray-800/30 rounded-lg text-white font-medium">
+                  <p className="px-4 py-3 bg-gray-200/30 rounded-lg text-gray-900 font-medium">
                     {user.phone || 'Not set'}
                   </p>
                 )}
@@ -290,11 +290,11 @@ export default function Account() {
         </div>
 
         {/* Password Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+        <div className="bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-red-600/10 flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Lock className="w-5 h-5 text-red-500" />
-              <h2 className="text-lg font-semibold text-white">Password</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Password</h2>
             </div>
             {!showPasswordForm && (
               <button
@@ -308,7 +308,7 @@ export default function Account() {
 
           <div className="p-6">
             {!showPasswordForm ? (
-              <p className="text-gray-400">Password last changed: Never</p>
+              <p className="text-gray-600">Password last changed: Never</p>
             ) : (
               <form onSubmit={handleChangePassword} className="space-y-4">
                 {/* Success/Error Messages */}
@@ -326,7 +326,7 @@ export default function Account() {
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400">Current Password</label>
+                  <label className="text-sm text-gray-600">Current Password</label>
                   <div className="relative">
                     <input
                       type={showPasswords.current ? 'text' : 'password'}
@@ -334,12 +334,12 @@ export default function Account() {
                       value={passwordData.currentPassword}
                       onChange={handlePasswordChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors pr-12"
+                      className="w-full px-4 py-3 bg-gray-200/50 border border-red-600/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-600 transition-colors pr-12"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPasswords(prev => ({ ...prev, current: !prev.current }))}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
                     >
                       {showPasswords.current ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -347,7 +347,7 @@ export default function Account() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400">New Password</label>
+                  <label className="text-sm text-gray-600">New Password</label>
                   <div className="relative">
                     <input
                       type={showPasswords.new ? 'text' : 'password'}
@@ -355,12 +355,12 @@ export default function Account() {
                       value={passwordData.newPassword}
                       onChange={handlePasswordChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors pr-12"
+                      className="w-full px-4 py-3 bg-gray-200/50 border border-red-600/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-600 transition-colors pr-12"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
                     >
                       {showPasswords.new ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -389,7 +389,7 @@ export default function Account() {
                           {passwordStrength.strength}
                         </span>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
+                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
                         <span className={passwordStrength.requirements.minLength ? 'text-green-400' : ''}>
                           {passwordStrength.requirements.minLength ? '✓' : '○'} At least 8 characters
                         </span>
@@ -408,7 +408,7 @@ export default function Account() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400">Confirm New Password</label>
+                  <label className="text-sm text-gray-600">Confirm New Password</label>
                   <div className="relative">
                     <input
                       type={showPasswords.confirm ? 'text' : 'password'}
@@ -416,12 +416,12 @@ export default function Account() {
                       value={passwordData.confirmPassword}
                       onChange={handlePasswordChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors pr-12"
+                      className="w-full px-4 py-3 bg-gray-200/50 border border-red-600/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-600 transition-colors pr-12"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm }))}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
                     >
                       {showPasswords.confirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -432,7 +432,7 @@ export default function Account() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-colors disabled:opacity-50"
+                    className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-colors disabled:opacity-50"
                   >
                     <Lock className="w-4 h-4" />
                     <span>{loading ? 'Changing...' : 'Change Password'}</span>
@@ -445,7 +445,7 @@ export default function Account() {
                       setPasswordError(null);
                       setPasswordSuccess(null);
                     }}
-                    className="px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                    className="px-6 py-2 text-gray-600 hover:text-gray-900 transition-colors"
                   >
                     Cancel
                   </button>
@@ -456,26 +456,26 @@ export default function Account() {
         </div>
 
         {/* Session Information */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+        <div className="bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-red-600/10 flex items-center space-x-3">
             <Clock className="w-5 h-5 text-red-500" />
-            <h2 className="text-lg font-semibold text-white">Session Information</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Session Information</h2>
           </div>
           <div className="p-6">
             <div className="grid gap-4 md:grid-cols-3">
-              <div className="p-4 bg-gray-800/30 rounded-lg">
-                <p className="text-sm text-gray-400">Account Type</p>
-                <p className="text-white font-medium capitalize">{user.role || 'Customer'}</p>
+              <div className="p-4 bg-gray-200/30 rounded-lg">
+                <p className="text-sm text-gray-600">Account Type</p>
+                <p className="text-gray-900 font-medium capitalize">{user.role || 'Customer'}</p>
               </div>
-              <div className="p-4 bg-gray-800/30 rounded-lg">
-                <p className="text-sm text-gray-400">Member Since</p>
-                <p className="text-white font-medium">
+              <div className="p-4 bg-gray-200/30 rounded-lg">
+                <p className="text-sm text-gray-600">Member Since</p>
+                <p className="text-gray-900 font-medium">
                   {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
                 </p>
               </div>
-              <div className="p-4 bg-gray-800/30 rounded-lg">
-                <p className="text-sm text-gray-400">Last Updated</p>
-                <p className="text-white font-medium">
+              <div className="p-4 bg-gray-200/30 rounded-lg">
+                <p className="text-sm text-gray-600">Last Updated</p>
+                <p className="text-gray-900 font-medium">
                   {user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : 'N/A'}
                 </p>
               </div>
@@ -484,16 +484,16 @@ export default function Account() {
         </div>
 
         {/* Delete Account Section */}
-        <div className="bg-gradient-to-br from-red-900/20 to-black border border-red-500/20 rounded-xl overflow-hidden">
+        <div className="bg-gradient-to-br from-red-900/20 to-white border border-red-500/20 rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-red-500/10 flex items-center space-x-3">
             <Trash2 className="w-5 h-5 text-red-400" />
-            <h2 className="text-lg font-semibold text-white">Delete Account</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Delete Account</h2>
           </div>
           <div className="p-6">
             {!showDeleteConfirm ? (
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-300">Permanently delete your account and all associated data.</p>
+                  <p className="text-gray-700">Permanently delete your account and all associated data.</p>
                   <p className="text-sm text-gray-500 mt-1">This action cannot be undone.</p>
                 </div>
                 <button
@@ -508,7 +508,7 @@ export default function Account() {
               <div className="space-y-4">
                 <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
                   <p className="text-red-400 font-medium">Are you sure you want to delete your account?</p>
-                  <p className="text-sm text-gray-400 mt-1">This will permanently delete your account, and you will be logged out.</p>
+                  <p className="text-sm text-gray-600 mt-1">This will permanently delete your account, and you will be logged out.</p>
                 </div>
                 
                 {deleteError && (
@@ -519,13 +519,13 @@ export default function Account() {
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400">Enter your password to confirm</label>
+                  <label className="text-sm text-gray-600">Enter your password to confirm</label>
                   <input
                     type="password"
                     value={deletePassword}
                     onChange={(e) => setDeletePassword(e.target.value)}
                     placeholder="Your password"
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-500/20 rounded-lg text-white focus:outline-none focus:border-red-500 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-200/50 border border-red-500/20 rounded-lg text-gray-900 focus:outline-none focus:border-red-500 transition-colors"
                   />
                 </div>
 
@@ -533,7 +533,7 @@ export default function Account() {
                   <button
                     onClick={handleDeleteAccount}
                     disabled={loading || !deletePassword}
-                    className="flex items-center space-x-2 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+                    className="flex items-center space-x-2 px-6 py-2 bg-red-500 text-gray-900 rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
                   >
                     <Trash2 className="w-4 h-4" />
                     <span>{loading ? 'Deleting...' : 'Confirm Delete'}</span>
@@ -544,7 +544,7 @@ export default function Account() {
                       setDeletePassword('');
                       setDeleteError(null);
                     }}
-                    className="px-6 py-2 text-gray-400 hover:text-white transition-colors"
+                    className="px-6 py-2 text-gray-600 hover:text-gray-900 transition-colors"
                   >
                     Cancel
                   </button>

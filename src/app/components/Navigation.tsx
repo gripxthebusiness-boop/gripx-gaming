@@ -112,7 +112,7 @@ export default function Navigation() {
       <div className="fixed top-4 right-4 z-50">
         <button
           onClick={() => setNavHidden(false)}
-          className="bg-black/80 backdrop-blur-lg border border-red-600/20 rounded-lg p-2 text-gray-400 hover:text-white transition-colors"
+          className="bg-white/80 backdrop-blur-lg border border-red-600/20 rounded-lg p-2 text-gray-600 hover:text-gray-900 transition-colors"
           title="Show Navigation"
         >
           <ChevronDown size={20} />
@@ -122,7 +122,7 @@ export default function Navigation() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-red-600/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-red-600/20">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo with secret click feature */}
@@ -135,7 +135,7 @@ export default function Navigation() {
             title={logoClickCount > 0 ? `${5 - logoClickCount} more clicks for rick roll` : 'Click 5 times for a surprise'}
           >
             <div className="text-3xl font-bold">
-              <span className="text-white">Neo</span>
+              <span className="text-gray-900">Neo</span>
               <span className="text-red-500">Sell</span>
             </div>
           </button>
@@ -149,7 +149,7 @@ export default function Navigation() {
                 onMouseEnter={() => prefetchOnHover(link.href)}
                 onMouseLeave={cancelPrefetch}
                 className={`relative text-sm font-medium transition-colors ${
-                  isActive(link.href) ? 'text-red-500' : 'text-gray-300 hover:text-white'
+                  isActive(link.href) ? 'text-red-500' : 'text-gray-700 hover:text-gray-900'
                 }`}
               >
                 {link.label}
@@ -168,21 +168,21 @@ export default function Navigation() {
                 {/* User Menu Trigger */}
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200/50 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">
+                    <span className="text-gray-900 text-sm font-bold">
                       {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </span>
                   </div>
                   <div className="text-left hidden lg:block">
-                    <p className="text-xs text-gray-400">Hello,</p>
+                    <p className="text-xs text-gray-600">Hello,</p>
                     <div className="flex items-center space-x-1">
-                      <span className="text-sm font-medium text-white">{user?.username || 'User'}</span>
+                      <span className="text-sm font-medium text-gray-900">{user?.username || 'User'}</span>
                       {userMenuOpen ? (
-                        <ChevronUp className="w-4 h-4 text-gray-400" />
+                        <ChevronUp className="w-4 h-4 text-gray-600" />
                       ) : (
-                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                        <ChevronDown className="w-4 h-4 text-gray-600" />
                       )}
                     </div>
                   </div>
@@ -195,11 +195,11 @@ export default function Navigation() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-64 bg-gray-900 border border-red-600/20 rounded-xl shadow-xl overflow-hidden"
+                      className="absolute right-0 mt-2 w-64 bg-gray-100 border border-red-600/20 rounded-xl shadow-xl overflow-hidden"
                     >
                       {/* Session Timer */}
-                      <div className="px-4 py-2 bg-gray-800/50 border-b border-red-600/10 flex items-center justify-between">
-                        <div className="flex items-center space-x-2 text-gray-400">
+                      <div className="px-4 py-2 bg-gray-200/50 border-b border-red-600/10 flex items-center justify-between">
+                        <div className="flex items-center space-x-2 text-gray-600">
                           <Clock className="w-4 h-4" />
                           <span className="text-xs">Session expires in</span>
                         </div>
@@ -217,10 +217,10 @@ export default function Navigation() {
                               <Link
                                 to="/admin/products"
                                 onClick={() => setUserMenuOpen(false)}
-                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors"
                               >
                                 <Settings className="w-4 h-4 text-red-500" />
-                                <span className="text-sm text-gray-300">Product Management</span>
+                                <span className="text-sm text-gray-700">Product Management</span>
                               </Link>
                             </li>
                           )}
@@ -228,10 +228,10 @@ export default function Navigation() {
                             <Link
                               to="/account"
                               onClick={() => setUserMenuOpen(false)}
-                              className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                              className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors"
                             >
-                              <User className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm text-gray-300">Your Account</span>
+                              <User className="w-4 h-4 text-gray-600" />
+                              <span className="text-sm text-gray-700">Your Account</span>
                             </Link>
                           </li>
                         </ul>
@@ -257,7 +257,7 @@ export default function Navigation() {
             ) : (
               <Link
                 to="/login"
-                className="inline-flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
+                className="inline-flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
               >
                 <LogIn size={18} />
                 <span>Sign in</span>
@@ -270,12 +270,12 @@ export default function Navigation() {
             {/* Cart Icon with Badge */}
             <Link
               to="/cart"
-              className="relative text-gray-400 hover:text-white transition-colors p-1"
+              className="relative text-gray-600 hover:text-gray-900 transition-colors p-1"
               title="Shopping Cart"
             >
               <ShoppingCart size={20} />
               {getTotalItems() > 0 && (
-                <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                <span className="absolute -top-2 -right-2 bg-blue-500 text-gray-900 text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                   {getTotalItems()}
                 </span>
               )}
@@ -284,7 +284,7 @@ export default function Navigation() {
             {/* Hide/Show Navigation Button */}
             <button
               onClick={() => setNavHidden(!navHidden)}
-              className="text-gray-400 hover:text-white transition-colors p-1"
+              className="text-gray-600 hover:text-gray-900 transition-colors p-1"
               title={navHidden ? 'Show Navigation' : 'Hide Navigation'}
             >
               {navHidden ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
@@ -293,7 +293,7 @@ export default function Navigation() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-white"
+              className="md:hidden text-gray-900"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -308,7 +308,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black border-t border-red-600/20"
+            className="md:hidden bg-white border-t border-red-600/20"
           >
             <div className="px-6 py-4 space-y-4">
               {links.map((link) => (
@@ -317,7 +317,7 @@ export default function Navigation() {
                   to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block text-sm font-medium ${
-                    isActive(link.href) ? 'text-red-500' : 'text-gray-300'
+                    isActive(link.href) ? 'text-red-500' : 'text-gray-700'
                   }`}
                 >
                   {link.label}
@@ -327,22 +327,22 @@ export default function Navigation() {
               {/* Mobile User Section */}
               {isAuthenticated ? (
                 <>
-                  <div className="pt-4 border-t border-gray-800">
+                  <div className="pt-4 border-t border-gray-300">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
-                        <span className="text-white font-bold">
+                        <span className="text-gray-900 font-bold">
                           {user?.username?.charAt(0).toUpperCase() || 'U'}
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-white">{user?.username || 'User'}</p>
-                        <p className="text-xs text-gray-400">{user?.email}</p>
+                        <p className="text-sm font-medium text-gray-900">{user?.username || 'User'}</p>
+                        <p className="text-xs text-gray-600">{user?.email}</p>
                       </div>
                     </div>
                     
                     <Link
                       to="/admin/products"
-                      className="block text-sm font-medium px-4 py-2 bg-gray-800 rounded-lg mb-2"
+                      className="block text-sm font-medium px-4 py-2 bg-gray-200 rounded-lg mb-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Product Management
@@ -362,7 +362,7 @@ export default function Navigation() {
               ) : (
                 <Link
                   to="/login"
-                  className="block text-sm font-medium px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg"
+                  className="block text-sm font-medium px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Sign in
