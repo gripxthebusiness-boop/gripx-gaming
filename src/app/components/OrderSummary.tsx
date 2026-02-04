@@ -43,7 +43,7 @@ const OrderSummary: React.FC = () => {
         ))}
       </div>
 
-      <hr className="border-gray-700 my-4" />
+      <hr className="border-red-200 my-4" />
 
       {/* Price Details */}
       <div className="space-y-3">
@@ -64,7 +64,7 @@ const OrderSummary: React.FC = () => {
         </div>
       </div>
 
-      <hr className="border-gray-700 my-4" />
+      <hr className="border-red-200 my-4" />
 
       <div className="flex justify-between items-center mb-6">
         <span className="text-lg font-bold text-gray-900">Total</span>
@@ -80,18 +80,18 @@ const OrderSummary: React.FC = () => {
       </button>
 
       {/* Security Badge */}
-      <div className="mt-4 flex items-center justify-center gap-2 text-gray-500 text-sm">
+      <div className="mt-4 flex items-center justify-center gap-2 text-gray-800 text-sm">
         <ShieldCheck className="w-4 h-4 text-green-400" />
         <span>Secure Checkout</span>
       </div>
 
       {/* Payment Methods */}
       <div className="mt-4 flex items-center justify-center gap-2 opacity-50">
-        <span className="text-xs text-gray-500">We accept:</span>
+        <span className="text-xs text-gray-800">We accept:</span>
         <div className="flex gap-1">
-          <div className="w-8 h-5 bg-gray-700 rounded flex items-center justify-center text-[8px] text-gray-900">VISA</div>
-          <div className="w-8 h-5 bg-gray-700 rounded flex items-center justify-center text-[8px] text-gray-900">MC</div>
-          <div className="w-8 h-5 bg-gray-700 rounded flex items-center justify-center text-[8px] text-gray-900">UPI</div>
+          <div className="w-8 h-5 bg-red-100 rounded flex items-center justify-center text-[8px] text-gray-900">VISA</div>
+          <div className="w-8 h-5 bg-red-100 rounded flex items-center justify-center text-[8px] text-gray-900">MC</div>
+          <div className="w-8 h-5 bg-red-100 rounded flex items-center justify-center text-[8px] text-gray-900">UPI</div>
         </div>
       </div>
     </motion.div>

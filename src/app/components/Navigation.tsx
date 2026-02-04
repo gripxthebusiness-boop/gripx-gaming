@@ -210,7 +210,7 @@ export default function Navigation() {
 
                       {/* Account Section */}
                       <div className="p-4 border-b border-red-600/10">
-                        <p className="text-xs text-gray-500 mb-2">Your Account</p>
+                        <p className="text-xs text-gray-800 mb-2">Your Account</p>
                         <ul className="space-y-1">
                           {user?.role === 'admin' && (
                             <li>

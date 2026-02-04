@@ -7,16 +7,17 @@ const Footer: React.FC = () => {
       style={{
         marginTop: '40px',
         padding: '20px',
-        backgroundColor: '#0f172a',
-        color: '#ffffff',
+        backgroundColor: '#ffffff',
+        color: '#111827',
         textAlign: 'center',
+        borderTop: '1px solid #fecaca',
       }}
     >
       <div style={{ marginBottom: '10px' }}>
-        <Link to="/privacy" style={{ color: '#60a5fa', marginRight: '15px' }}>
+        <Link to="/privacy" style={{ color: '#dc2626', marginRight: '15px' }}>
           Privacy Policy
         </Link>
-        <Link to="/terms" style={{ color: '#60a5fa' }}>
+        <Link to="/terms" style={{ color: '#dc2626' }}>
           Terms & Conditions
         </Link>
       </div>
