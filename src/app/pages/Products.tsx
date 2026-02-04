@@ -315,7 +315,7 @@ export function Products() {
 
         {/* Products count */}
         {pagination && (
-          <p className="text-center text-gray-500 mt-6">
+          <p className="text-center text-gray-800 mt-6">
             Showing {products.length} of {pagination.totalProducts} products
           </p>
         )}

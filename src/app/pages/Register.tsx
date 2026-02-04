@@ -22,7 +22,7 @@ export function Register() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [marketingEmails, setMarketingEmails] = useState(false);
   const [showPasswordHelp, setShowPasswordHelp] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState({ level: 0, color: 'bg-gray-600', text: '' });
+  const [passwordStrength, setPasswordStrength] = useState({ level: 0, color: 'bg-red-300', text: '' });
   
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -41,7 +41,7 @@ export function Register() {
     const timer = setTimeout(() => {
       const passed = passwordRequirements.filter(req => req.regex.test(formData.password)).length;
       let level = 0;
-      let color = 'bg-gray-600';
+      let color = 'bg-red-300';
       let text = '';
       
       if (passed > 0) {
@@ -134,7 +134,7 @@ export function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white flex items-center justify-center pt-24 pb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -197,7 +197,7 @@ export function Register() {
             {/* Phone (Optional) */}
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-1">
-                Mobile number <span className="text-gray-500">(optional)</span>
+                Mobile number <span className="text-gray-800">(optional)</span>
               </label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
@@ -251,7 +251,7 @@ export function Register() {
                       <div
                         key={level}
                         className={`h-1 flex-1 rounded transition-colors ${
-                          level <= passwordStrength.level ? passwordStrength.color : 'bg-gray-700'
+                          level <= passwordStrength.level ? passwordStrength.color : 'bg-red-100'
                         }`}
                       />
                     ))}
@@ -283,7 +283,7 @@ export function Register() {
                         <li 
                           key={index}
                           className={`text-xs flex items-center gap-2 ${
-                            req.regex.test(formData.password) ? 'text-green-400' : 'text-gray-500'
+                            req.regex.test(formData.password) ? 'text-green-400' : 'text-gray-800'
                           }`}
                         >
                           {req.regex.test(formData.password) ? (
@@ -396,7 +396,7 @@ export function Register() {
                 <span className="text-sm text-gray-900 group-hover:text-gray-900 transition-colors">
                   Explore our latest deals and new arrivals
                 </span>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-gray-800 mt-0.5">
                   By creating an account, you agree to receive promotional emails. You can unsubscribe at any time.
                 </p>
               </div>
@@ -435,10 +435,10 @@ export function Register() {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-700"></div>
+              <div className="w-full border-t border-red-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
+              <span className="px-2 bg-white text-gray-800">
                 Already have an account?
               </span>
             </div>
@@ -446,7 +446,7 @@ export function Register() {
 
           <Link
             to="/login"
-            className="mt-4 block w-full py-2 px-4 bg-gradient-to-r from-gray-800 to-gray-700 border border-gray-600 rounded-lg text-gray-900 hover:from-gray-700 hover:to-gray-600 transition-all text-center font-medium"
+            className="mt-4 block w-full py-2 px-4 bg-gradient-to-r from-gray-800 to-gray-700 border border-red-300 rounded-lg text-gray-900 hover:from-gray-700 hover:to-gray-600 transition-all text-center font-medium"
           >
             Sign in
           </Link>
@@ -454,7 +454,7 @@ export function Register() {
 
         {/* Footer Links */}
         <div className="mt-8 pt-6 border-t border-red-200">
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-800">
             <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
             <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>
             <a href="#" className="hover:text-red-500 hover:underline">Help</a>

@@ -1,6 +1,6 @@
 export function Terms() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 pb-12">
       <div className="max-w-4xl mx-auto px-6">
         <h1 className="text-4xl font-bold text-gray-900 mb-8">Terms of Service</h1>
         <div className="bg-gradient-to-br from-white/80 to-white/80 backdrop-blur-sm border border-red-600/20 rounded-xl p-8">

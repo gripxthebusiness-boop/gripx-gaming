@@ -10,7 +10,7 @@ const Cart: React.FC = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
+      <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 pb-12">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -36,7 +36,7 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -87,14 +87,14 @@ const Cart: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                      className="w-8 h-8 rounded-lg bg-red-50 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-red-50 text-gray-900 hover:bg-red-100 transition-colors flex items-center justify-center"
                     >
                       -
                     </button>
                     <span className="text-gray-900 font-medium w-8 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 rounded-lg bg-red-50 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-red-50 text-gray-900 hover:bg-red-100 transition-colors flex items-center justify-center"
                     >
                       +
                     </button>

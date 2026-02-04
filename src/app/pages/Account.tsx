@@ -147,9 +147,9 @@ export default function Account() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 px-6">
+      <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 px-6">
         <div className="max-w-3xl mx-auto bg-gradient-to-br from-white to-white border border-red-600/20 rounded-xl p-8 text-center">
-          <User className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+          <User className="w-16 h-16 text-gray-800 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In Required</h2>
           <p className="text-gray-800">Please sign in to view and manage your account.</p>
         </div>
@@ -158,7 +158,7 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 px-6 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 px-6 pb-12">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Page Header */}
         <div className="flex items-center space-x-4 mb-8">
@@ -370,7 +370,7 @@ export default function Account() {
                   {passwordStrength && (
                     <div className="space-y-2 mt-2">
                       <div className="flex items-center space-x-2">
-                        <div className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
+                        <div className="flex-1 h-2 bg-red-100 rounded-full overflow-hidden">
                           <div 
                             className={`h-full transition-all ${
                               passwordStrength.strength === 'strong' ? 'bg-green-500 w-full' :
@@ -494,7 +494,7 @@ export default function Account() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-900">Permanently delete your account and all associated data.</p>
-                  <p className="text-sm text-gray-500 mt-1">This action cannot be undone.</p>
+                  <p className="text-sm text-gray-800 mt-1">This action cannot be undone.</p>
                 </div>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}

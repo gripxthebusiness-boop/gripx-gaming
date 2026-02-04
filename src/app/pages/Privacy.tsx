@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export function Privacy() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white text-gray-900">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white text-gray-900">
       <div className="max-w-4xl mx-auto px-6 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -64,7 +64,7 @@ export function Privacy() {
               </p>
             </section>
 
-            <div className="mt-12 pt-8 border-t border-gray-700">
+            <div className="mt-12 pt-8 border-t border-red-200">
               <p className="text-sm text-gray-800">
                 Last updated: {new Date().toLocaleDateString()}
               </p>

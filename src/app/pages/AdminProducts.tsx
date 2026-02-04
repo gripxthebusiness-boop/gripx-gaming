@@ -271,7 +271,7 @@ export function AdminProducts() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white p-8">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
@@ -336,7 +336,7 @@ export function AdminProducts() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
@@ -347,7 +347,7 @@ export function AdminProducts() {
                   type="text"
                   value={formData.brand}
                   onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
@@ -359,7 +359,7 @@ export function AdminProducts() {
                   step="0.01"
                   value={formData.price}
                   onChange={(e) => setFormData({...formData, price: e.target.value})}
-                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
@@ -369,7 +369,7 @@ export function AdminProducts() {
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({...formData, category: e.target.value})}
-                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 >
                   <option value="">Select Category</option>
@@ -393,7 +393,7 @@ export function AdminProducts() {
                         newImages[index] = e.target.value;
                         setFormData({...formData, images: newImages});
                       }}
-                      className="flex-1 px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                      className="flex-1 px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                       placeholder="Enter image URL"
                       required={index === 0}
                     />
@@ -414,7 +414,7 @@ export function AdminProducts() {
                 <button
                   type="button"
                   onClick={() => setFormData({...formData, images: [...formData.images, '']})}
-                  className="flex items-center space-x-2 px-4 py-2 bg-gray-700 text-gray-900 rounded-lg hover:bg-gray-600 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-100 text-gray-900 rounded-lg hover:bg-red-300 transition-colors"
                 >
                   <Plus size={16} />
                   <span>Add Another Image</span>
@@ -427,7 +427,7 @@ export function AdminProducts() {
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={3}
-                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                 />
               </div>
 
@@ -439,9 +439,9 @@ export function AdminProducts() {
                     <span>Specifications</span>
                   </div>
                 </label>
-                <div className="bg-red-50/50 rounded-lg overflow-hidden border border-gray-600">
+                <div className="bg-red-50/50 rounded-lg overflow-hidden border border-red-300">
                   <table className="w-full">
-                    <thead className="bg-gray-700/50">
+                    <thead className="bg-red-100/50">
                       <tr>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Specification</th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Value</th>
@@ -457,7 +457,7 @@ export function AdminProducts() {
                               value={spec.key}
                               onChange={(e) => updateSpecRow(index, 'key', e.target.value)}
                               placeholder="e.g., Sensor"
-                              className="w-full px-3 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
+                              className="w-full px-3 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
                             />
                           </td>
                           <td className="px-2 py-2">
@@ -466,7 +466,7 @@ export function AdminProducts() {
                               value={spec.value}
                               onChange={(e) => updateSpecRow(index, 'value', e.target.value)}
                               placeholder="e.g., Optical"
-                              className="w-full px-3 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
+                              className="w-full px-3 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
                             />
                           </td>
                           <td className="px-2 py-2">
@@ -483,7 +483,7 @@ export function AdminProducts() {
                       ))}
                     </tbody>
                   </table>
-                  <div className="p-3 border-t border-gray-700">
+                  <div className="p-3 border-t border-red-200">
                     <button
                       type="button"
                       onClick={addSpecRow}
@@ -510,9 +510,9 @@ export function AdminProducts() {
                   value={formData.stockQuantity}
                   onChange={(e) => setFormData({...formData, stockQuantity: e.target.value})}
                   placeholder="Leave empty for unlimited"
-                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                 />
-                <p className="text-xs text-gray-500 mt-1">Leave empty to not show stock count to customers</p>
+                <p className="text-xs text-gray-800 mt-1">Leave empty to not show stock count to customers</p>
               </div>
 
               {/* In Stock Toggle */}
@@ -522,7 +522,7 @@ export function AdminProducts() {
                     type="checkbox"
                     checked={formData.inStock}
                     onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
-                    className="w-5 h-5 rounded border-gray-600 text-red-600 focus:ring-red-600 bg-red-50"
+                    className="w-5 h-5 rounded border-red-300 text-red-600 focus:ring-red-600 bg-red-50"
                   />
                   <span className="text-gray-900">Product is in stock</span>
                 </label>
@@ -533,7 +533,7 @@ export function AdminProducts() {
                   type="button"
                   onClick={resetForm}
                   disabled={submitting}
-                  className="px-6 py-2 border border-gray-600 text-gray-900 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
+                  className="px-6 py-2 border border-red-300 text-gray-900 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -596,7 +596,7 @@ export function AdminProducts() {
                           {product.inStock ? 'In Stock' : 'Out of Stock'}
                         </span>
                         {product.inStock && product.stockQuantity !== null && (
-                          <span className="text-xs text-gray-500 mt-1">{product.stockQuantity} units</span>
+                          <span className="text-xs text-gray-800 mt-1">{product.stockQuantity} units</span>
                         )}
                       </div>
                     </td>

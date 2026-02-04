@@ -107,7 +107,7 @@ export function ProductDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white flex items-center justify-center pt-20">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
           <p className="text-red-500 text-lg">Loading product details...</p>
@@ -118,7 +118,7 @@ export function ProductDetail() {
 
   if (isError || !product) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white flex items-center justify-center pt-20">
         <div className="text-center">
           <AlertCircle size={64} className="mx-auto text-red-400 mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h2>
@@ -140,7 +140,7 @@ export function ProductDetail() {
   const parsedSpecs = parseSpecs(product.specs);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 pb-12">
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 mb-6">
         <Link
@@ -268,11 +268,11 @@ export function ProductDetail() {
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h3>
                 {parsedSpecs.length > 0 && (
-                  <div className="bg-white/50 rounded-lg overflow-hidden border border-gray-700">
+                  <div className="bg-white/50 rounded-lg overflow-hidden border border-red-200">
                     <table className="w-full">
                       <tbody>
                         {parsedSpecs.map((spec, index) => (
-                          <tr key={index} className={index !== parsedSpecs.length - 1 ? 'border-b border-gray-700' : ''}>
+                          <tr key={index} className={index !== parsedSpecs.length - 1 ? 'border-b border-red-200' : ''}>
                             {spec.key && (
                               <td className="px-4 py-3 text-gray-800 text-sm font-medium w-1/3">
                                 {spec.key}
@@ -319,7 +319,7 @@ export function ProductDetail() {
                 className={`w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-lg font-semibold transition-all ${
                   product.inStock
                     ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900 hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-600/25'
-                    : 'bg-gray-700 text-gray-800 cursor-not-allowed'
+                    : 'bg-red-100 text-gray-800 cursor-not-allowed'
                 }`}
               >
                 <ShoppingCart size={22} />

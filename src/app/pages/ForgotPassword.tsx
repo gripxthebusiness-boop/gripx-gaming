@@ -13,7 +13,7 @@ export function ForgotPassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState({ level: 0, color: 'bg-gray-600', text: '' });
+  const [passwordStrength, setPasswordStrength] = useState({ level: 0, color: 'bg-red-300', text: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
   const [passwordRequirements, setPasswordRequirements] = useState({
@@ -48,7 +48,7 @@ export function ForgotPassword() {
 
     const passed = Object.values(requirements).filter(Boolean).length;
     let level = 0;
-    let color = 'bg-gray-600';
+    let color = 'bg-red-300';
     let text = '';
 
     if (passed <= 2) { level = 1; color = 'bg-red-500'; text = 'Weak'; }
@@ -171,7 +171,7 @@ export function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white flex items-center justify-center pt-24 pb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -282,7 +282,7 @@ export function ForgotPassword() {
                     />
                   ))}
                 </div>
-                <p className="text-xs text-gray-500 text-center">Demo code: 123456</p>
+                <p className="text-xs text-gray-800 text-center">Demo code: 123456</p>
 
                 <AnimatePresence>
                   {error && (
@@ -307,7 +307,7 @@ export function ForgotPassword() {
 
                 <div className="text-center">
                   {resendTimer > 0 ? (
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-800">
                       Resend code in {resendTimer}s
                     </p>
                   ) : (
@@ -383,7 +383,7 @@ export function ForgotPassword() {
                           <div
                             key={level}
                             className={`h-1 flex-1 rounded transition-colors ${
-                              level <= passwordStrength.level ? passwordStrength.color : 'bg-gray-700'
+                              level <= passwordStrength.level ? passwordStrength.color : 'bg-red-100'
                             }`}
                           />
                         ))}
@@ -416,7 +416,7 @@ export function ForgotPassword() {
                         )}
                         <span className={`text-xs ${
                           passwordRequirements[key as keyof typeof passwordRequirements] 
-                            ? 'text-green-400' : 'text-gray-500'
+                            ? 'text-green-400' : 'text-gray-800'
                         }`}>
                           {label}
                         </span>
@@ -505,7 +505,7 @@ export function ForgotPassword() {
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-red-200">
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-800">
             <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
             <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>
             <a href="#" className="hover:text-red-500 hover:underline">Help</a>

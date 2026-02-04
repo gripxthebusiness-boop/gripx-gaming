@@ -26,12 +26,12 @@ export function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
         </div>
 
         {/* Hero Content */}
@@ -160,7 +160,7 @@ export function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors"
                         placeholder="Your name"
                       />
                     </div>
@@ -172,7 +172,7 @@ export function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors"
                         placeholder="your@email.com"
                       />
                     </div>
@@ -186,7 +186,7 @@ export function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors"
                       placeholder="How can we help?"
                     />
                   </div>
@@ -199,7 +199,7 @@ export function Contact() {
                       onChange={handleChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none transition-colors resize-none"
                       placeholder="Tell us about your gaming setup needs..."
                     />
                   </div>

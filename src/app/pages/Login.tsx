@@ -163,7 +163,7 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white flex items-center justify-center pt-24 pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white flex items-center justify-center pt-24 pb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -232,7 +232,7 @@ export function Login() {
                     )}
                     <div className="flex gap-3">
                       <Dialog.Close asChild>
-                        <button className="flex-1 py-2 bg-red-50 text-gray-900 rounded-lg hover:bg-gray-700 transition-colors">
+                        <button className="flex-1 py-2 bg-red-50 text-gray-900 rounded-lg hover:bg-red-100 transition-colors">
                           Cancel
                         </button>
                       </Dialog.Close>
@@ -261,14 +261,14 @@ export function Login() {
                         />
                       ))}
                     </div>
-                    <p className="text-xs text-gray-500 text-center">Demo OTP: 123456</p>
+                    <p className="text-xs text-gray-800 text-center">Demo OTP: 123456</p>
                     {otpError && (
                       <p className="text-red-400 text-sm text-center">{otpError}</p>
                     )}
                     <div className="flex gap-3">
                       <button 
                         onClick={() => setOtpStep('phone')}
-                        className="flex-1 py-2 bg-red-50 text-gray-900 rounded-lg hover:bg-gray-700 transition-colors"
+                        className="flex-1 py-2 bg-red-50 text-gray-900 rounded-lg hover:bg-red-100 transition-colors"
                       >
                         Change Phone
                       </button>
@@ -289,10 +289,10 @@ export function Login() {
           {/* Divider */}
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-700"></div>
+              <div className="w-full border-t border-red-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">or</span>
+              <span className="px-2 bg-white text-gray-800">or</span>
             </div>
           </div>
 
@@ -383,7 +383,7 @@ export function Login() {
                 type="checkbox"
                 checked={keepSignedIn}
                 onChange={(e) => setKeepSignedIn(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-600 bg-red-50 text-red-600 focus:ring-red-600 focus:ring-offset-gray-900"
+                className="w-4 h-4 rounded border-red-300 bg-red-50 text-red-600 focus:ring-red-600 focus:ring-offset-gray-900"
               />
               <span className="text-sm text-gray-900 group-hover:text-gray-900 transition-colors">
                 Keep me signed in
@@ -447,10 +447,10 @@ export function Login() {
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-700"></div>
+              <div className="w-full border-t border-red-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
+              <span className="px-2 bg-white text-gray-800">
                 New to NeoSell?
               </span>
             </div>
@@ -458,7 +458,7 @@ export function Login() {
 
           <Link
             to="/register"
-            className="mt-4 block w-full py-2 px-4 bg-gradient-to-r from-gray-800 to-gray-700 border border-gray-600 rounded-lg text-gray-900 hover:from-gray-700 hover:to-gray-600 transition-all text-center font-medium"
+            className="mt-4 block w-full py-2 px-4 bg-gradient-to-r from-gray-800 to-gray-700 border border-red-300 rounded-lg text-gray-900 hover:from-gray-700 hover:to-gray-600 transition-all text-center font-medium"
           >
             Start here
           </Link>
@@ -466,7 +466,7 @@ export function Login() {
 
         {/* Footer Links */}
         <div className="mt-8 pt-6 border-t border-red-200">
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-800">
             <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
             <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>
             <a href="#" className="hover:text-red-500 hover:underline">Help</a>
