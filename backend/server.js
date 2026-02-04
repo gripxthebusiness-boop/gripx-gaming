@@ -131,8 +131,8 @@ mongoose
 // Sync indexes on startup for better query performance
 const syncIndexes = async () => {
   try {
-    const Product = (await import('./models/Product.js')).default;
-    const User = (await import('./models/User.js')).default;
+    const { Product } = await import('./models/Product.js');
+    const { User } = await import('./models/User.js');
     
     await Product.syncIndexes();
     await User.syncIndexes();
