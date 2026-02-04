@@ -48,7 +48,7 @@ export function About() {
                 NeoSell
               </span>
             </h1>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-900 mb-8 max-w-2xl mx-auto">
               Your trusted source for premium electronics and gadgets at unbeatable prices.
             </p>
           </motion.div>
@@ -65,7 +65,7 @@ export function About() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
-            <p className="text-gray-600">What makes us your trusted electronics partner</p>
+            <p className="text-gray-800">What makes us your trusted electronics partner</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -78,12 +78,12 @@ export function About() {
                 transition={{ delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-white border border-red-600/20 hover:border-red-600/50 transition-all p-8 text-center">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white to-white border border-red-600/20 hover:border-red-600/50 transition-all p-8 text-center">
                   <div className="text-red-500 mb-4 flex justify-center">
                     {value.icon}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
-                  <p className="text-gray-600">{value.description}</p>
+                  <p className="text-gray-800">{value.description}</p>
                 </div>
               </motion.div>
             ))}

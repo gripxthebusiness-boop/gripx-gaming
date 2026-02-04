@@ -17,11 +17,11 @@ const Cart: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16"
           >
-            <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-12 h-12 text-red-500" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h2>
-            <p className="text-gray-600 mb-8">Looks like you haven't added any items to your cart yet.</p>
+            <p className="text-gray-800 mb-8">Looks like you haven't added any items to your cart yet.</p>
             <Link
               to="/products"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all group"
@@ -46,7 +46,7 @@ const Cart: React.FC = () => {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Shopping Cart
           </h1>
-          <p className="text-gray-600">{cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart</p>
+          <p className="text-gray-800">{cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart</p>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8">
@@ -56,14 +56,14 @@ const Cart: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             className="flex-1"
           >
-            <div className="bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden">
+            <div className="bg-gradient-to-br from-white to-white border border-red-600/20 rounded-xl overflow-hidden">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-center gap-4 p-4 border-b border-gray-300 last:border-b-0 hover:bg-gray-200/30 transition-colors"
+                  className="flex flex-col sm:flex-row items-center gap-4 p-4 border-b border-red-200 last:border-b-0 hover:bg-red-50/30 transition-colors"
                 >
                   {/* Product Image */}
-                  <div className="w-24 h-24 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden bg-red-50 flex-shrink-0">
                     {item.image ? (
                       <img
                         src={item.image}
@@ -72,7 +72,7 @@ const Cart: React.FC = () => {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <ShoppingBag className="w-8 h-8 text-gray-600" />
+                        <ShoppingBag className="w-8 h-8 text-gray-800" />
                       </div>
                     )}
                   </div>
@@ -87,14 +87,14 @@ const Cart: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                      className="w-8 h-8 rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-red-50 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
                     >
                       -
                     </button>
                     <span className="text-gray-900 font-medium w-8 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-red-50 text-gray-900 hover:bg-gray-700 transition-colors flex items-center justify-center"
                     >
                       +
                     </button>

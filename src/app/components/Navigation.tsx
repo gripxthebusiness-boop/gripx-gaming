@@ -112,7 +112,7 @@ export default function Navigation() {
       <div className="fixed top-4 right-4 z-50">
         <button
           onClick={() => setNavHidden(false)}
-          className="bg-white/80 backdrop-blur-lg border border-red-600/20 rounded-lg p-2 text-gray-600 hover:text-gray-900 transition-colors"
+          className="bg-white/80 backdrop-blur-lg border border-red-600/20 rounded-lg p-2 text-gray-800 hover:text-gray-900 transition-colors"
           title="Show Navigation"
         >
           <ChevronDown size={20} />
@@ -149,7 +149,7 @@ export default function Navigation() {
                 onMouseEnter={() => prefetchOnHover(link.href)}
                 onMouseLeave={cancelPrefetch}
                 className={`relative text-sm font-medium transition-colors ${
-                  isActive(link.href) ? 'text-red-500' : 'text-gray-700 hover:text-gray-900'
+                  isActive(link.href) ? 'text-red-500' : 'text-gray-900 hover:text-gray-900'
                 }`}
               >
                 {link.label}
@@ -168,7 +168,7 @@ export default function Navigation() {
                 {/* User Menu Trigger */}
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-200/50 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-red-50/50 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
                     <span className="text-gray-900 text-sm font-bold">
@@ -176,13 +176,13 @@ export default function Navigation() {
                     </span>
                   </div>
                   <div className="text-left hidden lg:block">
-                    <p className="text-xs text-gray-600">Hello,</p>
+                    <p className="text-xs text-gray-800">Hello,</p>
                     <div className="flex items-center space-x-1">
                       <span className="text-sm font-medium text-gray-900">{user?.username || 'User'}</span>
                       {userMenuOpen ? (
-                        <ChevronUp className="w-4 h-4 text-gray-600" />
+                        <ChevronUp className="w-4 h-4 text-gray-800" />
                       ) : (
-                        <ChevronDown className="w-4 h-4 text-gray-600" />
+                        <ChevronDown className="w-4 h-4 text-gray-800" />
                       )}
                     </div>
                   </div>
@@ -195,11 +195,11 @@ export default function Navigation() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-64 bg-gray-100 border border-red-600/20 rounded-xl shadow-xl overflow-hidden"
+                      className="absolute right-0 mt-2 w-64 bg-white border border-red-600/20 rounded-xl shadow-xl overflow-hidden"
                     >
                       {/* Session Timer */}
-                      <div className="px-4 py-2 bg-gray-200/50 border-b border-red-600/10 flex items-center justify-between">
-                        <div className="flex items-center space-x-2 text-gray-600">
+                      <div className="px-4 py-2 bg-red-50/50 border-b border-red-600/10 flex items-center justify-between">
+                        <div className="flex items-center space-x-2 text-gray-800">
                           <Clock className="w-4 h-4" />
                           <span className="text-xs">Session expires in</span>
                         </div>
@@ -217,10 +217,10 @@ export default function Navigation() {
                               <Link
                                 to="/admin/products"
                                 onClick={() => setUserMenuOpen(false)}
-                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors"
                               >
                                 <Settings className="w-4 h-4 text-red-500" />
-                                <span className="text-sm text-gray-700">Product Management</span>
+                                <span className="text-sm text-gray-900">Product Management</span>
                               </Link>
                             </li>
                           )}
@@ -228,10 +228,10 @@ export default function Navigation() {
                             <Link
                               to="/account"
                               onClick={() => setUserMenuOpen(false)}
-                              className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+                              className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors"
                             >
-                              <User className="w-4 h-4 text-gray-600" />
-                              <span className="text-sm text-gray-700">Your Account</span>
+                              <User className="w-4 h-4 text-gray-800" />
+                              <span className="text-sm text-gray-900">Your Account</span>
                             </Link>
                           </li>
                         </ul>
@@ -270,7 +270,7 @@ export default function Navigation() {
             {/* Cart Icon with Badge */}
             <Link
               to="/cart"
-              className="relative text-gray-600 hover:text-gray-900 transition-colors p-1"
+              className="relative text-gray-800 hover:text-gray-900 transition-colors p-1"
               title="Shopping Cart"
             >
               <ShoppingCart size={20} />
@@ -284,7 +284,7 @@ export default function Navigation() {
             {/* Hide/Show Navigation Button */}
             <button
               onClick={() => setNavHidden(!navHidden)}
-              className="text-gray-600 hover:text-gray-900 transition-colors p-1"
+              className="text-gray-800 hover:text-gray-900 transition-colors p-1"
               title={navHidden ? 'Show Navigation' : 'Hide Navigation'}
             >
               {navHidden ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
@@ -317,7 +317,7 @@ export default function Navigation() {
                   to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block text-sm font-medium ${
-                    isActive(link.href) ? 'text-red-500' : 'text-gray-700'
+                    isActive(link.href) ? 'text-red-500' : 'text-gray-900'
                   }`}
                 >
                   {link.label}
@@ -327,7 +327,7 @@ export default function Navigation() {
               {/* Mobile User Section */}
               {isAuthenticated ? (
                 <>
-                  <div className="pt-4 border-t border-gray-300">
+                  <div className="pt-4 border-t border-red-200">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
                         <span className="text-gray-900 font-bold">
@@ -336,13 +336,13 @@ export default function Navigation() {
                       </div>
                       <div>
                         <p className="text-sm font-medium text-gray-900">{user?.username || 'User'}</p>
-                        <p className="text-xs text-gray-600">{user?.email}</p>
+                        <p className="text-xs text-gray-800">{user?.email}</p>
                       </div>
                     </div>
                     
                     <Link
                       to="/admin/products"
-                      className="block text-sm font-medium px-4 py-2 bg-gray-200 rounded-lg mb-2"
+                      className="block text-sm font-medium px-4 py-2 bg-red-50 rounded-lg mb-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Product Management

@@ -19,7 +19,7 @@ const OrderSummary: React.FC = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl p-6 sticky top-24"
+      className="bg-gradient-to-br from-white to-white border border-red-600/20 rounded-xl p-6 sticky top-24"
     >
       <h3 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h3>
 
@@ -28,15 +28,15 @@ const OrderSummary: React.FC = () => {
         {cartItems.map((item) => (
           <div key={item.id} className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-red-50 overflow-hidden flex-shrink-0">
                 {item.image && (
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                 )}
               </div>
-              <span className="text-gray-700 truncate max-w-[120px]">{item.name}</span>
+              <span className="text-gray-900 truncate max-w-[120px]">{item.name}</span>
             </div>
             <div className="text-right">
-              <span className="text-gray-600">x{item.quantity}</span>
+              <span className="text-gray-800">x{item.quantity}</span>
               <span className="text-gray-900 ml-2">₹{(item.price * item.quantity).toLocaleString('en-IN')}</span>
             </div>
           </div>
@@ -47,18 +47,18 @@ const OrderSummary: React.FC = () => {
 
       {/* Price Details */}
       <div className="space-y-3">
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-800">
           <span>Subtotal</span>
           <span className="text-gray-900">₹{subtotal.toLocaleString('en-IN')}</span>
         </div>
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-800">
           <span className="flex items-center gap-2">
             <Truck className="w-4 h-4" />
             Shipping
           </span>
           <span className="text-green-400">FREE</span>
         </div>
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-800">
           <span>Tax (18% GST)</span>
           <span className="text-gray-900">₹{tax.toLocaleString('en-IN')}</span>
         </div>

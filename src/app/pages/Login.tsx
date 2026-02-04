@@ -180,9 +180,9 @@ export function Login() {
         </div>
 
         {/* Login Card */}
-        <div className="p-6 bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-lg">
+        <div className="p-6 bg-gradient-to-br from-white to-white border border-red-600/20 rounded-lg">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Sign in</h2>
-          <p className="text-gray-600 text-sm mb-4">to access your NeoSell account</p>
+          <p className="text-gray-800 text-sm mb-4">to access your NeoSell account</p>
 
           {/* OTP Modal */}
           <Dialog.Root open={showOTPModal} onOpenChange={setShowOTPModal}>
@@ -196,11 +196,11 @@ export function Login() {
             </Dialog.Trigger>
             <Dialog.Portal>
               <Dialog.Overlay className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50" />
-              <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-100 border border-red-600/30 rounded-xl p-6 w-full max-w-md z-50">
+              <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border border-red-600/30 rounded-xl p-6 w-full max-w-md z-50">
                 <Dialog.Title className="text-xl font-bold text-gray-900 mb-2">
                   {otpStep === 'phone' ? 'Sign in with OTP' : 'Enter OTP'}
                 </Dialog.Title>
-                <Dialog.Description className="text-gray-600 mb-4 text-sm">
+                <Dialog.Description className="text-gray-800 mb-4 text-sm">
                   {otpStep === 'phone' 
                     ? 'Enter your phone number to receive a one-time password.' 
                     : 'Enter the 6-digit code sent to your phone.'}
@@ -209,7 +209,7 @@ export function Login() {
                 {otpStep === 'phone' ? (
                   <div className="space-y-4">
                     <div className="flex gap-2">
-                      <select className="bg-gray-200 border border-red-600/30 rounded-lg px-3 py-2 text-gray-900">
+                      <select className="bg-red-50 border border-red-600/30 rounded-lg px-3 py-2 text-gray-900">
                         <option>+91</option>
                         <option>+1</option>
                         <option>+44</option>
@@ -224,7 +224,7 @@ export function Login() {
                           setOtp(newOtp);
                         }}
                         placeholder="Phone number"
-                        className="flex-1 bg-gray-200 border border-red-600/30 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600"
+                        className="flex-1 bg-red-50 border border-red-600/30 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600"
                       />
                     </div>
                     {otpError && (
@@ -232,7 +232,7 @@ export function Login() {
                     )}
                     <div className="flex gap-3">
                       <Dialog.Close asChild>
-                        <button className="flex-1 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-700 transition-colors">
+                        <button className="flex-1 py-2 bg-red-50 text-gray-900 rounded-lg hover:bg-gray-700 transition-colors">
                           Cancel
                         </button>
                       </Dialog.Close>
@@ -257,7 +257,7 @@ export function Login() {
                           value={digit}
                           onChange={(e) => handleOtpChange(index, e.target.value)}
                           onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                          className="w-12 h-12 text-center text-xl font-bold bg-gray-200 border border-red-600/30 rounded-lg text-gray-900 focus:outline-none focus:border-red-600"
+                          className="w-12 h-12 text-center text-xl font-bold bg-red-50 border border-red-600/30 rounded-lg text-gray-900 focus:outline-none focus:border-red-600"
                         />
                       ))}
                     </div>
@@ -268,7 +268,7 @@ export function Login() {
                     <div className="flex gap-3">
                       <button 
                         onClick={() => setOtpStep('phone')}
-                        className="flex-1 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-700 transition-colors"
+                        className="flex-1 py-2 bg-red-50 text-gray-900 rounded-lg hover:bg-gray-700 transition-colors"
                       >
                         Change Phone
                       </button>
@@ -292,14 +292,14 @@ export function Login() {
               <div className="w-full border-t border-gray-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-100 text-gray-500">or</span>
+              <span className="px-2 bg-white text-gray-500">or</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email/Phone Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-900 mb-1">
                 Email or mobile phone number
               </label>
               <div className="relative">
@@ -308,7 +308,7 @@ export function Login() {
                   value={emailOrPhone}
                   onChange={(e) => setEmailOrPhone(e.target.value)}
                   placeholder="Enter email or phone"
-                  className={`w-full pl-10 pr-4 py-2 bg-gray-100 border ${
+                  className={`w-full pl-10 pr-4 py-2 bg-white border ${
                     error && !validateEmailOrPhone(emailOrPhone) 
                       ? 'border-red-500' 
                       : 'border-red-600/30'
@@ -320,7 +320,7 @@ export function Login() {
 
             {/* Password Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-900 mb-1">
                 Password
               </label>
               <div className="relative">
@@ -329,13 +329,13 @@ export function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 6 characters"
-                  className="w-full pl-10 pr-10 py-2 bg-gray-100 border border-red-600/30 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
+                  className="w-full pl-10 pr-10 py-2 bg-white border border-red-600/30 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
                 />
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-800 hover:text-gray-900"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -383,9 +383,9 @@ export function Login() {
                 type="checkbox"
                 checked={keepSignedIn}
                 onChange={(e) => setKeepSignedIn(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-600 bg-gray-200 text-red-600 focus:ring-red-600 focus:ring-offset-gray-900"
+                className="w-4 h-4 rounded border-gray-600 bg-red-50 text-red-600 focus:ring-red-600 focus:ring-offset-gray-900"
               />
-              <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors">
+              <span className="text-sm text-gray-900 group-hover:text-gray-900 transition-colors">
                 Keep me signed in
               </span>
             </label>
@@ -427,9 +427,9 @@ export function Login() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="ml-4 mt-2 p-3 bg-gray-200/50 rounded-lg"
+                        className="ml-4 mt-2 p-3 bg-red-50/50 rounded-lg"
                       >
-                        <ul className="text-sm text-gray-600 space-y-2">
+                        <ul className="text-sm text-gray-800 space-y-2">
                           <li>• If you no longer have access to your email or phone</li>
                           <li>• If you're having trouble verifying your identity</li>
                           <li>• Contact support: +91 9063032312</li>
@@ -465,13 +465,13 @@ export function Login() {
         </div>
 
         {/* Footer Links */}
-        <div className="mt-8 pt-6 border-t border-gray-300">
+        <div className="mt-8 pt-6 border-t border-red-200">
           <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
             <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
             <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>
             <a href="#" className="hover:text-red-500 hover:underline">Help</a>
           </div>
-          <p className="text-center text-xs text-gray-600 mt-2">
+          <p className="text-center text-xs text-gray-800 mt-2">
             © 2026 NeoSell. All rights reserved.
           </p>
         </div>

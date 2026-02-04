@@ -21,7 +21,7 @@ export function Privacy() {
 
           <h1 className="text-4xl font-bold mb-8">Privacy Policy</h1>
 
-          <div className="space-y-6 text-gray-700">
+          <div className="space-y-6 text-gray-900">
             <section>
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">Information We Collect</h2>
               <p className="mb-4">
@@ -65,7 +65,7 @@ export function Privacy() {
             </section>
 
             <div className="mt-12 pt-8 border-t border-gray-700">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-800">
                 Last updated: {new Date().toLocaleDateString()}
               </p>
             </div>

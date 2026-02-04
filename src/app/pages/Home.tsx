@@ -50,7 +50,7 @@ export function Home() {
                 Electronics Store
               </span>
             </h1>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-900 mb-8 max-w-2xl mx-auto">
               Shop premium electronics and gadgets from trusted brands at unbeatable prices.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -87,7 +87,7 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose NeoSell?</h2>
-            <p className="text-gray-600">Premium electronics at unbeatable prices</p>
+            <p className="text-gray-800">Premium electronics at unbeatable prices</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -98,13 +98,13 @@ export function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl hover:border-red-600/50 transition-all group"
+                className="p-6 bg-gradient-to-br from-white to-white border border-red-600/20 rounded-xl hover:border-red-600/50 transition-all group"
               >
                 <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-800">{feature.description}</p>
               </motion.div>
             ))}
           </div>

@@ -315,7 +315,7 @@ export function AdminProducts() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-gray-100 to-white border border-red-600/30 rounded-xl p-6 mb-8"
+            className="bg-gradient-to-br from-white to-white border border-red-600/30 rounded-xl p-6 mb-8"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">
@@ -323,7 +323,7 @@ export function AdminProducts() {
               </h2>
               <button
                 onClick={resetForm}
-                className="text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-gray-800 hover:text-gray-900 transition-colors"
               >
                 <X size={24} />
               </button>
@@ -331,45 +331,45 @@ export function AdminProducts() {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Product Name</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Brand</label>
                 <input
                   type="text"
                   value={formData.brand}
                   onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Price (₹)</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Price (₹)</label>
                 <input
                   type="number"
                   step="0.01"
                   value={formData.price}
                   onChange={(e) => setFormData({...formData, price: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Category</label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({...formData, category: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                   required
                 >
                   <option value="">Select Category</option>
@@ -382,7 +382,7 @@ export function AdminProducts() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Product Images</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Product Images</label>
                 {formData.images.map((image, index) => (
                   <div key={index} className="flex items-center space-x-2 mb-2">
                     <input
@@ -393,7 +393,7 @@ export function AdminProducts() {
                         newImages[index] = e.target.value;
                         setFormData({...formData, images: newImages});
                       }}
-                      className="flex-1 px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                      className="flex-1 px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                       placeholder="Enter image URL"
                       required={index === 0}
                     />
@@ -414,7 +414,7 @@ export function AdminProducts() {
                 <button
                   type="button"
                   onClick={() => setFormData({...formData, images: [...formData.images, '']})}
-                  className="flex items-center space-x-2 px-4 py-2 bg-gray-700 text-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 bg-gray-700 text-gray-900 rounded-lg hover:bg-gray-600 transition-colors"
                 >
                   <Plus size={16} />
                   <span>Add Another Image</span>
@@ -422,30 +422,30 @@ export function AdminProducts() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                 />
               </div>
 
               {/* Specifications Table */}
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-900 mb-3">
                   <div className="flex items-center gap-2">
                     <Table size={16} />
                     <span>Specifications</span>
                   </div>
                 </label>
-                <div className="bg-gray-200/50 rounded-lg overflow-hidden border border-gray-600">
+                <div className="bg-red-50/50 rounded-lg overflow-hidden border border-gray-600">
                   <table className="w-full">
                     <thead className="bg-gray-700/50">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Specification</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Value</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase w-16">Actions</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Specification</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Value</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase w-16">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-700">
@@ -457,7 +457,7 @@ export function AdminProducts() {
                               value={spec.key}
                               onChange={(e) => updateSpecRow(index, 'key', e.target.value)}
                               placeholder="e.g., Sensor"
-                              className="w-full px-3 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
+                              className="w-full px-3 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
                             />
                           </td>
                           <td className="px-2 py-2">
@@ -466,7 +466,7 @@ export function AdminProducts() {
                               value={spec.value}
                               onChange={(e) => updateSpecRow(index, 'value', e.target.value)}
                               placeholder="e.g., Optical"
-                              className="w-full px-3 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
+                              className="w-full px-3 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
                             />
                           </td>
                           <td className="px-2 py-2">
@@ -498,7 +498,7 @@ export function AdminProducts() {
 
               {/* Stock Quantity */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   <div className="flex items-center gap-2">
                     <Package size={16} />
                     <span>Stock Quantity</span>
@@ -510,7 +510,7 @@ export function AdminProducts() {
                   value={formData.stockQuantity}
                   onChange={(e) => setFormData({...formData, stockQuantity: e.target.value})}
                   placeholder="Leave empty for unlimited"
-                  className="w-full px-4 py-2 bg-gray-200 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                  className="w-full px-4 py-2 bg-red-50 border border-gray-600 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                 />
                 <p className="text-xs text-gray-500 mt-1">Leave empty to not show stock count to customers</p>
               </div>
@@ -522,9 +522,9 @@ export function AdminProducts() {
                     type="checkbox"
                     checked={formData.inStock}
                     onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
-                    className="w-5 h-5 rounded border-gray-600 text-red-600 focus:ring-red-600 bg-gray-200"
+                    className="w-5 h-5 rounded border-gray-600 text-red-600 focus:ring-red-600 bg-red-50"
                   />
-                  <span className="text-gray-700">Product is in stock</span>
+                  <span className="text-gray-900">Product is in stock</span>
                 </label>
               </div>
 
@@ -533,7 +533,7 @@ export function AdminProducts() {
                   type="button"
                   onClick={resetForm}
                   disabled={submitting}
-                  className="px-6 py-2 border border-gray-600 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+                  className="px-6 py-2 border border-gray-600 text-gray-900 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -560,21 +560,21 @@ export function AdminProducts() {
         )}
 
         {/* Products Table */}
-        <div className="bg-gradient-to-br from-gray-100 to-white border border-red-600/30 rounded-xl overflow-hidden">
+        <div className="bg-gradient-to-br from-white to-white border border-red-600/30 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-200/50">
+              <thead className="bg-red-50/50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Product</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Brand</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Stock</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Product</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Brand</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Price</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Stock</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-700">
                 {products.map((product) => (
-                  <tr key={product._id} className="hover:bg-gray-200/30 transition-colors">
+                  <tr key={product._id} className="hover:bg-red-50/30 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-12 w-12">
@@ -582,11 +582,11 @@ export function AdminProducts() {
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                          <div className="text-sm text-gray-600 truncate max-w-xs">{product.category}</div>
+                          <div className="text-sm text-gray-800 truncate max-w-xs">{product.category}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{product.brand || 'N/A'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.brand || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-red-500">₹{product.price}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col">
@@ -624,8 +624,8 @@ export function AdminProducts() {
 
           {products.length === 0 && (
             <div className="text-center py-12">
-              <Package size={48} className="mx-auto text-gray-600 mb-4" />
-              <p className="text-gray-600">No products found. Add your first product to get started.</p>
+              <Package size={48} className="mx-auto text-gray-800 mb-4" />
+              <p className="text-gray-800">No products found. Add your first product to get started.</p>
             </div>
           )}
         </div>

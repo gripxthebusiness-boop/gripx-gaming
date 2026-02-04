@@ -74,7 +74,7 @@ export function ProductDetail() {
         key={i}
         size={18}
         className={`${
-          i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'
+          i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-800'
         }`}
       />
     ));
@@ -122,7 +122,7 @@ export function ProductDetail() {
         <div className="text-center">
           <AlertCircle size={64} className="mx-auto text-red-400 mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-800 mb-6">
             {error instanceof Error ? error.message : 'The product you are looking for does not exist.'}
           </p>
           <Link
@@ -161,7 +161,7 @@ export function ProductDetail() {
         >
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 to-white border border-red-600/20">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-white border border-red-600/20">
               <div className="relative h-[400px] md:h-[500px] overflow-hidden">
                 <LazyImage
                   src={product.images[currentImageIndex]}
@@ -237,7 +237,7 @@ export function ProductDetail() {
                   {product.category}
                 </span>
                 {product.brand && (
-                  <span className="text-gray-600 text-sm">{product.brand}</span>
+                  <span className="text-gray-800 text-sm">{product.brand}</span>
                 )}
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -245,13 +245,13 @@ export function ProductDetail() {
               </h1>
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex">{renderStars(product.rating)}</div>
-                <span className="text-gray-600 text-sm">
+                <span className="text-gray-800 text-sm">
                   {product.rating.toFixed(1)} rating
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-b border-gray-300 py-6">
+            <div className="border-t border-b border-red-200 py-6">
               <span className="text-4xl font-bold text-red-500">
                 ₹{product.price.toLocaleString()}
               </span>
@@ -261,20 +261,20 @@ export function ProductDetail() {
               {product.description && (
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-                  <p className="text-gray-600 leading-relaxed">{product.description}</p>
+                  <p className="text-gray-800 leading-relaxed">{product.description}</p>
                 </div>
               )}
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h3>
                 {parsedSpecs.length > 0 && (
-                  <div className="bg-gray-100/50 rounded-lg overflow-hidden border border-gray-700">
+                  <div className="bg-white/50 rounded-lg overflow-hidden border border-gray-700">
                     <table className="w-full">
                       <tbody>
                         {parsedSpecs.map((spec, index) => (
                           <tr key={index} className={index !== parsedSpecs.length - 1 ? 'border-b border-gray-700' : ''}>
                             {spec.key && (
-                              <td className="px-4 py-3 text-gray-600 text-sm font-medium w-1/3">
+                              <td className="px-4 py-3 text-gray-800 text-sm font-medium w-1/3">
                                 {spec.key}
                               </td>
                             )}
@@ -319,7 +319,7 @@ export function ProductDetail() {
                 className={`w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-lg font-semibold transition-all ${
                   product.inStock
                     ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900 hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-600/25'
-                    : 'bg-gray-700 text-gray-600 cursor-not-allowed'
+                    : 'bg-gray-700 text-gray-800 cursor-not-allowed'
                 }`}
               >
                 <ShoppingCart size={22} />
@@ -349,7 +349,7 @@ export function ProductDetail() {
                 >
                   <Link
                     to={`/products/${relatedProduct._id}`}
-                    className="group block bg-gradient-to-br from-gray-100 to-white border border-red-600/20 rounded-xl overflow-hidden hover:border-red-600/50 transition-all"
+                    className="group block bg-gradient-to-br from-white to-white border border-red-600/20 rounded-xl overflow-hidden hover:border-red-600/50 transition-all"
                   >
                     <div className="aspect-square overflow-hidden">
                       <LazyImage
@@ -362,7 +362,7 @@ export function ProductDetail() {
                       <h3 className="text-gray-900 font-semibold truncate mb-1">
                         {relatedProduct.name}
                       </h3>
-                      <p className="text-gray-600 text-sm truncate mb-2">
+                      <p className="text-gray-800 text-sm truncate mb-2">
                         {relatedProduct.specs}
                       </p>
                       <span className="text-red-500 font-bold">
