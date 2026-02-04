@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
 import { Star, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { LazyImage } from '../components/LazyImage';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 interface Product {
   _id: string;
@@ -37,6 +38,22 @@ export function Products() {
   const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<string, number>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product: any) => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    addToCart({
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: product.images[0],
+    });
+  };
 
   // Use React Query for caching and automatic refetching
   const { data, isLoading, error, isFetching } = useQuery<ProductsResponse>({
@@ -225,13 +242,7 @@ export function Products() {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          addToCart({
-                            id: product._id,
-                            name: product.name,
-                            price: product.price,
-                            quantity: 1,
-                            image: product.images[0],
-                          });
+                          handleAddToCart(product);
                         }}
                         disabled={!product.inStock}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${

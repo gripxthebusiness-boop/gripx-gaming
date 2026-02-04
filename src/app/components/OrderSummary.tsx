@@ -12,8 +12,7 @@ const OrderSummary: React.FC = () => {
   );
 
   const shipping = 0; // Free shipping
-  const tax = Math.round(subtotal * 0.18); // 18% GST
-  const total = subtotal + shipping + tax;
+  const total = subtotal + shipping;
 
   return (
     <motion.div
@@ -57,10 +56,6 @@ const OrderSummary: React.FC = () => {
             Shipping
           </span>
           <span className="text-green-400">FREE</span>
-        </div>
-        <div className="flex justify-between text-gray-800">
-          <span>Tax (18% GST)</span>
-          <span className="text-gray-900">₹{tax.toLocaleString('en-IN')}</span>
         </div>
       </div>
 

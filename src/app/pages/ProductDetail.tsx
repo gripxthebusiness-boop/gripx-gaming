@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Star, ShoppingCart, ChevronLeft, ChevronRight, ArrowLeft, Package, AlertCircle } from 'lucide-react';
 import { LazyImage } from '../components/LazyImage';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 interface Product {
   _id: string;
@@ -30,6 +31,22 @@ export function ProductDetail() {
   const API_BASE = import.meta.env.VITE_API_URL || '';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product: Product) => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    addToCart({
+      id: product._id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: product.images[0],
+    });
+  };
 
   // Use React Query for caching and single API call fetching product + related products
   const { data, isLoading, error, isError } = useQuery<ProductDetailsResponse>({
@@ -306,15 +323,7 @@ export function ProductDetail() {
 
             <div className="pt-6">
               <button
-                onClick={() =>
-                  addToCart({
-                    id: product._id,
-                    name: product.name,
-                    price: product.price,
-                    quantity: 1,
-                    image: product.images[0],
-                  })
-                }
+                onClick={() => handleAddToCart(product)}
                 disabled={!product.inStock}
                 className={`w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-lg font-semibold transition-all ${
                   product.inStock
