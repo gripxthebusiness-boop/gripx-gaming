@@ -131,9 +131,10 @@ export default function Navigation() {
               handleLogoClick();
               navigate('/');
             }}
-            className="flex items-center space-x-2 hover:scale-105 transition-transform"
+            className="flex items-center space-x-3 hover:scale-105 transition-transform"
             title={logoClickCount > 0 ? `${5 - logoClickCount} more clicks for rick roll` : 'Click 5 times for a surprise'}
           >
+            <img src="/android-chrome-192x192.png" alt="NeoSell Logo" className="w-10 h-10" />
             <div className="text-3xl font-bold">
               <span className="text-gray-900">Neo</span>
               <span className="text-red-500">Sell</span>
@@ -297,6 +298,15 @@ export default function Navigation() {
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
+          </div>
+
+          {/* Mobile Logo */}
+          <div className="md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
+            <img src="/android-chrome-192x192.png" alt="NeoSell Logo" className="w-8 h-8" />
+            <div className="text-xl font-bold">
+              <span className="text-gray-900">Neo</span>
+              <span className="text-red-500">Sell</span>
+            </div>
           </div>
         </div>
       </div>
