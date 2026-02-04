@@ -135,8 +135,8 @@ export default function Navigation() {
             title={logoClickCount > 0 ? `${5 - logoClickCount} more clicks for rick roll` : 'Click 5 times for a surprise'}
           >
             <div className="text-3xl font-bold">
-              <span className="text-white">Grip</span>
-              <span className="text-cyan-400">X</span>
+              <span className="text-white">Neo</span>
+              <span className="text-cyan-400">Sell</span>
             </div>
           </button>
 
