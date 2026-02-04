@@ -458,7 +458,7 @@ export function Login() {
 
           <Link
             to="/register"
-            className="mt-4 block w-full py-2 px-4 bg-gradient-to-r from-gray-800 to-gray-700 border border-red-300 rounded-lg text-gray-900 hover:from-gray-700 hover:to-gray-600 transition-all text-center font-medium"
+            className="mt-4 block w-full py-2 px-4 bg-white border border-red-300 rounded-lg text-gray-900 hover:bg-red-50 transition-all text-center font-medium"
           >
             Start here
           </Link>
