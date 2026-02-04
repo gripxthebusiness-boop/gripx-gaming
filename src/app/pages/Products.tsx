@@ -96,8 +96,8 @@ export function Products() {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-cyan-400">Loading products...</p>
+          <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-red-500">Loading products...</p>
         </div>
       </div>
     );
@@ -113,7 +113,7 @@ export function Products() {
           className="mb-12"
         >
           <h1 className="text-5xl font-bold text-white mb-4">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
               Premium
             </span>{' '}
             Gaming Gear
@@ -142,8 +142,8 @@ export function Products() {
               onClick={() => handleFilterChange(category)}
               className={`px-6 py-2 rounded-lg transition-all ${
                 activeFilter === category
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
-                  : 'bg-gray-900 text-gray-400 border border-cyan-500/20 hover:border-cyan-500/50'
+                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white'
+                  : 'bg-gray-900 text-gray-400 border border-red-600/20 hover:border-red-600/50'
               }`}
             >
               {category}
@@ -156,7 +156,7 @@ export function Products() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mb-4 px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-center"
+            className="mb-4 px-4 py-2 rounded-lg bg-red-600/10 text-red-500 text-center"
           >
             Updating products...
           </motion.div>
@@ -178,7 +178,7 @@ export function Products() {
               >
                 <Link
                   to={`/products/${product._id}`}
-                  className="block relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 hover:border-cyan-500/50 transition-all"
+                  className="block relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-red-600/20 hover:border-red-600/50 transition-all"
                 >
                   {/* Image */}
                   <div className="relative h-64 overflow-hidden">
@@ -219,7 +219,7 @@ export function Products() {
                     <p className="text-gray-400 mb-4 line-clamp-2">{product.description}</p>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-2xl text-cyan-400 font-bold">
+                      <span className="text-2xl text-red-500 font-bold">
                         ₹{product.price.toLocaleString()}
                       </span>
                       <button
@@ -236,7 +236,7 @@ export function Products() {
                         disabled={!product.inStock}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
                           product.inStock
-                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
+                            ? 'bg-gradient-to-r from-red-600 to-red-700 text-white'
                             : 'bg-gray-700 text-gray-400 cursor-not-allowed'
                         }`}
                       >
@@ -267,7 +267,7 @@ export function Products() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-cyan-500/50 transition-all"
+              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
             >
               Previous
             </button>
@@ -294,8 +294,8 @@ export function Products() {
                   onClick={() => handlePageChange(pageNum)}
                   className={`w-10 h-10 rounded-lg transition-all ${
                     currentPage === pageNum
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
-                      : 'bg-gray-900 text-gray-400 border border-cyan-500/20 hover:border-cyan-500/50'
+                      ? 'bg-gradient-to-r from-red-600 to-red-700 text-white'
+                      : 'bg-gray-900 text-gray-400 border border-red-600/20 hover:border-red-600/50'
                   }`}
                 >
                   {pageNum}
@@ -306,7 +306,7 @@ export function Products() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === pagination.totalPages}
-              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-cyan-500/50 transition-all"
+              className="px-4 py-2 rounded-lg bg-gray-900 text-gray-400 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
             >
               Next
             </button>

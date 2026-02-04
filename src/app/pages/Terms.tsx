@@ -3,7 +3,7 @@ export function Terms() {
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 pb-12">
       <div className="max-w-4xl mx-auto px-6">
         <h1 className="text-4xl font-bold text-white mb-8">Terms of Service</h1>
-        <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-cyan-500/20 rounded-xl p-8">
+        <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-red-600/20 rounded-xl p-8">
           <div className="prose prose-invert max-w-none">
             <p className="text-gray-300 mb-6">
               Welcome to NeoSell. These terms and conditions outline the rules and regulations

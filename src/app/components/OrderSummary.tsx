@@ -19,7 +19,7 @@ const OrderSummary: React.FC = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl p-6 sticky top-24"
+      className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl p-6 sticky top-24"
     >
       <h3 className="text-xl font-bold text-white mb-4">Order Summary</h3>
 
@@ -68,12 +68,12 @@ const OrderSummary: React.FC = () => {
 
       <div className="flex justify-between items-center mb-6">
         <span className="text-lg font-bold text-white">Total</span>
-        <span className="text-2xl font-bold text-cyan-400">₹{total.toLocaleString('en-IN')}</span>
+        <span className="text-2xl font-bold text-red-500">₹{total.toLocaleString('en-IN')}</span>
       </div>
 
       {/* Checkout Button */}
       <button
-        className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all font-semibold"
+        className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all font-semibold"
       >
         <CreditCard className="w-5 h-5" />
         Proceed to Checkout

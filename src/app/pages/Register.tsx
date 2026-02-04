@@ -145,13 +145,13 @@ export function Register() {
           <Link to="/">
             <h1 className="text-4xl font-bold inline-block">
               <span className="text-white">Grip</span>
-              <span className="text-cyan-400">X</span>
+              <span className="text-red-500">X</span>
             </h1>
           </Link>
         </div>
 
         {/* Register Card */}
-        <div className="p-6 bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-lg">
+        <div className="p-6 bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-lg">
           <h2 className="text-2xl font-bold text-white mb-2">Create account</h2>
           <p className="text-gray-400 mb-6">Join NeoSell for exclusive deals on electronics</p>
 
@@ -162,15 +162,15 @@ export function Register() {
                 Your name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <input
                   type="text"
                   value={formData.fullName}
                   onChange={(e) => handleInputChange('fullName', e.target.value)}
                   placeholder="First and last name"
                   className={`w-full pl-10 pr-4 py-2 bg-gray-900 border ${
-                    error && !formData.fullName ? 'border-red-500' : 'border-cyan-500/30'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors`}
+                    error && !formData.fullName ? 'border-red-500' : 'border-red-600/30'
+                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors`}
                 />
               </div>
             </div>
@@ -181,15 +181,15 @@ export function Register() {
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   placeholder="your@email.com"
                   className={`w-full pl-10 pr-4 py-2 bg-gray-900 border ${
-                    error && !formData.email ? 'border-red-500' : 'border-cyan-500/30'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors`}
+                    error && !formData.email ? 'border-red-500' : 'border-red-600/30'
+                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors`}
                 />
               </div>
             </div>
@@ -200,13 +200,13 @@ export function Register() {
                 Mobile number <span className="text-gray-500">(optional)</span>
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   placeholder="10-digit mobile number"
-                  className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-cyan-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                  className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-red-600/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
                 />
               </div>
             </div>
@@ -220,19 +220,19 @@ export function Register() {
                 <button
                   type="button"
                   onClick={() => setShowPasswordHelp(!showPasswordHelp)}
-                  className="text-xs text-cyan-400 hover:text-cyan-300"
+                  className="text-xs text-red-500 hover:text-red-400"
                 >
                   Password tips
                 </button>
               </div>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
                   placeholder="At least 8 characters"
-                  className="w-full pl-10 pr-10 py-2 bg-gray-900 border border-cyan-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                  className="w-full pl-10 pr-10 py-2 bg-gray-900 border border-red-600/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
                 />
                 <button
                   type="button"
@@ -306,7 +306,7 @@ export function Register() {
                 Re-enter password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
@@ -315,8 +315,8 @@ export function Register() {
                   className={`w-full pl-10 pr-4 py-2 bg-gray-900 border ${
                     formData.confirmPassword && formData.password !== formData.confirmPassword
                       ? 'border-red-500' 
-                      : 'border-cyan-500/30'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors`}
+                      : 'border-red-600/30'
+                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors`}
                 />
                 {formData.confirmPassword && (
                   <span className={`absolute right-3 top-1/2 -translate-y-1/2 ${
@@ -364,7 +364,7 @@ export function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {loading ? (
                 <>
@@ -386,7 +386,7 @@ export function Register() {
               <Checkbox.Root
                 checked={marketingEmails}
                 onCheckedChange={(checked) => setMarketingEmails(checked as boolean)}
-                className="w-5 h-5 mt-0.5 rounded border-2 border-gray-500 bg-gray-800 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500 flex items-center justify-center flex-shrink-0"
+                className="w-5 h-5 mt-0.5 rounded border-2 border-gray-500 bg-gray-800 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600 flex items-center justify-center flex-shrink-0"
               >
                 <Checkbox.Indicator>
                   <CheckIcon className="text-white w-4 h-4" />
@@ -409,7 +409,7 @@ export function Register() {
               <Checkbox.Root
                 checked={agreedToTerms}
                 onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
-                className="w-5 h-5 mt-0.5 rounded border-2 border-gray-500 bg-gray-800 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500 flex items-center justify-center flex-shrink-0"
+                className="w-5 h-5 mt-0.5 rounded border-2 border-gray-500 bg-gray-800 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600 flex items-center justify-center flex-shrink-0"
               >
                 <Checkbox.Indicator>
                   <CheckIcon className="text-white w-4 h-4" />
@@ -418,11 +418,11 @@ export function Register() {
               <div>
                 <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
                   I agree to the{' '}
-                  <a href="#" className="text-cyan-400 hover:text-cyan-300 hover:underline">
+                  <a href="#" className="text-red-500 hover:text-red-400 hover:underline">
                     Conditions of Use
                   </a>{' '}
                   and{' '}
-                  <a href="#" className="text-cyan-400 hover:text-cyan-300 hover:underline">
+                  <a href="#" className="text-red-500 hover:text-red-400 hover:underline">
                     Privacy Notice
                   </a>
                 </span>
@@ -455,9 +455,9 @@ export function Register() {
         {/* Footer Links */}
         <div className="mt-8 pt-6 border-t border-gray-800">
           <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
-            <a href="#" className="hover:text-cyan-400 hover:underline">Conditions of Use</a>
-            <a href="#" className="hover:text-cyan-400 hover:underline">Privacy Notice</a>
-            <a href="#" className="hover:text-cyan-400 hover:underline">Help</a>
+            <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
+            <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>
+            <a href="#" className="hover:text-red-500 hover:underline">Help</a>
           </div>
           <p className="text-center text-xs text-gray-600 mt-2">
             © 2026 NeoSell. All rights reserved.

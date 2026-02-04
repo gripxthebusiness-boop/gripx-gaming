@@ -46,7 +46,7 @@ export function Home() {
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="text-white">Your Trusted</span>
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
                 Electronics Store
               </span>
             </h1>
@@ -56,7 +56,7 @@ export function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/products"
-                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all group"
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all group"
               >
                 Explore Products
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -71,8 +71,8 @@ export function Home() {
           transition={{ repeat: Infinity, duration: 2 }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
-          <div className="w-6 h-10 border-2 border-cyan-500 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-cyan-500 rounded-full mt-2" />
+          <div className="w-6 h-10 border-2 border-red-600 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-red-600 rounded-full mt-2" />
           </div>
         </motion.div>
       </section>
@@ -98,9 +98,9 @@ export function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl hover:border-cyan-500/50 transition-all group"
+                className="p-6 bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl hover:border-red-600/50 transition-all group"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-700 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>

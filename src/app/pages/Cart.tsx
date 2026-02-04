@@ -18,13 +18,13 @@ const Cart: React.FC = () => {
             className="text-center py-16"
           >
             <div className="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-              <ShoppingBag className="w-12 h-12 text-cyan-400" />
+              <ShoppingBag className="w-12 h-12 text-red-500" />
             </div>
             <h2 className="text-3xl font-bold text-white mb-4">Your Cart is Empty</h2>
             <p className="text-gray-400 mb-8">Looks like you haven't added any items to your cart yet.</p>
             <Link
               to="/products"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all group"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all group"
             >
               Browse Products
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -56,7 +56,7 @@ const Cart: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             className="flex-1"
           >
-            <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl overflow-hidden">
+            <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
@@ -80,7 +80,7 @@ const Cart: React.FC = () => {
                   {/* Product Info */}
                   <div className="flex-1 text-center sm:text-left">
                     <h4 className="text-lg font-semibold text-white mb-1">{item.name}</h4>
-                    <p className="text-cyan-400 font-bold">₹{item.price.toLocaleString('en-IN')}</p>
+                    <p className="text-red-500 font-bold">₹{item.price.toLocaleString('en-IN')}</p>
                   </div>
 
                   {/* Quantity Controls */}
@@ -115,7 +115,7 @@ const Cart: React.FC = () => {
             {/* Continue Shopping */}
             <Link
               to="/products"
-              className="inline-flex items-center mt-6 text-cyan-400 hover:text-cyan-300 transition-colors"
+              className="inline-flex items-center mt-6 text-red-500 hover:text-red-400 transition-colors"
             >
               <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
               Continue Shopping

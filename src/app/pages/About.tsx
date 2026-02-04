@@ -44,7 +44,7 @@ export function About() {
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="text-white">About</span>
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
                 NeoSell
               </span>
             </h1>
@@ -78,8 +78,8 @@ export function About() {
                 transition={{ delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 hover:border-cyan-500/50 transition-all p-8 text-center">
-                  <div className="text-cyan-400 mb-4 flex justify-center">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-red-600/20 hover:border-red-600/50 transition-all p-8 text-center">
+                  <div className="text-red-500 mb-4 flex justify-center">
                     {value.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>

@@ -25,8 +25,8 @@ function PageLoader() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-cyan-400 text-lg">Loading...</p>
+        <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+        <p className="text-red-500 text-lg">Loading...</p>
       </div>
     </div>
   );

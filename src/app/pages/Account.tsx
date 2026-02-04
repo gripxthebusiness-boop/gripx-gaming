@@ -148,7 +148,7 @@ export default function Account() {
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black pt-24 px-6">
-        <div className="max-w-3xl mx-auto bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl p-8 text-center">
+        <div className="max-w-3xl mx-auto bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl p-8 text-center">
           <User className="w-16 h-16 text-gray-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-white mb-2">Sign In Required</h2>
           <p className="text-gray-400">Please sign in to view and manage your account.</p>
@@ -162,7 +162,7 @@ export default function Account() {
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Page Header */}
         <div className="flex items-center space-x-4 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
             <User className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -172,16 +172,16 @@ export default function Account() {
         </div>
 
         {/* Profile Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-cyan-500/10 flex items-center justify-between">
+        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-red-600/10 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Shield className="w-5 h-5 text-cyan-400" />
+              <Shield className="w-5 h-5 text-red-500" />
               <h2 className="text-lg font-semibold text-white">Profile Information</h2>
             </div>
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-4 py-2 text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-red-500 hover:text-red-400 transition-colors"
               >
                 Edit Profile
               </button>
@@ -203,7 +203,7 @@ export default function Account() {
                 <button
                   onClick={handleSaveProfile}
                   disabled={loading}
-                  className="flex items-center space-x-2 px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors disabled:opacity-50"
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
                 >
                   <Save className="w-4 h-4" />
                   <span>Save</span>
@@ -240,7 +240,7 @@ export default function Account() {
                     name="username"
                     value={profileData.username}
                     onChange={handleProfileChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-cyan-500/20 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors"
                   />
                 ) : (
                   <p className="px-4 py-3 bg-gray-800/30 rounded-lg text-white font-medium">{user.username}</p>
@@ -258,7 +258,7 @@ export default function Account() {
                     name="email"
                     value={profileData.email}
                     onChange={handleProfileChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-cyan-500/20 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors"
                   />
                 ) : (
                   <p className="px-4 py-3 bg-gray-800/30 rounded-lg text-white font-medium">{user.email}</p>
@@ -277,7 +277,7 @@ export default function Account() {
                     value={profileData.phone}
                     onChange={handleProfileChange}
                     placeholder="Enter your phone number"
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-cyan-500/20 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors"
                   />
                 ) : (
                   <p className="px-4 py-3 bg-gray-800/30 rounded-lg text-white font-medium">
@@ -290,16 +290,16 @@ export default function Account() {
         </div>
 
         {/* Password Section */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-cyan-500/10 flex items-center justify-between">
+        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-red-600/10 flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <Lock className="w-5 h-5 text-cyan-400" />
+              <Lock className="w-5 h-5 text-red-500" />
               <h2 className="text-lg font-semibold text-white">Password</h2>
             </div>
             {!showPasswordForm && (
               <button
                 onClick={() => setShowPasswordForm(true)}
-                className="px-4 py-2 text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-red-500 hover:text-red-400 transition-colors"
               >
                 Change Password
               </button>
@@ -334,7 +334,7 @@ export default function Account() {
                       value={passwordData.currentPassword}
                       onChange={handlePasswordChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-cyan-500/20 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-colors pr-12"
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors pr-12"
                     />
                     <button
                       type="button"
@@ -355,7 +355,7 @@ export default function Account() {
                       value={passwordData.newPassword}
                       onChange={handlePasswordChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-cyan-500/20 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-colors pr-12"
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors pr-12"
                     />
                     <button
                       type="button"
@@ -374,7 +374,7 @@ export default function Account() {
                           <div 
                             className={`h-full transition-all ${
                               passwordStrength.strength === 'strong' ? 'bg-green-500 w-full' :
-                              passwordStrength.strength === 'good' ? 'bg-cyan-500 w-3/4' :
+                              passwordStrength.strength === 'good' ? 'bg-red-600 w-3/4' :
                               passwordStrength.strength === 'fair' ? 'bg-yellow-500 w-1/2' :
                               'bg-red-500 w-1/4'
                             }`}
@@ -382,7 +382,7 @@ export default function Account() {
                         </div>
                         <span className={`text-sm font-medium capitalize ${
                           passwordStrength.strength === 'strong' ? 'text-green-400' :
-                          passwordStrength.strength === 'good' ? 'text-cyan-400' :
+                          passwordStrength.strength === 'good' ? 'text-red-500' :
                           passwordStrength.strength === 'fair' ? 'text-yellow-400' :
                           'text-red-400'
                         }`}>
@@ -416,7 +416,7 @@ export default function Account() {
                       value={passwordData.confirmPassword}
                       onChange={handlePasswordChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-cyan-500/20 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-colors pr-12"
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-red-600/20 rounded-lg text-white focus:outline-none focus:border-red-600 transition-colors pr-12"
                     />
                     <button
                       type="button"
@@ -432,7 +432,7 @@ export default function Account() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-colors disabled:opacity-50"
+                    className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-colors disabled:opacity-50"
                   >
                     <Lock className="w-4 h-4" />
                     <span>{loading ? 'Changing...' : 'Change Password'}</span>
@@ -456,9 +456,9 @@ export default function Account() {
         </div>
 
         {/* Session Information */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-cyan-500/10 flex items-center space-x-3">
-            <Clock className="w-5 h-5 text-cyan-400" />
+        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-red-600/10 flex items-center space-x-3">
+            <Clock className="w-5 h-5 text-red-500" />
             <h2 className="text-lg font-semibold text-white">Session Information</h2>
           </div>
           <div className="p-6">

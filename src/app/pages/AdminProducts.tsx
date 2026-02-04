@@ -265,7 +265,7 @@ export function AdminProducts() {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-cyan-400">Loading products...</div>
+        <div className="text-red-500">Loading products...</div>
       </div>
     );
   }
@@ -277,7 +277,7 @@ export function AdminProducts() {
           <h1 className="text-3xl font-bold text-white">Product Management</h1>
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
+            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
           >
             <Plus size={20} />
             <span>Add Product</span>
@@ -315,7 +315,7 @@ export function AdminProducts() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-xl p-6 mb-8"
+            className="bg-gradient-to-br from-gray-900 to-black border border-red-600/30 rounded-xl p-6 mb-8"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-white">
@@ -336,7 +336,7 @@ export function AdminProducts() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
@@ -347,7 +347,7 @@ export function AdminProducts() {
                   type="text"
                   value={formData.brand}
                   onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
@@ -359,7 +359,7 @@ export function AdminProducts() {
                   step="0.01"
                   value={formData.price}
                   onChange={(e) => setFormData({...formData, price: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                   required
                 />
               </div>
@@ -369,7 +369,7 @@ export function AdminProducts() {
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({...formData, category: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                   required
                 >
                   <option value="">Select Category</option>
@@ -393,7 +393,7 @@ export function AdminProducts() {
                         newImages[index] = e.target.value;
                         setFormData({...formData, images: newImages});
                       }}
-                      className="flex-1 px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                      className="flex-1 px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                       placeholder="Enter image URL"
                       required={index === 0}
                     />
@@ -427,7 +427,7 @@ export function AdminProducts() {
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                 />
               </div>
 
@@ -457,7 +457,7 @@ export function AdminProducts() {
                               value={spec.key}
                               onChange={(e) => updateSpecRow(index, 'key', e.target.value)}
                               placeholder="e.g., Sensor"
-                              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:border-cyan-500 focus:outline-none"
+                              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:border-red-600 focus:outline-none"
                             />
                           </td>
                           <td className="px-2 py-2">
@@ -466,7 +466,7 @@ export function AdminProducts() {
                               value={spec.value}
                               onChange={(e) => updateSpecRow(index, 'value', e.target.value)}
                               placeholder="e.g., Optical"
-                              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:border-cyan-500 focus:outline-none"
+                              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white text-sm focus:border-red-600 focus:outline-none"
                             />
                           </td>
                           <td className="px-2 py-2">
@@ -487,7 +487,7 @@ export function AdminProducts() {
                     <button
                       type="button"
                       onClick={addSpecRow}
-                      className="flex items-center gap-2 px-4 py-2 bg-cyan-600/20 text-cyan-400 rounded-lg hover:bg-cyan-600/30 transition-colors text-sm"
+                      className="flex items-center gap-2 px-4 py-2 bg-red-700/20 text-red-500 rounded-lg hover:bg-red-700/30 transition-colors text-sm"
                     >
                       <Plus size={16} />
                       Add Specification
@@ -510,7 +510,7 @@ export function AdminProducts() {
                   value={formData.stockQuantity}
                   onChange={(e) => setFormData({...formData, stockQuantity: e.target.value})}
                   placeholder="Leave empty for unlimited"
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none"
+                  className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none"
                 />
                 <p className="text-xs text-gray-500 mt-1">Leave empty to not show stock count to customers</p>
               </div>
@@ -522,7 +522,7 @@ export function AdminProducts() {
                     type="checkbox"
                     checked={formData.inStock}
                     onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
-                    className="w-5 h-5 rounded border-gray-600 text-cyan-500 focus:ring-cyan-500 bg-gray-800"
+                    className="w-5 h-5 rounded border-gray-600 text-red-600 focus:ring-red-600 bg-gray-800"
                   />
                   <span className="text-gray-300">Product is in stock</span>
                 </label>
@@ -540,7 +540,7 @@ export function AdminProducts() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <>
@@ -560,7 +560,7 @@ export function AdminProducts() {
         )}
 
         {/* Products Table */}
-        <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-xl overflow-hidden">
+        <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/30 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-800/50">
@@ -587,7 +587,7 @@ export function AdminProducts() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{product.brand || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-cyan-400">₹{product.price}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-red-500">₹{product.price}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full w-fit ${
@@ -604,7 +604,7 @@ export function AdminProducts() {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => startEdit(product)}
-                          className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                          className="text-red-500 hover:text-red-400 transition-colors"
                         >
                           <Edit size={18} />
                         </button>

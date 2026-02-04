@@ -112,7 +112,7 @@ export default function Navigation() {
       <div className="fixed top-4 right-4 z-50">
         <button
           onClick={() => setNavHidden(false)}
-          className="bg-black/80 backdrop-blur-lg border border-cyan-500/20 rounded-lg p-2 text-gray-400 hover:text-white transition-colors"
+          className="bg-black/80 backdrop-blur-lg border border-red-600/20 rounded-lg p-2 text-gray-400 hover:text-white transition-colors"
           title="Show Navigation"
         >
           <ChevronDown size={20} />
@@ -122,7 +122,7 @@ export default function Navigation() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-cyan-500/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-red-600/20">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo with secret click feature */}
@@ -136,7 +136,7 @@ export default function Navigation() {
           >
             <div className="text-3xl font-bold">
               <span className="text-white">Neo</span>
-              <span className="text-cyan-400">Sell</span>
+              <span className="text-red-500">Sell</span>
             </div>
           </button>
 
@@ -149,14 +149,14 @@ export default function Navigation() {
                 onMouseEnter={() => prefetchOnHover(link.href)}
                 onMouseLeave={cancelPrefetch}
                 className={`relative text-sm font-medium transition-colors ${
-                  isActive(link.href) ? 'text-cyan-400' : 'text-gray-300 hover:text-white'
+                  isActive(link.href) ? 'text-red-500' : 'text-gray-300 hover:text-white'
                 }`}
               >
                 {link.label}
                 {isActive(link.href) && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-400"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-red-500"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -170,7 +170,7 @@ export default function Navigation() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
                     <span className="text-white text-sm font-bold">
                       {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </span>
@@ -195,21 +195,21 @@ export default function Navigation() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-64 bg-gray-900 border border-cyan-500/20 rounded-xl shadow-xl overflow-hidden"
+                      className="absolute right-0 mt-2 w-64 bg-gray-900 border border-red-600/20 rounded-xl shadow-xl overflow-hidden"
                     >
                       {/* Session Timer */}
-                      <div className="px-4 py-2 bg-gray-800/50 border-b border-cyan-500/10 flex items-center justify-between">
+                      <div className="px-4 py-2 bg-gray-800/50 border-b border-red-600/10 flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-gray-400">
                           <Clock className="w-4 h-4" />
                           <span className="text-xs">Session expires in</span>
                         </div>
-                        <span className="text-xs text-cyan-400 font-mono">
+                        <span className="text-xs text-red-500 font-mono">
                           {formatSessionTime(sessionTimeRemaining)}
                         </span>
                       </div>
 
                       {/* Account Section */}
-                      <div className="p-4 border-b border-cyan-500/10">
+                      <div className="p-4 border-b border-red-600/10">
                         <p className="text-xs text-gray-500 mb-2">Your Account</p>
                         <ul className="space-y-1">
                           {user?.role === 'admin' && (
@@ -219,7 +219,7 @@ export default function Navigation() {
                                 onClick={() => setUserMenuOpen(false)}
                                 className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
                               >
-                                <Settings className="w-4 h-4 text-cyan-400" />
+                                <Settings className="w-4 h-4 text-red-500" />
                                 <span className="text-sm text-gray-300">Product Management</span>
                               </Link>
                             </li>
@@ -257,7 +257,7 @@ export default function Navigation() {
             ) : (
               <Link
                 to="/login"
-                className="inline-flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all"
+                className="inline-flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all"
               >
                 <LogIn size={18} />
                 <span>Sign in</span>
@@ -308,7 +308,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black border-t border-cyan-500/20"
+            className="md:hidden bg-black border-t border-red-600/20"
           >
             <div className="px-6 py-4 space-y-4">
               {links.map((link) => (
@@ -317,7 +317,7 @@ export default function Navigation() {
                   to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block text-sm font-medium ${
-                    isActive(link.href) ? 'text-cyan-400' : 'text-gray-300'
+                    isActive(link.href) ? 'text-red-500' : 'text-gray-300'
                   }`}
                 >
                   {link.label}
@@ -329,7 +329,7 @@ export default function Navigation() {
                 <>
                   <div className="pt-4 border-t border-gray-800">
                     <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center">
                         <span className="text-white font-bold">
                           {user?.username?.charAt(0).toUpperCase() || 'U'}
                         </span>
@@ -362,7 +362,7 @@ export default function Navigation() {
               ) : (
                 <Link
                   to="/login"
-                  className="block text-sm font-medium px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
+                  className="block text-sm font-medium px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Sign in

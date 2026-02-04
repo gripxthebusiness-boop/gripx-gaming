@@ -13,7 +13,7 @@ export function Privacy() {
         >
           <Link
             to="/"
-            className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors mb-8"
+            className="inline-flex items-center text-red-500 hover:text-red-400 transition-colors mb-8"
           >
             <ArrowLeft size={20} className="mr-2" />
             Back to Home

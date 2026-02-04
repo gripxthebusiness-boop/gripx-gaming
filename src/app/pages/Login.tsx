@@ -174,13 +174,13 @@ export function Login() {
           <Link to="/">
             <h1 className="text-4xl font-bold inline-block">
               <span className="text-white">Grip</span>
-              <span className="text-cyan-400">X</span>
+              <span className="text-red-500">X</span>
             </h1>
           </Link>
         </div>
 
         {/* Login Card */}
-        <div className="p-6 bg-gradient-to-br from-gray-900 to-black border border-cyan-500/20 rounded-lg">
+        <div className="p-6 bg-gradient-to-br from-gray-900 to-black border border-red-600/20 rounded-lg">
           <h2 className="text-2xl font-bold text-white mb-4">Sign in</h2>
           <p className="text-gray-400 text-sm mb-4">to access your NeoSell account</p>
 
@@ -189,14 +189,14 @@ export function Login() {
             <Dialog.Trigger asChild>
               <button 
                 type="button"
-                className="w-full py-2 px-4 mb-4 bg-transparent border border-cyan-500/30 rounded-lg text-cyan-400 hover:bg-cyan-500/10 transition-colors text-sm"
+                className="w-full py-2 px-4 mb-4 bg-transparent border border-red-600/30 rounded-lg text-red-500 hover:bg-red-600/10 transition-colors text-sm"
               >
                 Continue with OTP
               </button>
             </Dialog.Trigger>
             <Dialog.Portal>
               <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" />
-              <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 border border-cyan-500/30 rounded-xl p-6 w-full max-w-md z-50">
+              <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 border border-red-600/30 rounded-xl p-6 w-full max-w-md z-50">
                 <Dialog.Title className="text-xl font-bold text-white mb-2">
                   {otpStep === 'phone' ? 'Sign in with OTP' : 'Enter OTP'}
                 </Dialog.Title>
@@ -209,7 +209,7 @@ export function Login() {
                 {otpStep === 'phone' ? (
                   <div className="space-y-4">
                     <div className="flex gap-2">
-                      <select className="bg-gray-800 border border-cyan-500/30 rounded-lg px-3 py-2 text-white">
+                      <select className="bg-gray-800 border border-red-600/30 rounded-lg px-3 py-2 text-white">
                         <option>+91</option>
                         <option>+1</option>
                         <option>+44</option>
@@ -224,7 +224,7 @@ export function Login() {
                           setOtp(newOtp);
                         }}
                         placeholder="Phone number"
-                        className="flex-1 bg-gray-800 border border-cyan-500/30 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+                        className="flex-1 bg-gray-800 border border-red-600/30 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-red-600"
                       />
                     </div>
                     {otpError && (
@@ -239,7 +239,7 @@ export function Login() {
                       <button 
                         onClick={handleOtpSend}
                         disabled={otpLoading || otp[0].length < 10}
-                        className="flex-1 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors disabled:opacity-50 flex items-center justify-center"
+                        className="flex-1 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center justify-center"
                       >
                         {otpLoading ? 'Sending...' : 'Send OTP'}
                       </button>
@@ -257,7 +257,7 @@ export function Login() {
                           value={digit}
                           onChange={(e) => handleOtpChange(index, e.target.value)}
                           onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                          className="w-12 h-12 text-center text-xl font-bold bg-gray-800 border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:border-cyan-500"
+                          className="w-12 h-12 text-center text-xl font-bold bg-gray-800 border border-red-600/30 rounded-lg text-white focus:outline-none focus:border-red-600"
                         />
                       ))}
                     </div>
@@ -275,7 +275,7 @@ export function Login() {
                       <button 
                         onClick={handleOtpVerify}
                         disabled={otpLoading}
-                        className="flex-1 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors disabled:opacity-50"
+                        className="flex-1 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
                       >
                         {otpLoading ? 'Verifying...' : 'Verify & Sign In'}
                       </button>
@@ -311,10 +311,10 @@ export function Login() {
                   className={`w-full pl-10 pr-4 py-2 bg-gray-900 border ${
                     error && !validateEmailOrPhone(emailOrPhone) 
                       ? 'border-red-500' 
-                      : 'border-cyan-500/30'
-                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors`}
+                      : 'border-red-600/30'
+                  } rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors`}
                 />
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
               </div>
             </div>
 
@@ -329,9 +329,9 @@ export function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 6 characters"
-                  className="w-full pl-10 pr-10 py-2 bg-gray-900 border border-cyan-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                  className="w-full pl-10 pr-10 py-2 bg-gray-900 border border-red-600/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-600 transition-colors"
                 />
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -360,7 +360,7 @@ export function Login() {
             <button
               type="submit"
               disabled={loading || !emailOrPhone || !password}
-              className="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="w-full py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {loading ? (
                 <>
@@ -383,7 +383,7 @@ export function Login() {
                 type="checkbox"
                 checked={keepSignedIn}
                 onChange={(e) => setKeepSignedIn(e.target.checked)}
-                className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-gray-900"
+                className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-red-600 focus:ring-red-600 focus:ring-offset-gray-900"
               />
               <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
                 Keep me signed in
@@ -395,7 +395,7 @@ export function Login() {
           <div className="mt-4">
             <button
               onClick={() => setShowPasswordHelp(!showPasswordHelp)}
-              className="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+              className="text-sm text-red-500 hover:text-red-400 flex items-center gap-1"
             >
               Need help?
               <span className={`transition-transform ${showPasswordHelp ? 'rotate-180' : ''}`}>
@@ -411,12 +411,12 @@ export function Login() {
                   exit={{ opacity: 0, height: 0 }}
                   className="mt-2 space-y-1 overflow-hidden"
                 >
-                  <Link to="/forgot-password" className="block text-sm text-cyan-400 hover:text-cyan-300 hover:underline">
+                  <Link to="/forgot-password" className="block text-sm text-red-500 hover:text-red-400 hover:underline">
                     Forgot password
                   </Link>
                   <button
                     onClick={() => setShowIssuesHelp(!showIssuesHelp)}
-                    className="block text-sm text-cyan-400 hover:text-cyan-300 hover:underline text-left"
+                    className="block text-sm text-red-500 hover:text-red-400 hover:underline text-left"
                   >
                     Other issues with Sign-In
                   </button>
@@ -467,9 +467,9 @@ export function Login() {
         {/* Footer Links */}
         <div className="mt-8 pt-6 border-t border-gray-800">
           <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
-            <a href="#" className="hover:text-cyan-400 hover:underline">Conditions of Use</a>
-            <a href="#" className="hover:text-cyan-400 hover:underline">Privacy Notice</a>
-            <a href="#" className="hover:text-cyan-400 hover:underline">Help</a>
+            <a href="#" className="hover:text-red-500 hover:underline">Conditions of Use</a>
+            <a href="#" className="hover:text-red-500 hover:underline">Privacy Notice</a>
+            <a href="#" className="hover:text-red-500 hover:underline">Help</a>
           </div>
           <p className="text-center text-xs text-gray-600 mt-2">
             © 2026 NeoSell. All rights reserved.

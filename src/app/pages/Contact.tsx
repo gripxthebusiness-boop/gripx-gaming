@@ -44,7 +44,7 @@ export function Contact() {
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="text-white">Get in</span>
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
                 Touch
               </span>
             </h1>
@@ -76,8 +76,8 @@ export function Contact() {
 
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-cyan-400" />
+                  <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
+                    <Phone className="w-6 h-6 text-red-500" />
                   </div>
                   <div>
                     <p className="text-white font-semibold">Phone</p>
@@ -87,8 +87,8 @@ export function Contact() {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-cyan-400" />
+                  <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-red-500" />
                   </div>
                   <div>
                     <p className="text-white font-semibold">Email</p>
@@ -97,8 +97,8 @@ export function Contact() {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-cyan-400" />
+                  <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-red-500" />
                   </div>
                   <div>
                     <p className="text-white font-semibold">Location</p>
@@ -107,23 +107,23 @@ export function Contact() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-xl p-6">
+              <div className="bg-gradient-to-br from-gray-900 to-black border border-red-600/30 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-white mb-4">Why Choose NeoSell?</h3>
                 <ul className="space-y-3 text-gray-300">
                   <li className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
                     <span>Curated selection from trusted brands</span>
                   </li>
                   <li className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
                     <span>Expert recommendations for your setup</span>
                   </li>
                   <li className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
                     <span>Cash on Delivery available</span>
                   </li>
                   <li className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
                     <span>WhatsApp support for quick responses</span>
                   </li>
                 </ul>
@@ -135,7 +135,7 @@ export function Contact() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-xl p-8"
+              className="bg-gradient-to-br from-gray-900 to-black border border-red-600/30 rounded-xl p-8"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Send us a Message</h3>
 
@@ -160,7 +160,7 @@ export function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none transition-colors"
                         placeholder="Your name"
                       />
                     </div>
@@ -172,7 +172,7 @@ export function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none transition-colors"
                         placeholder="your@email.com"
                       />
                     </div>
@@ -186,7 +186,7 @@ export function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none transition-colors"
                       placeholder="How can we help?"
                     />
                   </div>
@@ -199,14 +199,14 @@ export function Contact() {
                       onChange={handleChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-cyan-500 focus:outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-red-600 focus:outline-none transition-colors resize-none"
                       placeholder="Tell us about your gaming setup needs..."
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center space-x-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-600 hover:to-blue-700 transition-all group"
+                    className="w-full flex items-center justify-center space-x-2 px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all group"
                   >
                     <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     <span>Send Message</span>
