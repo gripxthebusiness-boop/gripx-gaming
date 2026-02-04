@@ -23,7 +23,7 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-900 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
@@ -33,7 +33,7 @@ export function Home() {
             alt="Gaming Setup"
             className="w-full h-full object-cover opacity-30"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
         </div>
 
         {/* Hero Content */}
