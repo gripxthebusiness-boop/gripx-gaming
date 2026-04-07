@@ -485,12 +485,18 @@ export function AdminProducts() {
                     <span>Specifications (Upload CSV)</span>
                   </div>
                 </label>
-                <input
-                  type="file"
-                  accept=".csv"
-                  onChange={handleSpecFileUpload}
-                  className="mb-3"
-                />
+                <div className="mb-3">
+                  <label className="inline-flex items-center space-x-2 px-4 py-2 bg-red-100 text-gray-900 rounded-lg hover:bg-red-200 transition-colors cursor-pointer">
+                    <span>📤 Upload CSV File</span>
+                    <input
+                      type="file"
+                      accept=".csv"
+                      onChange={handleSpecFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                  <p className="text-xs text-gray-700 mt-2">CSV should have columns: Specification, Value</p>
+                </div>
                 <div className="bg-red-50/50 rounded-lg overflow-hidden border border-red-300">
                   <table className="w-full">
                     <thead className="bg-red-100/50">
