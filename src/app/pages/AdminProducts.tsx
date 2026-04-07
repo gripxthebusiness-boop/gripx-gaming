@@ -266,6 +266,24 @@ export function AdminProducts() {
     setSpecItems(newItems);
   };
 
+  // Handler for CSV spec upload
+  const handleSpecFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results: any) => {
+        // Expect columns: Specification, Value
+        const parsed = results.data.map((row: any) => ({
+          key: row.Specification || row.Key || '',
+          value: row.Value || '',
+        })).filter((row: any) => row.key && row.value);
+        setSpecItems(parsed);
+      },
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
