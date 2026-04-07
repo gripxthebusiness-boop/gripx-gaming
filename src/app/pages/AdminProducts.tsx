@@ -492,15 +492,139 @@ export function AdminProducts() {
                   </table>
                 </div>
               </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
 
-          {products.length === 0 && (
+              {/* Stock Quantity */}
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Package size={16} />
+                    <span>Stock Quantity</span>
+                  </div>
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={formData.stockQuantity}
+                  onChange={(e) => setFormData({...formData, stockQuantity: e.target.value})}
+                  placeholder="Leave empty for unlimited"
+                  className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
+                />
+                <p className="text-xs text-gray-800 mt-1">Leave empty to not show stock count to customers</p>
+              </div>
+
+              {/* In Stock Toggle */}
+              <div className="flex items-center">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.inStock}
+                    onChange={(e) => setFormData({...formData, inStock: e.target.checked})}
+                    className="w-5 h-5 rounded border-red-300 text-red-600 focus:ring-red-600 bg-red-50"
+                  />
+                  <span className="text-gray-900">Product is in stock</span>
+                </label>
+              </div>
+
+              <div className="md:col-span-2 flex justify-end space-x-4 pt-4">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  disabled={submitting}
+                  className="px-6 py-2 border border-red-300 text-gray-900 rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save size={18} />
+                      <span>{editingProduct ? 'Update Product' : 'Add Product'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+
+        {/* Products Table */}
+        {products.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white border border-red-600/30 rounded-xl overflow-hidden"
+          >
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gradient-to-r from-red-100 to-red-50">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Product</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Brand</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Category</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Price</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Stock</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {products.map((product) => (
+                    <tr key={product._id} className="hover:bg-red-50/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          {product.images?.[0] && (
+                            <img src={product.images[0]} alt={product.name} className="w-10 h-10 rounded object-cover" />
+                          )}
+                          <span className="text-gray-900 font-medium">{product.name}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-800">{product.brand}</td>
+                      <td className="px-6 py-4 text-gray-800">{product.category}</td>
+                      <td className="px-6 py-4 text-gray-900 font-semibold">₹{product.price}</td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-lg text-sm font-medium whitespace-nowrap ${
+                          product.inStock
+                            ? 'bg-green-100/50 text-green-700'
+                            : 'bg-red-100/50 text-red-700'
+                        }`}>
+                          {product.inStock ? 'In Stock' : 'Out of Stock'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={() => startEdit(product)}
+                            className="p-2 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors"
+                            title="Edit product"
+                          >
+                            <Edit size={18} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(product._id)}
+                            className="p-2 hover:bg-red-100 text-red-600 rounded-lg transition-colors"
+                            title="Delete product"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </motion.div>
+        )}
+
+        {products.length === 0 && (
             <div className="text-center py-12">
               <Package size={48} className="mx-auto text-gray-800 mb-4" />
               <p className="text-gray-800">No products found. Add your first product to get started.</p>
