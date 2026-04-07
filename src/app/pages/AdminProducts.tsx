@@ -625,12 +625,11 @@ export function AdminProducts() {
         )}
 
         {products.length === 0 && (
-            <div className="text-center py-12">
-              <Package size={48} className="mx-auto text-gray-800 mb-4" />
-              <p className="text-gray-800">No products found. Add your first product to get started.</p>
-            </div>
-          )}
-        </div>
+          <div className="text-center py-12">
+            <Package size={48} className="mx-auto text-gray-800 mb-4" />
+            <p className="text-gray-800">No products found. Add your first product to get started.</p>
+          </div>
+        )}
       </div>
     </div>
   );
