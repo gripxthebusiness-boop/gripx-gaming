@@ -431,70 +431,62 @@ export function AdminProducts() {
                 />
               </div>
 
-              {/* Specifications Table */}
+              {/* Specifications Table Upload */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-900 mb-3">
                   <div className="flex items-center gap-2">
                     <Table size={16} />
-                    <span>Specifications</span>
+                    <span>Specifications (Upload CSV)</span>
                   </div>
                 </label>
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={handleSpecFileUpload}
+                  className="mb-3"
+                />
                 <div className="bg-red-50/50 rounded-lg overflow-hidden border border-red-300">
                   <table className="w-full">
                     <thead className="bg-red-100/50">
                       <tr>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Specification</th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Value</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase w-16">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-700">
                       {specItems.map((spec, index) => (
                         <tr key={index}>
-                          <td className="px-2 py-2">
-                            <input
-                              type="text"
-                              value={spec.key}
-                              onChange={(e) => updateSpecRow(index, 'key', e.target.value)}
-                              placeholder="e.g., Sensor"
-                              className="w-full px-3 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
-                            />
-                          </td>
-                          <td className="px-2 py-2">
-                            <input
-                              type="text"
-                              value={spec.value}
-                              onChange={(e) => updateSpecRow(index, 'value', e.target.value)}
-                              placeholder="e.g., Optical"
-                              className="w-full px-3 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 text-sm focus:border-red-600 focus:outline-none"
-                            />
-                          </td>
-                          <td className="px-2 py-2">
-                            <button
-                              type="button"
-                              onClick={() => removeSpecRow(index)}
-                              disabled={specItems.length === 1}
-                              className="p-2 bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                            >
-                              <Trash size={16} />
-                            </button>
-                          </td>
+                          <td className="px-2 py-2">{spec.key}</td>
+                          <td className="px-2 py-2">{spec.value}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  <div className="p-3 border-t border-red-200">
-                    <button
-                      type="button"
-                      onClick={addSpecRow}
-                      className="flex items-center gap-2 px-4 py-2 bg-red-700/20 text-red-500 rounded-lg hover:bg-red-700/30 transition-colors text-sm"
-                    >
-                      <Plus size={16} />
-                      Add Specification
-                    </button>
-                  </div>
                 </div>
               </div>
+// ...existing code...
+// Add at the top of the file:
+import Papa from 'papaparse';
+
+// ...existing code...
+
+// Add this handler in the component:
+const handleSpecFileUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: (results) => {
+      // Expect columns: Specification, Value
+      const parsed = results.data.map(row => ({
+        key: row.Specification || row.Key || '',
+        value: row.Value || '',
+      })).filter(row => row.key && row.value);
+      setSpecItems(parsed);
+    },
+  });
+};
 
               {/* Stock Quantity */}
               <div>
