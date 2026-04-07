@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+// Cloudinary upload
+const CLOUDINARY_CLOUD_NAME = 'dhx8tsvpm';
+const CLOUDINARY_UPLOAD_PRESET = 'neosellcloud'; // Your unsigned preset name
 import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon, CheckCircle, AlertCircle, Loader2, Table, Trash } from 'lucide-react';
 
@@ -385,18 +388,41 @@ export function AdminProducts() {
                 <label className="block text-sm font-medium text-gray-900 mb-2">Product Images</label>
                 {formData.images.map((image, index) => (
                   <div key={index} className="flex items-center space-x-2 mb-2">
+                    {/* Image preview */}
+                    {image && image.startsWith('http') && (
+                      <img src={image} alt="preview" className="w-16 h-16 object-cover rounded border border-gray-300 mr-2" />
+                    )}
+                    {/* File input for Cloudinary upload */}
                     <input
-                      type="url"
-                      value={image}
-                      onChange={(e) => {
-                        const newImages = [...formData.images];
-                        newImages[index] = e.target.value;
-                        setFormData({...formData, images: newImages});
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        // Upload to Cloudinary
+                        const formDataCloud = new FormData();
+                        formDataCloud.append('file', file);
+                        formDataCloud.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                        try {
+                          const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                            method: 'POST',
+                            body: formDataCloud,
+                          });
+                          const data = await res.json();
+                          if (data.secure_url) {
+                            const newImages = [...formData.images];
+                            newImages[index] = data.secure_url;
+                            setFormData({ ...formData, images: newImages });
+                          } else {
+                            alert('Image upload failed.');
+                          }
+                        } catch (err) {
+                          alert('Image upload error.');
+                        }
                       }}
-                      className="flex-1 px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
-                      placeholder="Enter image URL"
-                      required={index === 0}
+                      className="flex-1 px-2 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
                     />
+                    {/* Remove image button */}
                     {formData.images.length > 1 && (
                       <button
                         type="button"
@@ -419,6 +445,7 @@ export function AdminProducts() {
                   <Plus size={16} />
                   <span>Add Another Image</span>
                 </button>
+                <p className="text-xs text-gray-700 mt-2">Upload product images (first image will be the thumbnail).</p>
               </div>
 
               <div className="md:col-span-2">
@@ -467,6 +494,24 @@ export function AdminProducts() {
 // ...existing code...
 // Add at the top of the file:
 import Papa from 'papaparse';
+
+// Handler for CSV spec upload (must be inside component, outside JSX)
+const handleSpecFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: (results: any) => {
+      // Expect columns: Specification, Value
+      const parsed = results.data.map((row: any) => ({
+        key: row.Specification || row.Key || '',
+        value: row.Value || '',
+      })).filter((row: any) => row.key && row.value);
+      setSpecItems(parsed);
+    },
+  });
+};
 
 // ...existing code...
 
@@ -551,61 +596,39 @@ const handleSpecFileUpload = (e) => {
           </motion.div>
         )}
 
-        {/* Products Table */}
-        <div className="bg-gradient-to-br from-white to-white border border-red-600/30 rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-red-50/50">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Product</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Brand</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Stock</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-700">
-                {products.map((product) => (
-                  <tr key={product._id} className="hover:bg-red-50/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-12 w-12">
-                          <img className="h-12 w-12 rounded-lg object-cover" src={product.images?.[0] || ''} alt={product.name} />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                          <div className="text-sm text-gray-800 truncate max-w-xs">{product.category}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{product.brand || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-red-500">₹{product.price}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-col">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full w-fit ${
-                          product.inStock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {product.inStock ? 'In Stock' : 'Out of Stock'}
-                        </span>
-                        {product.inStock && product.stockQuantity !== null && (
-                          <span className="text-xs text-gray-800 mt-1">{product.stockQuantity} units</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => startEdit(product)}
-                          className="text-red-500 hover:text-red-400 transition-colors"
-                        >
-                          <Edit size={18} />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(product._id)}
-                          className="text-red-400 hover:text-red-300 transition-colors"
-                        >
-                          <Trash2 size={18} />
-                        </button>
+              {/* Specifications Table Upload */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-900 mb-3">
+                  <div className="flex items-center gap-2">
+                    <Table size={16} />
+                    <span>Specifications (Upload CSV)</span>
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={handleSpecFileUpload}
+                  className="mb-3"
+                />
+                <div className="bg-red-50/50 rounded-lg overflow-hidden border border-red-300">
+                  <table className="w-full">
+                    <thead className="bg-red-100/50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Specification</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase">Value</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-700">
+                      {specItems.map((spec, index) => (
+                        <tr key={index}>
+                          <td className="px-2 py-2">{spec.key}</td>
+                          <td className="px-2 py-2">{spec.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
                       </div>
                     </td>
                   </tr>
