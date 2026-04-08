@@ -84,7 +84,7 @@ export function AdminProducts() {
       if (error.name === 'AbortError') {
         setError('Request timed out. Server may be unreachable.');
       } else if (error.message === 'Failed to fetch' || error.message.includes('fetch')) {
-        setError('Unable to connect to server. Please check that the backend is running on http://localhost:5000');
+        setError(`Unable to connect to backend. API URL: ${API_BASE || 'Not configured'}. Please ensure the backend is running and VITE_API_URL is set correctly.`);
       } else {
         console.error('Failed to fetch products:', error);
         setError('Failed to load products: ' + error.message);
