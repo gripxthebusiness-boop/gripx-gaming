@@ -446,20 +446,23 @@ export function AdminProducts() {
                           });
                           
                           const data = await res.json();
-                          console.log('Upload response:', data);
+                          console.log('Upload response status:', res.status);
+                          console.log('Upload response data:', data);
                           
                           if (!res.ok) {
                             alert('Image upload failed: ' + (data.message || 'Unknown error'));
                             return;
                           }
                           
-                          const imageUrl = data.image?.url;
+                          // Check various possible response formats
+                          const imageUrl = data.image?.url || data.url || data.secure_url;
                           if (imageUrl) {
                             const newImages = [...formData.images];
                             newImages[index] = imageUrl;
                             setFormData({ ...formData, images: newImages });
                           } else {
-                            alert('Image upload failed: No image URL in response');
+                            alert('Image upload failed: Unexpected response format. Check console for details.');
+                            console.error('No URL found in response:', data);
                           }
                         } catch (err: any) {
                           alert('Image upload error: ' + (err.message || 'Unknown error'));
