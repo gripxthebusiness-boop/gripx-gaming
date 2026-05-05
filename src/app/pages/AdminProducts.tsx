@@ -446,12 +446,20 @@ export function AdminProducts() {
                           });
                           
                           const data = await res.json();
-                          if (data.image?.url) {
+                          console.log('Upload response:', data);
+                          
+                          if (!res.ok) {
+                            alert('Image upload failed: ' + (data.message || 'Unknown error'));
+                            return;
+                          }
+                          
+                          const imageUrl = data.image?.url;
+                          if (imageUrl) {
                             const newImages = [...formData.images];
-                            newImages[index] = data.image.url;
+                            newImages[index] = imageUrl;
                             setFormData({ ...formData, images: newImages });
                           } else {
-                            alert('Image upload failed: ' + (data.message || 'Unknown error'));
+                            alert('Image upload failed: No image URL in response');
                           }
                         } catch (err: any) {
                           alert('Image upload error: ' + (err.message || 'Unknown error'));
