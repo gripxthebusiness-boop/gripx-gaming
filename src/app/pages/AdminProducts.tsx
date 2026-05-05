@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react';
-// Cloudinary upload
-const CLOUDINARY_CLOUD_NAME = 'dhx8tsvpm';
-const CLOUDINARY_UPLOAD_PRESET = 'neosellcloud'; // Your unsigned preset name
 import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon, CheckCircle, AlertCircle, Loader2, Table, Trash } from 'lucide-react';
 import Papa from 'papaparse';
@@ -411,32 +408,43 @@ export function AdminProducts() {
                     {image && image.startsWith('http') && (
                       <img src={image} alt="preview" className="w-16 h-16 object-cover rounded border border-gray-300 mr-2" />
                     )}
-                    {/* File input for Cloudinary upload */}
+                    {/* File input for image upload via backend */}
                     <input
                       type="file"
                       accept="image/*"
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        // Upload to Cloudinary
-                        const formDataCloud = new FormData();
-                        formDataCloud.append('file', file);
-                        formDataCloud.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                        
+                        const token = localStorage.getItem('token');
+                        if (!token) {
+                          alert('Please log in to upload images.');
+                          return;
+                        }
+
+                        // Upload to backend Cloudinary route
+                        const uploadFormData = new FormData();
+                        uploadFormData.append('image', file);
+                        
                         try {
-                          const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                          const res = await fetch(`${API_BASE}/upload/image`, {
                             method: 'POST',
-                            body: formDataCloud,
+                            headers: {
+                              Authorization: `Bearer ${token}`,
+                            },
+                            body: uploadFormData,
                           });
+                          
                           const data = await res.json();
-                          if (data.secure_url) {
+                          if (data.image?.url) {
                             const newImages = [...formData.images];
-                            newImages[index] = data.secure_url;
+                            newImages[index] = data.image.url;
                             setFormData({ ...formData, images: newImages });
                           } else {
-                            alert('Image upload failed.');
+                            alert('Image upload failed: ' + (data.message || 'Unknown error'));
                           }
-                        } catch (err) {
-                          alert('Image upload error.');
+                        } catch (err: any) {
+                          alert('Image upload error: ' + (err.message || 'Unknown error'));
                         }
                       }}
                       className="flex-1 px-2 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
