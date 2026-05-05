@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Star, ShoppingCart, ChevronLeft, ChevronRight, Filter, Check } from 'lucide-react';
+import { Star, ShoppingCart, ChevronLeft, ChevronRight, Filter, Check, Search, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -35,6 +35,7 @@ interface ProductsResponse {
 export function Products() {
   const API_BASE = import.meta.env.VITE_API_URL || '';
   const [activeFilter, setActiveFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<string, number>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -57,7 +58,7 @@ export function Products() {
   };
 
   const { data, isLoading, error, isFetching } = useQuery<ProductsResponse>({
-    queryKey: ['products', activeFilter, currentPage],
+    queryKey: ['products', activeFilter, searchQuery, currentPage],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -66,6 +67,10 @@ export function Products() {
 
       if (activeFilter !== 'All') {
         params.append('category', activeFilter);
+      }
+
+      if (searchQuery.trim()) {
+        params.append('search', searchQuery.trim());
       }
 
       const response = await fetch(`${API_BASE}/products?${params}`);
@@ -97,7 +102,28 @@ export function Products() {
     }));
   };
 
-  const categories = ['All', 'Mice', 'Keyboards', 'Headsets', 'Monitors', 'Accessories'];
+  const categories = [
+    'All',
+    'Mice',
+    'Keyboards',
+    'Headsets',
+    'Monitors',
+    'Accessories',
+    'Controllers',
+    'Mousepads',
+    'Webcams',
+    'Microphones',
+    'Speakers',
+    'Gaming Chairs',
+    'Gaming Desks',
+    'Cables & Adapters',
+    'VR Headsets',
+    'Gamepads',
+    'Racing Wheels',
+    'Flight Sticks',
+    'Capture Cards',
+    'Streaming Equipment'
+  ];
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -108,6 +134,16 @@ export function Products() {
     setActiveFilter(category);
     setCurrentPage(1);
     setSidebarOpen(false);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCurrentPage(1);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setCurrentPage(1);
   };
 
   const renderStars = (rating: number) => {
@@ -242,10 +278,42 @@ export function Products() {
 
           {/* Main Content */}
           <main className="flex-1 min-w-0">
+            {/* Search Bar */}
+            <div className="mb-4">
+              <form onSubmit={handleSearch} className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products..."
+                    className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={clearSearch}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <X size={18} />
+                    </button>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                >
+                  Search
+                </button>
+              </form>
+            </div>
+
             {/* Results bar */}
             <div className="hidden lg:flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-gray-900">
                 {activeFilter !== 'All' ? activeFilter : 'All Products'}
+                {searchQuery && <span className="text-gray-500 font-normal ml-2">- Search: "{searchQuery}"</span>}
               </h2>
               <span className="text-gray-600">
                 {products.length} results
