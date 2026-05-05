@@ -11,6 +11,7 @@ dotenv.config();
 // Import routes
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
+import uploadRoutes from './routes/upload.js';
 
 const app = express();
 
@@ -148,6 +149,7 @@ syncIndexes();
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check with performance metrics
 app.get('/api/health', (req, res) => {
