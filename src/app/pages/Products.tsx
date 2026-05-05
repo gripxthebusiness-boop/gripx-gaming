@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Star, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, ShoppingCart, ChevronLeft, ChevronRight, Filter, Check } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -37,6 +37,7 @@ export function Products() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<string, number>>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { addToCart } = useCart();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -55,13 +56,12 @@ export function Products() {
     });
   };
 
-  // Use React Query for caching and automatic refetching
   const { data, isLoading, error, isFetching } = useQuery<ProductsResponse>({
     queryKey: ['products', activeFilter, currentPage],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: currentPage.toString(),
-        limit: '9',
+        limit: '12',
       });
 
       if (activeFilter !== 'All') {
@@ -74,7 +74,7 @@ export function Products() {
       }
       return response.json();
     },
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
   const products = data?.products || [];
@@ -97,7 +97,7 @@ export function Products() {
     }));
   };
 
-  const categories = ['All', 'Smartphones', 'Laptops', 'Tablets', 'Accessories'];
+  const categories = ['All', 'Mice', 'Keyboards', 'Headsets', 'Monitors', 'Accessories'];
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -107,6 +107,30 @@ export function Products() {
   const handleFilterChange = (category: string) => {
     setActiveFilter(category);
     setCurrentPage(1);
+    setSidebarOpen(false);
+  };
+
+  const renderStars = (rating: number) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        stars.push(
+          <Star key={i} className="w-4 h-4 fill-red-500 text-red-500" />
+        );
+      } else if (i === fullStars && hasHalfStar) {
+        stars.push(
+          <Star key={i} className="w-4 h-4 text-red-500" style={{ clipPath: 'inset(0 50% 0 0)' }} />
+        );
+      } else {
+        stars.push(
+          <Star key={i} className="w-4 h-4 text-gray-300" />
+        );
+      }
+    }
+    return stars;
   };
 
   if (isLoading && !data) {
@@ -121,220 +145,294 @@ export function Products() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white pt-24 pb-12">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12"
+    <div className="min-h-screen bg-gray-50 pt-20 pb-12">
+      {/* Mobile filter toggle */}
+      <div className="lg:hidden px-4 py-3 bg-white border-b border-gray-200 flex justify-between items-center sticky top-16 z-30">
+        <span className="text-gray-800 font-medium">
+          {products.length} results{activeFilter !== 'All' ? ` in ${activeFilter}` : ''}
+        </span>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg"
         >
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">
-              Premium
-            </span>{' '}
-            Gaming Gear
-          </h1>
-          <p className="text-gray-800 text-lg">
-            Curated gaming gear from trusted brands in India
-          </p>
-        </motion.div>
+          <Filter size={18} />
+          Filters
+        </button>
+      </div>
 
-        {error && (
-          <div className="mb-6 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200">
-            {error instanceof Error ? error.message : 'Unable to load products right now.'}
-          </div>
-        )}
-
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="flex flex-wrap gap-4 mb-12"
-        >
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => handleFilterChange(category)}
-              className={`px-6 py-2 rounded-lg transition-all ${
-                activeFilter === category
-                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900'
-                  : 'bg-white text-gray-800 border border-red-600/20 hover:border-red-600/50'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Loading overlay when fetching new data */}
-        {isFetching && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mb-4 px-4 py-2 rounded-lg bg-red-600/10 text-red-500 text-center"
-          >
-            Updating products...
-          </motion.div>
-        )}
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product, index) => {
-            const currentImageIndex = currentImageIndexes[product._id] || 0;
-            const currentImage = product.images?.[currentImageIndex] || '';
-
-            return (
-              <motion.div
-                key={product._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="group"
-              >
-                <Link
-                  to={`/products/${product._id}`}
-                  className="block relative overflow-hidden rounded-xl bg-gradient-to-br from-white to-white border border-red-600/20 hover:border-red-600/50 transition-all"
-                >
-                  {/* Image */}
-                  <div className="relative h-64 overflow-hidden">
-                    <LazyImage
-                      src={currentImage}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-
-                    {product.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            prevImage(product._id, product.images);
-                          }}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full z-10"
-                        >
-                          <ChevronLeft size={16} />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            nextImage(product._id, product.images);
-                          }}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full z-10"
-                        >
-                          <ChevronRight size={16} />
-                        </button>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {product.name}
-                    </h3>
-                    <p className="text-gray-800 mb-4 line-clamp-2">{product.description}</p>
-
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl text-red-500 font-bold">
-                        ₹{product.price.toLocaleString()}
-                      </span>
+      <div className="max-w-[1500px] mx-auto px-4 lg:px-6">
+        <div className="flex gap-6">
+          {/* Sidebar - Desktop */}
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-24">
+              {/* Department */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
+                <h3 className="font-bold text-gray-900 mb-3 text-lg">Department</h3>
+                <ul className="space-y-2">
+                  {categories.map(category => (
+                    <li key={category}>
                       <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleAddToCart(product);
-                        }}
-                        disabled={!product.inStock}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-                          product.inStock
-                            ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900'
-                            : 'bg-red-100 text-gray-800 cursor-not-allowed'
+                        onClick={() => handleFilterChange(category)}
+                        className={`flex items-center gap-2 w-full text-left py-1 px-2 rounded transition-colors ${
+                          activeFilter === category
+                            ? 'bg-red-50 text-red-600 font-medium'
+                            : 'text-gray-700 hover:bg-gray-100'
                         }`}
                       >
-                        <ShoppingCart size={18} />
-                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                        {activeFilter === category && <Check size={16} />}
+                        <span className={activeFilter === category ? '' : 'ml-6'}>{category}</span>
                       </button>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-          {!products.length && !isLoading && (
-            <div className="col-span-full text-center text-gray-800 py-12">
-              No products found in this category.
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Quick info */}
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <h3 className="font-bold text-gray-900 mb-2">Gaming Gear</h3>
+                <p className="text-sm text-gray-600">
+                  Premium gaming peripherals and accessories for serious gamers.
+                </p>
+              </div>
             </div>
+          </aside>
+
+          {/* Mobile Sidebar Overlay */}
+          {sidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
           )}
-        </div>
 
-        {/* Pagination */}
-        {pagination && pagination.totalPages > 1 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex justify-center items-center gap-2 mt-12"
-          >
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-4 py-2 rounded-lg bg-white text-gray-800 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
-            >
-              Previous
-            </button>
-            
-            {/* Page numbers */}
-            {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-              let pageNum: number;
-              const current = pagination.currentPage;
-              const total = pagination.totalPages;
-              
-              if (total <= 5) {
-                pageNum = i + 1;
-              } else if (current <= 3) {
-                pageNum = i + 1;
-              } else if (current >= total - 2) {
-                pageNum = total - 4 + i;
-              } else {
-                pageNum = current - 2 + i;
-              }
-              
-              return (
-                <button
-                  key={pageNum}
-                  onClick={() => handlePageChange(pageNum)}
-                  className={`w-10 h-10 rounded-lg transition-all ${
-                    currentPage === pageNum
-                      ? 'bg-gradient-to-r from-red-600 to-red-700 text-gray-900'
-                      : 'bg-white text-gray-800 border border-red-600/20 hover:border-red-600/50'
-                  }`}
-                >
-                  {pageNum}
+          {/* Mobile Sidebar */}
+          <aside className={`fixed left-0 top-0 h-full w-72 bg-white z-50 transform transition-transform duration-300 lg:hidden ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}>
+            <div className="p-4">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Filters</h2>
+                <button onClick={() => setSidebarOpen(false)} className="text-gray-600">
+                  <ChevronLeft size={24} />
                 </button>
-              );
-            })}
-            
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === pagination.totalPages}
-              className="px-4 py-2 rounded-lg bg-white text-gray-800 border border-red-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:border-red-600/50 transition-all"
-            >
-              Next
-            </button>
-          </motion.div>
-        )}
+              </div>
 
-        {/* Products count */}
-        {pagination && (
-          <p className="text-center text-gray-800 mt-6">
-            Showing {products.length} of {pagination.totalProducts} products
-          </p>
-        )}
+              <div className="mb-6">
+                <h3 className="font-bold text-gray-900 mb-3">Categories</h3>
+                <ul className="space-y-2">
+                  {categories.map(category => (
+                    <li key={category}>
+                      <button
+                        onClick={() => handleFilterChange(category)}
+                        className={`flex items-center gap-2 w-full text-left py-2 px-3 rounded transition-colors ${
+                          activeFilter === category
+                            ? 'bg-red-50 text-red-600 font-medium'
+                            : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                      >
+                        {activeFilter === category && <Check size={16} />}
+                        <span className={activeFilter === category ? '' : 'ml-6'}>{category}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 min-w-0">
+            {/* Results bar */}
+            <div className="hidden lg:flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-900">
+                {activeFilter !== 'All' ? activeFilter : 'All Products'}
+              </h2>
+              <span className="text-gray-600">
+                {products.length} results
+              </span>
+            </div>
+
+            {error && (
+              <div className="mb-4 px-4 py-3 rounded-lg border border-red-500/40 bg-red-500/10 text-red-200">
+                {error instanceof Error ? error.message : 'Unable to load products right now.'}
+              </div>
+            )}
+
+            {isFetching && (
+              <div className="mb-4 px-4 py-2 rounded-lg bg-red-600/10 text-red-500 text-center text-sm">
+                Updating products...
+              </div>
+            )}
+
+            {/* Product Grid - Amazon style */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {products.map((product, index) => {
+                const currentImageIndex = currentImageIndexes[product._id] || 0;
+                const currentImage = product.images?.[currentImageIndex] || '';
+
+                return (
+                  <motion.div
+                    key={product._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.02 }}
+                    className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                  >
+                    <Link to={`/products/${product._id}`} className="block">
+                      {/* Image Section */}
+                      <div className="relative h-48 bg-gray-100 overflow-hidden">
+                        <LazyImage
+                          src={currentImage}
+                          alt={product.name}
+                          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {product.images.length > 1 && (
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                prevImage(product._id, product.images);
+                              }}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-sm"
+                            >
+                              <ChevronLeft size={16} />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                nextImage(product._id, product.images);
+                              }}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-1 rounded-full shadow-sm"
+                            >
+                              <ChevronRight size={16} />
+                            </button>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Product Info */}
+                      <div className="p-3">
+                        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1 min-h-[2.5rem]">
+                          {product.name}
+                        </h3>
+
+                        {/* Rating */}
+                        <div className="flex items-center gap-1 mb-2">
+                          <div className="flex">{renderStars(product.rating)}</div>
+                          <span className="text-xs text-gray-500">({product.rating})</span>
+                        </div>
+
+                        {/* Price */}
+                        <div className="mb-3">
+                          <span className="text-2xl font-bold text-gray-900">
+                            ₹{Math.floor(product.price).toLocaleString()}
+                          </span>
+                          {product.price % 1 !== 0 && (
+                            <span className="text-sm text-gray-500 ml-1">
+                              {product.price.toFixed(2).split('.')[1]}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Delivery info */}
+                        <div className="text-xs text-gray-500 mb-3">
+                          {product.inStock ? (
+                            <span className="text-green-600">In Stock</span>
+                          ) : (
+                            <span className="text-red-500">Currently Unavailable</span>
+                          )}
+                        </div>
+
+                        {/* Add to Cart Button */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleAddToCart(product);
+                          }}
+                          disabled={!product.inStock}
+                          className={`w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
+                            product.inStock
+                              ? 'bg-red-600 hover:bg-red-700 text-white'
+                              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                          }`}
+                        >
+                          {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                        </button>
+                      </div>
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {!products.length && !isLoading && (
+              <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-600">No products found in this category.</p>
+              </div>
+            )}
+
+            {/* Pagination */}
+            {pagination && pagination.totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-8">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 rounded-lg bg-white text-gray-800 border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                >
+                  Previous
+                </button>
+                
+                {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                  let pageNum: number;
+                  const current = pagination.currentPage;
+                  const total = pagination.totalPages;
+                  
+                  if (total <= 5) {
+                    pageNum = i + 1;
+                  } else if (current <= 3) {
+                    pageNum = i + 1;
+                  } else if (current >= total - 2) {
+                    pageNum = total - 4 + i;
+                  } else {
+                    pageNum = current - 2 + i;
+                  }
+                  
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => handlePageChange(pageNum)}
+                      className={`px-4 py-2 rounded-lg border transition-colors ${
+                        currentPage === pageNum
+                          ? 'bg-red-600 text-white border-red-600'
+                          : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+                
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === pagination.totalPages}
+                  className="px-4 py-2 rounded-lg bg-white text-gray-800 border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
+            {/* Results count */}
+            {pagination && (
+              <p className="text-center text-gray-500 text-sm mt-6">
+                Showing {((currentPage - 1) * pagination.productsPerPage) + 1} - {Math.min(currentPage * pagination.productsPerPage, pagination.totalProducts)} of {pagination.totalProducts} results
+              </p>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
 }
 
-/* ✅ THIS LINE FIXES VERCEL */
 export default Products;
-
