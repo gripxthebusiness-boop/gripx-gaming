@@ -96,14 +96,24 @@ router.get('/:id/details', async (req, res) => {
   }
 });
 
-// Create product (ADMIN ONLY)
-router.post('/', verifyToken, verifyAdmin, async (req, res) => {
-  try {
-    const { name, brand, category, price, images, description, specs, rating, inStock, stockQuantity } = req.body;
+  // Create product (ADMIN ONLY)
+  router.post('/', verifyToken, verifyAdmin, async (req, res) => {
+    try {
+      const { name, brand, category, price, images, description, specs, rating, inStock, stockQuantity } = req.body;
 
-    if (!name || !category || !price || !images || !images[0] || !specs) {
-      return res.status(400).json({ message: 'Required fields are missing' });
-    }
+      // Validate required fields with better error messaging
+      const missingFields = [];
+      if (!name || name.trim() === '') missingFields.push('name');
+      if (!category || category.trim() === '') missingFields.push('category');
+      if (price === undefined || price === null || price === '') missingFields.push('price');
+      if (!images || !Array.isArray(images) || images.length === 0 || !images[0] || images[0].trim() === '') missingFields.push('images (at least one image URL required)');
+      
+      if (missingFields.length > 0) {
+        return res.status(400).json({ 
+          message: 'Required fields are missing',
+          details: `Missing: ${missingFields.join(', ')}`
+        });
+      }
 
     const newProduct = new Product({
       name,
