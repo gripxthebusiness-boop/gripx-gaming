@@ -447,7 +447,7 @@ export function AdminProducts() {
                           
                           const data = await res.json();
                           console.log('Upload response status:', res.status);
-                          console.log('Upload response data:', data);
+                          console.log('Upload response data:', JSON.stringify(data, null, 2));
                           
                           if (!res.ok) {
                             alert('Image upload failed: ' + (data.message || 'Unknown error'));
