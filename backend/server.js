@@ -15,6 +15,9 @@ import uploadRoutes from './routes/upload.js';
 
 const app = express();
 
+// Trust proxy for proper rate limiting behind reverse proxies (Render, etc.)
+app.set('trust proxy', 1);
+
 // Rate limiting configuration
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
