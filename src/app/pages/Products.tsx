@@ -223,16 +223,6 @@ export function Products() {
                 </ul>
               </div>
 
-              {/* Quick info */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                <h3 className="font-bold text-gray-900 mb-2">Gaming Gear</h3>
-                <p className="text-sm text-gray-600">
-                  Premium gaming peripherals and accessories for serious gamers.
-                </p>
-              </div>
-            </div>
-          </aside>
-
           {/* Mobile Sidebar Overlay */}
           {sidebarOpen && (
             <div 

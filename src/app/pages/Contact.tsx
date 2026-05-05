@@ -49,7 +49,7 @@ export function Contact() {
               </span>
             </h1>
             <p className="text-xl text-gray-900 mb-8 max-w-2xl mx-auto">
-              Ready to level up your gaming setup? Contact us for personalized recommendations and support.
+              Ready to level up your setup? Contact us for personalized recommendations and support.
             </p>
           </motion.div>
         </div>
