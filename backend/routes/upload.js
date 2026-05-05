@@ -78,10 +78,20 @@ router.post('/image', verifyToken, verifyAdmin, upload.single('image'), async (r
       return res.status(400).json({ message: 'No image provided' });
     }
 
+    // Log the file object to see what fields are available
+    console.log('Uploaded file object:', JSON.stringify(req.file, null, 2));
+
+    // Construct URL from public_id if secure_url is not available
+    let imageUrl = req.file.secure_url;
+    if (!imageUrl && req.file.filename) {
+      // Generate URL using Cloudinary's URL format
+      imageUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${req.file.filename}`;
+    }
+
     res.json({
       message: 'Image uploaded successfully',
       image: {
-        url: req.file.secure_url,
+        url: imageUrl,
         public_id: req.file.filename,
         width: req.file.width,
         height: req.file.height,
