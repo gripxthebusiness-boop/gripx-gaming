@@ -29,7 +29,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com https://r2cdn.perplexity.ai; connect-src 'self' https://gripx-gaming.onrender.com https://gripx.store; frame-src https://vercel.live; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com https://r2cdn.perplexity.ai https://frontend-cdn.perplexity.ai; connect-src 'self' https://gripx-gaming.onrender.com https://gripx-backend.onrender.com https://gripx.store; frame-src https://vercel.live; frame-ancestors 'none';"
         }
       ]
     },
@@ -73,11 +73,26 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://gripx-backend.onrender.com/api/:path*"
+      "destination": "https://gripx-gaming.onrender.com/api/:path*"
+    }
+  ],
+  "static": [
+    {
+      "source": "/site.webmanifest",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ],
   "env": {
-    "VITE_API_URL": "https://gripx-backend.onrender.com/api",
+    "VITE_API_URL": "https://gripx-gaming.onrender.com/api",
     "VITE_APP_TITLE": "GripX"
   }
 }

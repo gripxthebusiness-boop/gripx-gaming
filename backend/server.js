@@ -57,16 +57,29 @@ const allowedOrigins = [
   'https://neosell.store',
   'https://www.neosell.store',
   'https://neosell-gaming.vercel.app',
-  'https://*.vercel.app',
+];
+
+// Regex patterns for dynamic origins
+const allowedOriginPatterns = [
+  /^https:\/\/.*\.vercel\.app$/,  // All Vercel preview URLs
+  /^https:\/\/.*gripx.*\.vercel\.app$/,  // GripX Vercel URLs
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
     // Allow requests with no origin (mobile apps, curl requests)
     if(!origin) return callback(null, true);
-    if(allowedOrigins.some(allowed => origin.includes(allowed))) {
+    
+    // Check exact matches
+    if(allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
+    
+    // Check pattern matches
+    if(allowedOriginPatterns.some(pattern => pattern.test(origin))) {
+      return callback(null, true);
+    }
+    
     return callback(new Error('CORS policy violation'), false);
   },
   credentials: true,
