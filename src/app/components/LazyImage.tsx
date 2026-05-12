@@ -5,6 +5,7 @@ interface LazyImageProps {
   alt: string;
   className?: string;
   placeholderSrc?: string;  // optional tiny blurred placeholder
+  webpSrc?: string;         // optional WebP version for better compression
 }
 
 export function LazyImage({
@@ -12,9 +13,11 @@ export function LazyImage({
   alt,
   className = '',
   placeholderSrc,
+  webpSrc,
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const imgRef = useRef<HTMLDivElement>(null);
 
   // IntersectionObserver for lazy-loading
@@ -30,12 +33,24 @@ export function LazyImage({
           }
         });
       },
-      { rootMargin: '50px' }
+      { rootMargin: '100px' } // Start loading 100px before entering viewport
     );
 
     if (imgRef.current) observer.observe(imgRef.current);
     return () => observer.disconnect();
   }, []);
+
+  // Determine which image format to use (WebP preferred for smaller size)
+  useEffect(() => {
+    if (isInView) {
+      // Try WebP first if available, fall back to regular src
+      if (webpSrc) {
+        setImageSrc(webpSrc);
+      } else {
+        setImageSrc(src);
+      }
+    }
+  }, [isInView, src, webpSrc]);
 
   return (
     <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
@@ -46,6 +61,7 @@ export function LazyImage({
             src={placeholderSrc}
             alt={alt}
             className="absolute inset-0 w-full h-full object-cover filter blur-lg scale-105 animate-fade"
+            aria-hidden="true"
           />
         ) : (
           <div className="absolute inset-0 bg-red-50 animate-pulse" />
@@ -53,15 +69,16 @@ export function LazyImage({
       )}
 
       {/* Actual Image */}
-      {isInView && (
+      {imageSrc && (
         <img
-          src={src}
+          src={imageSrc}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-700 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={() => setIsLoaded(true)}
           loading="lazy"
+          decoding="async"
         />
       )}
     </div>

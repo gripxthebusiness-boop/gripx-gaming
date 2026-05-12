@@ -46,7 +46,17 @@ app.use('/api/auth/register', authLimiter);
 app.use('/api/auth/forgot-password', authLimiter);
 
 // Middleware - Order matters for performance
-app.use(compression()); // Compress responses (performance optimization)
+app.use(compression({
+  level: 6, // Balance between compression ratio and speed
+  threshold: 512, // Only compress responses larger than 512 bytes
+  filter: (req, res) => {
+    // Skip compression for images and other binary files
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+}));
 
 // CORS configuration for production
 const allowedOrigins = [

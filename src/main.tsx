@@ -5,6 +5,15 @@ import { Suspense, lazy, Component } from "react";
 import App from "./app/App.tsx";
 import "./styles/index.css";
 
+// Register Service Worker for offline support and caching
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(() => {
+      // Service worker registration failed, app will still work online
+    });
+  });
+}
+
 // Error boundary to catch rendering errors
 class ErrorBoundary extends Component<
   { children: React.ReactNode },
@@ -50,13 +59,18 @@ class ErrorBoundary extends Component<
   }
 }
 
-// Create a QueryClient with optimized settings
+// Create a QueryClient with optimized settings for faster data loading
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 30 * 60 * 1000, // 30 minutes (formerly cacheTime)
-      refetchOnWindowFocus: false,
+      staleTime: 10 * 60 * 1000, // 10 minutes - longer cache for products
+      gcTime: 60 * 60 * 1000, // 1 hour garbage collection
+      refetchOnWindowFocus: false, // Don't refetch when window regains focus
+      retry: 1, // Single retry on failure
+      refetchOnReconnect: 'stale', // Refetch stale data when reconnecting
+      throwOnError: false, // Don't throw on error, handle gracefully
+    },
+    mutations: {
       retry: 1,
     },
   },

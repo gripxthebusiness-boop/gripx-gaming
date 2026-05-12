@@ -4,6 +4,12 @@ import { verifyToken, verifyAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Cache middleware helper
+const setCacheHeaders = (res, maxAge = 300) => {
+  res.set('Cache-Control', `public, max-age=${maxAge}`);
+  res.set('ETag', `W/"${Date.now()}"`);
+};
+
 // Get all products with pagination (PUBLIC - no auth needed)
 router.get('/', async (req, res) => {
   try {
@@ -29,17 +35,22 @@ router.get('/', async (req, res) => {
       ];
     }
 
-    // Execute query with pagination
+    // Execute query with pagination - select only needed fields for list view
     const [products, total] = await Promise.all([
       Product.find(filter)
+        .select('name price images category rating brand inStock')
         .skip(skip)
         .limit(limit)
-        .sort({ createdAt: -1 }),
+        .sort({ createdAt: -1 })
+        .lean(), // Use lean for faster query
       Product.countDocuments(filter),
     ]);
 
     // Calculate pagination metadata
     const totalPages = Math.ceil(total / limit);
+
+    // Set cache headers for 5 minutes
+    setCacheHeaders(res, 300);
 
     res.json({
       products,
@@ -60,10 +71,13 @@ router.get('/', async (req, res) => {
 // Get single product (PUBLIC - no auth needed)
 router.get('/:id', async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).lean();
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
+    
+    // Set cache headers for 10 minutes for single product
+    setCacheHeaders(res, 600);
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -78,14 +92,19 @@ router.get('/:id/details', async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    // Fetch related products in same request
+    // Fetch related products in same request - select only needed fields
     const relatedProducts = await Product.find({
       category: product.category,
       _id: { $ne: product._id },
       isActive: true,
     })
+      .select('name price images rating brand')
       .limit(4)
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Set cache headers for 10 minutes
+    setCacheHeaders(res, 600);
 
     res.json({
       product,

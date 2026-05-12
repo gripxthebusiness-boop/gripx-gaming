@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { Star, ShoppingCart, ChevronLeft, ChevronRight, Filter, Check, Search, X } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { LazyImage } from '../components/LazyImage';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -34,6 +34,7 @@ interface ProductsResponse {
 
 export function Products() {
   const API_BASE = import.meta.env.VITE_API_URL || '';
+  const queryClient = useQueryClient();
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<string, number>>({});
@@ -57,30 +58,45 @@ export function Products() {
     });
   };
 
+  // Function to fetch products
+  const fetchProducts = async (page: number, category: string, search: string) => {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: '12',
+    });
+
+    if (category !== 'All') {
+      params.append('category', category);
+    }
+
+    if (search.trim()) {
+      params.append('search', search.trim());
+    }
+
+    const response = await fetch(`${API_BASE}/products?${params}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch products');
+    }
+    return response.json();
+  };
+
   const { data, isLoading, error, isFetching } = useQuery<ProductsResponse>({
     queryKey: ['products', activeFilter, searchQuery, currentPage],
-    queryFn: async () => {
-      const params = new URLSearchParams({
-        page: currentPage.toString(),
-        limit: '12',
-      });
-
-      if (activeFilter !== 'All') {
-        params.append('category', activeFilter);
-      }
-
-      if (searchQuery.trim()) {
-        params.append('search', searchQuery.trim());
-      }
-
-      const response = await fetch(`${API_BASE}/products?${params}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch products');
-      }
-      return response.json();
-    },
-    staleTime: 5 * 60 * 1000,
+    queryFn: () => fetchProducts(currentPage, activeFilter, searchQuery),
+    staleTime: 10 * 60 * 1000, // 10 minutes
   });
+
+  // Prefetch next page
+  useEffect(() => {
+    const pagination = data?.pagination;
+    if (pagination?.hasNextPage) {
+      queryClient.prefetchQuery({
+        queryKey: ['products', activeFilter, searchQuery, currentPage + 1],
+        queryFn: () => fetchProducts(currentPage + 1, activeFilter, searchQuery),
+        staleTime: 10 * 60 * 1000,
+      });
+    }
+  }, [data?.pagination, activeFilter, searchQuery, currentPage, queryClient]);
 
   const products = data?.products || [];
   const pagination = data?.pagination;

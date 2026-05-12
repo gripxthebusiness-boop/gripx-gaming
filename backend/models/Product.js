@@ -5,15 +5,18 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      index: true, // Index for faster searches
     },
     brand: {
       type: String,
       default: '',
+      index: true, // Index for filtering by brand
     },
     category: {
       type: String,
       required: true,
       enum: ['Mice', 'Keyboards', 'Headsets', 'Monitors', 'Accessories', 'Controllers'],
+      index: true, // Index for category filtering
     },
     price: {
       type: Number,
@@ -32,6 +35,7 @@ const productSchema = new mongoose.Schema(
     description: {
       type: String,
       default: '',
+      index: true, // Index for text search
     },
     specs: {
       type: String,
@@ -46,6 +50,7 @@ const productSchema = new mongoose.Schema(
     inStock: {
       type: Boolean,
       default: true,
+      index: true, // Index for filtering by stock status
     },
     stockQuantity: {
       type: Number,
@@ -54,10 +59,16 @@ const productSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+      index: true, // Index for filtering active products
     },
   },
   { timestamps: true }
 );
+
+// Compound indexes for common query patterns
+productSchema.index({ isActive: 1, category: 1, createdAt: -1 }); // For listing by category
+productSchema.index({ isActive: 1, name: 'text', brand: 'text', description: 'text' }); // For text search
+productSchema.index({ category: 1, inStock: 1 }); // For category + stock filter
 
 export const Product = mongoose.model('Product', productSchema);
 

@@ -300,14 +300,6 @@ export default function Navigation() {
             </button>
           </div>
 
-          {/* Mobile Logo */}
-          <div className="md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
-            <img src="/android-chrome-192x192.png" alt="NeoSell Logo" className="w-8 h-8" />
-            <div className="text-xl font-bold">
-              <span className="text-gray-900">Neo</span>
-              <span className="text-red-500">Sell</span>
-            </div>
-          </div>
         </div>
       </div>
 

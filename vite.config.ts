@@ -32,17 +32,36 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
           'react-router': ['react-router-dom'],
+          'animation': ['framer-motion'],
+          'ui-components': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
+          'query': ['@tanstack/react-query'],
         },
+        // Optimize chunk size
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
     minify: 'esbuild',
     cssMinify: true,
-    chunkSizeWarningLimit: 1000,
-    target: 'es2015',
+    chunkSizeWarningLimit: 500,
+    target: 'es2020', // Modern target for smaller bundles
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
+    reportCompressedSize: false,
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console logs in production
+        drop_debugger: true,
+      },
+      output: {
+        comments: false,
+      },
+    },
+    sourcemap: false, // Disable sourcemaps in production for smaller bundle
   },
   server: {
     port: 5173,
