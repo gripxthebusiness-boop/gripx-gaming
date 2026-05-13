@@ -59,9 +59,11 @@ export function Login() {
       
       await login(emailOrPhone, password);
       
-      // Save "Keep me signed in" preference
+      // Save or clear "Keep me signed in" preference
       if (keepSignedIn) {
         localStorage.setItem('keepSignedIn', 'true');
+      } else {
+        localStorage.removeItem('keepSignedIn');
       }
       
       // Redirect to home page for customers
@@ -132,6 +134,14 @@ export function Login() {
       }
 
       localStorage.setItem('token', data.token);
+      
+      // Save or clear "Keep me signed in" preference
+      if (keepSignedIn) {
+        localStorage.setItem('keepSignedIn', 'true');
+      } else {
+        localStorage.removeItem('keepSignedIn');
+      }
+      
       // Redirect to home page for customers
       window.location.href = '/';
     } catch (err: any) {
@@ -279,6 +289,20 @@ export function Login() {
                       >
                         {otpLoading ? 'Verifying...' : 'Verify & Sign In'}
                       </button>
+                    </div>
+                    {/* Keep me signed in - OTP */}
+                    <div className="mt-4 pt-4 border-t border-red-200">
+                      <label className="flex items-center gap-2 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={keepSignedIn}
+                          onChange={(e) => setKeepSignedIn(e.target.checked)}
+                          className="w-4 h-4 rounded border-red-300 bg-red-50 text-red-600 focus:ring-red-600"
+                        />
+                        <span className="text-sm text-gray-900 group-hover:text-gray-900 transition-colors">
+                          Keep me signed in
+                        </span>
+                      </label>
                     </div>
                   </div>
                 )}
