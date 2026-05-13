@@ -29,11 +29,11 @@ export function Home() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <LazyImage
-            src="https://images.unsplash.com/photo-1694919123854-24b74b376da1?w=400&q=80"
+            src="https://images.unsplash.com/photo-1694919123854-24b74b376da1?w=1200&q=80"
             alt="Gaming Setup"
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-45"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/30 to-transparent" />
         </div>
 
         {/* Hero Content */}
