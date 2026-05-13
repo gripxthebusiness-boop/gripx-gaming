@@ -134,21 +134,6 @@
       "destination": "/index.html"
     }
   ],
-  "static": [
-    {
-      "source": "/site.webmanifest",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/manifest+json"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
-      ]
-    }
-  ],
   "env": {
     "VITE_API_URL": "https://gripx-gaming.onrender.com/api",
     "VITE_APP_TITLE": "GripX"
