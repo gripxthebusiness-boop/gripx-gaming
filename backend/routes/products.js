@@ -185,12 +185,24 @@ router.delete('/:id', verifyToken, verifyAdmin, async (req, res) => {
     );
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Product not found' 
+      });
     }
 
-    res.json({ message: 'Product deleted', product });
+    res.status(200).json({ 
+      success: true,
+      message: 'Product deleted successfully',
+      product 
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error('Delete product error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error',
+      error: error.message 
+    });
   }
 });
 

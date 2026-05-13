@@ -71,7 +71,7 @@ export function ForgotPassword() {
     }
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'https://api.gripx.store/api';
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const response = await fetch(`${API_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -135,7 +135,7 @@ export function ForgotPassword() {
     }
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL || 'https://api.gripx.store/api';
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
       const response = await fetch(`${API_URL}/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

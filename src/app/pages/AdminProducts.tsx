@@ -203,21 +203,38 @@ export function AdminProducts() {
   const handleDelete = async (productId: string) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
+    setError(null);
     try {
       const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setError('Authentication required. Please log in as an admin.');
+        return;
+      }
+
       const response = await fetch(`${API_BASE}/products/${productId}`, {
         method: 'DELETE',
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
+      const data = await response.json();
+      console.log('Delete response:', response.status, data);
+
       if (response.ok) {
+        setSuccess('Product deleted successfully!');
         fetchProducts();
+      } else if (response.status === 401) {
+        setError('Session expired. Please log in again.');
+      } else if (response.status === 403) {
+        setError('You do not have permission to delete products. Admin access required.');
       } else {
-        setError('Failed to delete product');
+        setError(data.message || 'Failed to delete product');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to delete product:', error);
-      setError('Failed to delete product');
+      setError(error.message || 'Failed to delete product. Please check your connection.');
     }
   };
 

@@ -7,7 +7,7 @@
 const API_URL: string =
   (import.meta as any).env?.NEXT_PUBLIC_API_URL ||
   (import.meta as any).env?.VITE_API_URL ||
-  'https://api.gripx.store';
+  'http://localhost:5000';
 
 
 
