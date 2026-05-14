@@ -56,18 +56,14 @@ self.addEventListener('fetch', event => {
         try {
           const response = await fetch(request);
 
-  if (response && response.ok) {
-            // Only cache GET requests; never consume the response body in the SW.
-            // Cloning is required because Response bodies are streams.
+          if (response && response.ok) {
+            // Clone exactly once per network response, and only use the clone for caching.
             const responseClone = response.clone();
             const cache = await caches.open(CACHE_NAME);
-            // Use the clone for caching; return the original to the page.
             await cache.put(request, responseClone);
           }
 
           return response;
-
-
         } catch (err) {
           const cachedResponse = await caches.match(request);
           return (
@@ -84,24 +80,26 @@ self.addEventListener('fetch', event => {
 
   // Cache-first strategy for assets
   event.respondWith(
-    caches.match(request).then(cachedResponse => {
+    (async () => {
+      const cachedResponse = await caches.match(request);
       if (cachedResponse) return cachedResponse;
 
-      return fetch(request).then(response => {
-        if (
-          response &&
-          response.ok &&
-          (request.url.includes('.js') ||
-            request.url.includes('.css') ||
-            request.url.includes('.woff2'))
-        ) {
-          // Clone BEFORE caching/returning.
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
-        }
-        return response;
-      });
-    })
+      const response = await fetch(request);
+      if (
+        response &&
+        response.ok &&
+        (request.url.includes('.js') ||
+          request.url.includes('.css') ||
+          request.url.includes('.woff2'))
+      ) {
+        // Clone exactly once per network response, and only use the clone for caching.
+        const responseClone = response.clone();
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, responseClone);
+      }
+
+      return response;
+    })()
   );
 });
 
