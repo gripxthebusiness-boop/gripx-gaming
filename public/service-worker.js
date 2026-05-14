@@ -44,8 +44,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Skip external APIs (let them handle their own caching)
-  if (url.hostname !== self.location.hostname && !url.hostname.includes('unsplash') && !url.hostname.includes('cloudinary')) {
+  // Skip cross-origin requests. External assets/APIs should not be intercepted by this service worker.
+  if (url.hostname !== self.location.hostname) {
     return;
   }
 
@@ -55,8 +55,8 @@ self.addEventListener('fetch', event => {
       fetch(request)
         .then(response => {
           if (response.ok) {
-            const cache = caches.open(CACHE_NAME);
-            cache.then(c => c.put(request, response.clone()));
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
           }
           return response;
         })
@@ -75,8 +75,8 @@ self.addEventListener('fetch', event => {
       caches.match(request).then(cachedResponse => {
         return cachedResponse || fetch(request).then(response => {
           if (response.ok && (request.url.includes('.js') || request.url.includes('.css') || request.url.includes('.woff2'))) {
-            const cache = caches.open(CACHE_NAME);
-            cache.then(c => c.put(request, response.clone()));
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
           }
           return response;
         });
