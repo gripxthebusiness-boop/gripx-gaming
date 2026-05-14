@@ -39,6 +39,10 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // Don’t allow service-worker to interfere with navigations.
+  if (request.mode === 'navigate') return; 
+
+
   // Skip non-GET requests
   if (request.method !== 'GET') return;
 
@@ -56,6 +60,8 @@ self.addEventListener('fetch', event => {
             // Clone BEFORE returning so the original body remains readable by the page.
             const responseClone = response.clone();
             caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
+
+            // (No further reads of `response` body here to avoid clone/body-used errors.)
           }
 
           return response;

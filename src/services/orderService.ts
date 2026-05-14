@@ -4,10 +4,16 @@
  * Uses environment variable NEXT_PUBLIC_API_URL or VITE_API_URL
  */
 
-const API_URL: string =
-  (import.meta as any).env?.NEXT_PUBLIC_API_URL ||
-  (import.meta as any).env?.VITE_API_URL ||
-  'http://localhost:5000';
+const API_URL: string = (() => {
+  // Allow envs to be either "https://host" or "https://host/api".
+  // We normalize to the base origin without a trailing /api.
+  const raw =
+    (import.meta as any).env?.NEXT_PUBLIC_API_URL ||
+    (import.meta as any).env?.VITE_API_URL ||
+    'http://localhost:5000';
+
+  return raw.replace(/\/+api\/?$/i, '');
+})();
 
 
 
