@@ -56,14 +56,17 @@ self.addEventListener('fetch', event => {
         try {
           const response = await fetch(request);
 
-          if (response && response.ok) {
-            // Clone exactly once for caching; return the original response to the page.
+  if (response && response.ok) {
+            // Only cache GET requests; never consume the response body in the SW.
+            // Cloning is required because Response bodies are streams.
             const responseClone = response.clone();
             const cache = await caches.open(CACHE_NAME);
+            // Use the clone for caching; return the original to the page.
             await cache.put(request, responseClone);
           }
 
           return response;
+
 
         } catch (err) {
           const cachedResponse = await caches.match(request);
