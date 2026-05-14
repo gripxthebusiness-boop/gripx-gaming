@@ -500,7 +500,7 @@ export function AdminProducts() {
 
                           console.log('Upload imageUrl used:', imageUrl, 'raw:', data);
 
-                          if (imageUrl && typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
+                          if (imageUrl && typeof imageUrl === 'string') {
                             const newImages = [...formData.images];
                             newImages[index] = imageUrl;
                             setFormData({ ...formData, images: newImages });
