@@ -49,7 +49,7 @@ export function About() {
               </span>
             </h1>
             <p className="text-xl text-gray-900 mb-8 max-w-2xl mx-auto">
-              Your trusted source for premium electronics and gadgets at unbeatable prices.
+              Your trusted source for electronics and gadgets at unbeatable prices.
             </p>
           </motion.div>
         </div>

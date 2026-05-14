@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Edit, Trash2, Save, X, Package, DollarSign, Image as ImageIcon, CheckCircle, AlertCircle, Loader2, Table, Trash } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import Papa from 'papaparse';
 
 interface Product {
@@ -24,6 +25,7 @@ interface SpecItem {
 
 export function AdminProducts() {
   const API_BASE = import.meta.env.VITE_API_URL || '';
+  const queryClient = useQueryClient();
   console.log('API_BASE:', API_BASE); // Debug API URL
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -185,6 +187,8 @@ export function AdminProducts() {
         const message = editingProduct ? 'Product updated successfully!' : `Product "${formData.name}" created successfully!`;
         setSuccess(message);
         console.log('Product saved successfully:', message); // Debug success
+        // Invalidate all products queries to refresh cached data across the app
+        queryClient.invalidateQueries({ queryKey: ['products'] });
         fetchProducts();
         resetForm();
       } else {
@@ -224,6 +228,8 @@ export function AdminProducts() {
 
       if (response.ok) {
         setSuccess('Product deleted successfully!');
+        // Invalidate all products queries to refresh cached data across the app
+        queryClient.invalidateQueries({ queryKey: ['products'] });
         fetchProducts();
       } else if (response.status === 401) {
         setError('Session expired. Please log in again.');
@@ -368,7 +374,9 @@ export function AdminProducts() {
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h2>
               <button
+                type="button"
                 onClick={resetForm}
+                aria-label="Close product form"
                 className="text-gray-800 hover:text-gray-900 transition-colors"
               >
                 <X size={24} />
@@ -377,8 +385,9 @@ export function AdminProducts() {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Product Name</label>
+                <label htmlFor="product-name" className="block text-sm font-medium text-gray-900 mb-2">Product Name</label>
                 <input
+                  id="product-name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -388,8 +397,9 @@ export function AdminProducts() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Brand</label>
+                <label htmlFor="product-brand" className="block text-sm font-medium text-gray-900 mb-2">Brand</label>
                 <input
+                  id="product-brand"
                   type="text"
                   value={formData.brand}
                   onChange={(e) => setFormData({...formData, brand: e.target.value})}
@@ -399,8 +409,9 @@ export function AdminProducts() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Price (₹)</label>
+                <label htmlFor="product-price" className="block text-sm font-medium text-gray-900 mb-2">Price (₹)</label>
                 <input
+                  id="product-price"
                   type="number"
                   step="0.01"
                   value={formData.price}
@@ -411,8 +422,9 @@ export function AdminProducts() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Category</label>
+                <label htmlFor="product-category" className="block text-sm font-medium text-gray-900 mb-2">Category</label>
                 <select
+                  id="product-category"
                   value={formData.category}
                   onChange={(e) => setFormData({...formData, category: e.target.value})}
                   className="w-full px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-gray-900 focus:border-red-600 focus:outline-none"
@@ -437,6 +449,8 @@ export function AdminProducts() {
                     )}
                     {/* File input for image upload via backend */}
                     <input
+                      aria-label={`Product image file ${index + 1}`}
+                      title={`Product image file ${index + 1}`}
                       type="file"
                       accept="image/*"
                       onChange={async (e) => {
@@ -491,6 +505,7 @@ export function AdminProducts() {
                     {formData.images.length > 1 && (
                       <button
                         type="button"
+                        aria-label={`Remove image ${index + 1}`}
                         onClick={() => {
                           const newImages = formData.images.filter((_, i) => i !== index);
                           setFormData({...formData, images: newImages});
@@ -514,8 +529,9 @@ export function AdminProducts() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Description</label>
+                <label htmlFor="product-description" className="block text-sm font-medium text-gray-900 mb-2">Description</label>
                 <textarea
+                  id="product-description"
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={3}

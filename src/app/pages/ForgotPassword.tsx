@@ -275,6 +275,9 @@ export function ForgotPassword() {
                       key={index}
                       ref={(el) => { otpRefs.current[index] = el }}
                       type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      aria-label={`Verification code digit ${index + 1}`}
                       maxLength={1}
                       value={digit}
                       onChange={(e) => handleCodeChange(index, e.target.value)}
@@ -369,6 +372,7 @@ export function ForgotPassword() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-800 hover:text-gray-900"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}

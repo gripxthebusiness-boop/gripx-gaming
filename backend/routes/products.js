@@ -49,8 +49,8 @@ router.get('/', async (req, res) => {
     // Calculate pagination metadata
     const totalPages = Math.ceil(total / limit);
 
-    // Set cache headers for 5 minutes
-    setCacheHeaders(res, 300);
+    // Set cache headers for 1 minute (reduced for fresher product data after updates)
+    setCacheHeaders(res, 60);
 
     res.json({
       products,

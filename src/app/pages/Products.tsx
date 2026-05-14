@@ -83,7 +83,7 @@ export function Products() {
   const { data, isLoading, error, isFetching } = useQuery<ProductsResponse>({
     queryKey: ['products', activeFilter, searchQuery, currentPage],
     queryFn: () => fetchProducts(currentPage, activeFilter, searchQuery),
-    staleTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 2 * 60 * 1000, // 2 minutes (reduced from 10 minutes for fresher data after updates)
   });
 
   // Prefetch next page
@@ -237,14 +237,6 @@ export function Products() {
                     </li>
                   ))}
                 </ul>
-              </div>
-
-              {/* Quick info */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                <h3 className="font-bold text-gray-900 mb-2">Gaming Gear</h3>
-                <p className="text-sm text-gray-600">
-                  Premium gaming peripherals and accessories for serious gamers.
-                </p>
               </div>
             </div>
           </aside>

@@ -219,7 +219,7 @@ export function Login() {
                 {otpStep === 'phone' ? (
                   <div className="space-y-4">
                     <div className="flex gap-2">
-                      <select className="bg-red-50 border border-red-600/30 rounded-lg px-3 py-2 text-gray-900">
+                      <select aria-label="Country code" className="bg-red-50 border border-red-600/30 rounded-lg px-3 py-2 text-gray-900">
                         <option>+91</option>
                         <option>+1</option>
                         <option>+44</option>
@@ -233,6 +233,8 @@ export function Login() {
                           val.split('').forEach((d, i) => newOtp[i] = d);
                           setOtp(newOtp);
                         }}
+                        aria-label="Phone number"
+                        title="Phone number"
                         placeholder="Phone number"
                         className="flex-1 bg-red-50 border border-red-600/30 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:border-red-600"
                       />
@@ -263,6 +265,9 @@ export function Login() {
                           key={index}
                           ref={(el) => { otpRefs.current[index] = el }}
                           type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          aria-label={`OTP digit ${index + 1}`}
                           maxLength={1}
                           value={digit}
                           onChange={(e) => handleOtpChange(index, e.target.value)}

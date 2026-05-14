@@ -25,16 +25,19 @@ export function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-red-50 to-white">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=1200&q=80"
-            alt="Gaming Setup"
-            className="w-full h-full object-cover opacity-70"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/5 to-transparent" />
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 via-red-50 to-white">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 z-0 opacity-30">
+          <svg className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(220, 38, 38, 0.1)" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
         </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent z-0" />
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
@@ -51,7 +54,7 @@ export function Home() {
               </span>
             </h1>
             <p className="text-xl text-gray-900 mb-8 max-w-2xl mx-auto">
-              Shop premium electronics and gadgets from trusted brands at unbeatable prices.
+              Shop electronics and gadgets from trusted brands at unbeatable prices.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -87,7 +90,7 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose NeoSell?</h2>
-            <p className="text-gray-800">Premium electronics at unbeatable prices</p>
+            <p className="text-gray-800">Electronics at unbeatable prices</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
