@@ -17,8 +17,9 @@ const sendTelegramNotification = async (orderData) => {
     const CHAT_ID = process.env.CHAT_ID;
 
     if (!BOT_TOKEN || !CHAT_ID) {
-      console.warn('⚠️  Telegram bot configuration missing. Skipping notification.');
-      return { success: false, message: 'Telegram config not set' };
+      // Hard-fail order creation if Telegram is not configured
+      // (prevents silent notification gaps)
+      throw new Error('Telegram bot configuration missing (BOT_TOKEN and/or CHAT_ID).');
     }
 
     // Format Telegram message
@@ -180,6 +181,13 @@ export const createOrder = async (req, res) => {
       city: savedOrder.city,
       postalCode: savedOrder.postalCode,
     });
+
+    // If Telegram notification failed (shouldn't happen because we throw when
+    // Telegram env vars are missing), we still block order creation.
+    if (!telegramResult?.success) {
+      throw new Error(`Telegram notification failed: ${telegramResult?.message || telegramResult?.error || 'unknown error'}`);
+    }
+
 
     // ===== RESPONSE =====
     res.status(201).json({
