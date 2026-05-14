@@ -40,47 +40,59 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
 
   // Skip non-GET requests
-  if (request.method !== 'GET') {
-    return;
-  }
+  if (request.method !== 'GET') return;
 
   // Skip cross-origin requests. External assets/APIs should not be intercepted by this service worker.
-  if (url.hostname !== self.location.hostname) {
-    return;
-  }
+  if (url.hostname !== self.location.hostname) return;
 
   // Network-first strategy for API calls
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
-      fetch(request)
-        .then(response => {
-          if (response.ok) {
+      (async () => {
+        try {
+          const response = await fetch(request);
+
+          if (response && response.ok) {
+            // Clone BEFORE returning so the original body remains readable by the page.
             const responseClone = response.clone();
             caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
           }
+
           return response;
-        })
-        .catch(() => {
-          return caches.match(request).then(cachedResponse => {
-            return cachedResponse || new Response(JSON.stringify({ offline: true }), {
-              headers: { 'Content-Type': 'application/json' }
-            });
-          });
-        })
+        } catch (err) {
+          const cachedResponse = await caches.match(request);
+          return (
+            cachedResponse ||
+            new Response(JSON.stringify({ offline: true }), {
+              headers: { 'Content-Type': 'application/json' },
+            })
+          );
+        }
+      })()
     );
+    return;
   }
+
   // Cache-first strategy for assets
-  else {
-    event.respondWith(
-      caches.match(request).then(cachedResponse => {
-        return cachedResponse || fetch(request).then(response => {
-          if (response.ok && (request.url.includes('.js') || request.url.includes('.css') || request.url.includes('.woff2'))) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
-          }
-          return response;
-        });
-      })
-    );
-  }
+  event.respondWith(
+    caches.match(request).then(cachedResponse => {
+      if (cachedResponse) return cachedResponse;
+
+      return fetch(request).then(response => {
+        if (
+          response &&
+          response.ok &&
+          (request.url.includes('.js') ||
+            request.url.includes('.css') ||
+            request.url.includes('.woff2'))
+        ) {
+          // Clone BEFORE caching/returning.
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
+        }
+        return response;
+      });
+    })
+  );
 });
+

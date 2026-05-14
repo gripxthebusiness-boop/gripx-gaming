@@ -30,9 +30,11 @@
     <link rel="preconnect" href="https://images.unsplash.com">
     <link rel="preconnect" href="https://res.cloudinary.com">
     <!-- Resource hints for faster prefetch -->
-    <link rel="preload" as="script" href="/src/main.tsx">
+    <!-- NOTE: /src/main.tsx is the dev source and may not be the actual preload target in production builds.
+         Removing the preload avoids browser warnings about preloaded resources not being used. -->
     <link rel="prefetch" href="/src/app/pages/Products.tsx">
     <link rel="prefetch" href="/src/app/pages/ProductDetail.tsx">
+
     <title>NeoSell - Electronics Reseller</title>
     <style>
       /* Critical CSS for faster initial render */
