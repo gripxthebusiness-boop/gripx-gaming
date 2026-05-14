@@ -441,11 +441,14 @@ export function AdminProducts() {
 
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-900 mb-2">Product Images</label>
-                {formData.images.map((image, index) => (
-                  <div key={index} className="flex items-center space-x-2 mb-2">
+                    {formData.images.map((image, index) => (
+                      <div key={index} className="flex items-center space-x-2 mb-2">
                     {/* Image preview */}
-                    {image && image.startsWith('http') && (
+                    {image && typeof image === 'string' && image.startsWith('http') && (
                       <img src={image} alt="preview" className="w-16 h-16 object-cover rounded border border-gray-300 mr-2" />
+                    )}
+                    {image && typeof image === 'string' && !image.startsWith('http') && (
+                      <span className="text-xs text-red-600">Invalid URL</span>
                     )}
                     {/* File input for image upload via backend */}
                     <input
@@ -486,8 +489,18 @@ export function AdminProducts() {
                           }
                           
                           // Check various possible response formats
-                          const imageUrl = data.image?.url || data.url || data.secure_url;
-                          if (imageUrl) {
+                          const imageUrl =
+                            data.image?.url ||
+                            data.image?.secure_url ||
+                            data.url ||
+                            data.secure_url ||
+                            (typeof data.image?.public_id === 'string'
+                              ? `https://res.cloudinary.com/${process.env.VITE_CLOUDINARY_CLOUD_NAME || ''}/image/upload/${data.image.public_id}`
+                              : '');
+
+                          console.log('Upload imageUrl used:', imageUrl, 'raw:', data);
+
+                          if (imageUrl && typeof imageUrl === 'string' && imageUrl.startsWith('http')) {
                             const newImages = [...formData.images];
                             newImages[index] = imageUrl;
                             setFormData({ ...formData, images: newImages });

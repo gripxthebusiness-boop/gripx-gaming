@@ -75,7 +75,7 @@ router.get('/:id', async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    
+
     // Set cache headers for 10 minutes for single product
     setCacheHeaders(res, 600);
     res.json(product);
@@ -115,24 +115,43 @@ router.get('/:id/details', async (req, res) => {
   }
 });
 
-  // Create product (ADMIN ONLY)
-  router.post('/', verifyToken, verifyAdmin, async (req, res) => {
-    try {
-      const { name, brand, category, price, images, description, specs, rating, inStock, stockQuantity } = req.body;
+// Create product (ADMIN ONLY)
+router.post('/', verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const {
+      name,
+      brand,
+      category,
+      price,
+      images,
+      description,
+      specs,
+      rating,
+      inStock,
+      stockQuantity,
+    } = req.body;
 
-      // Validate required fields with better error messaging
-      const missingFields = [];
-      if (!name || name.trim() === '') missingFields.push('name');
-      if (!category || category.trim() === '') missingFields.push('category');
-      if (price === undefined || price === null || price === '') missingFields.push('price');
-      if (!images || !Array.isArray(images) || images.length === 0 || !images[0] || images[0].trim() === '') missingFields.push('images (at least one image URL required)');
-      
-      if (missingFields.length > 0) {
-        return res.status(400).json({ 
-          message: 'Required fields are missing',
-          details: `Missing: ${missingFields.join(', ')}`
-        });
-      }
+    // Validate required fields with better error messaging
+    const missingFields = [];
+    if (!name || name.trim() === '') missingFields.push('name');
+    if (!category || category.trim() === '') missingFields.push('category');
+    if (price === undefined || price === null || price === '') missingFields.push('price');
+    if (
+      !images ||
+      !Array.isArray(images) ||
+      images.length === 0 ||
+      !images[0] ||
+      images[0].trim() === ''
+    ) {
+      missingFields.push('images (at least one image URL required)');
+    }
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        message: 'Required fields are missing',
+        details: `Missing: ${missingFields.join(', ')}`,
+      });
+    }
 
     const newProduct = new Product({
       name,
@@ -148,6 +167,10 @@ router.get('/:id/details', async (req, res) => {
     });
 
     await newProduct.save();
+
+    // Invalidate cached GET /api/products responses so the new product shows up immediately
+    if (req.app.locals.clearProductCache) req.app.locals.clearProductCache();
+
     res.status(201).json({ message: 'Product created', product: newProduct });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -157,7 +180,18 @@ router.get('/:id/details', async (req, res) => {
 // Update product (ADMIN ONLY)
 router.put('/:id', verifyToken, verifyAdmin, async (req, res) => {
   try {
-    const { name, brand, category, price, images, description, specs, rating, inStock, stockQuantity } = req.body;
+    const {
+      name,
+      brand,
+      category,
+      price,
+      images,
+      description,
+      specs,
+      rating,
+      inStock,
+      stockQuantity,
+    } = req.body;
 
     const product = await Product.findByIdAndUpdate(
       req.params.id,
@@ -168,6 +202,9 @@ router.put('/:id', verifyToken, verifyAdmin, async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
+
+    // Invalidate cached GET /api/products responses so the updated product shows up immediately
+    if (req.app.locals.clearProductCache) req.app.locals.clearProductCache();
 
     res.json({ message: 'Product updated', product });
   } catch (error) {
@@ -185,25 +222,30 @@ router.delete('/:id', verifyToken, verifyAdmin, async (req, res) => {
     );
 
     if (!product) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'Product not found' 
+        message: 'Product not found',
       });
     }
 
-    res.status(200).json({ 
+    // Invalidate cached GET /api/products responses so the deleted product disappears immediately
+    if (req.app.locals.clearProductCache) req.app.locals.clearProductCache();
+
+    res.status(200).json({
       success: true,
       message: 'Product deleted successfully',
-      product 
+      product,
     });
   } catch (error) {
     console.error('Delete product error:', error);
-    res.status(500).json({ 
+    if (req.app.locals.clearProductCache) req.app.locals.clearProductCache();
+    res.status(500).json({
       success: false,
       message: 'Server error',
-      error: error.message 
+      error: error.message,
     });
   }
 });
 
 export default router;
+

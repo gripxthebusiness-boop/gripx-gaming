@@ -115,6 +115,18 @@ const cacheMiddleware = (req, res, next) => {
   const key = req.originalUrl;
   const cached = cache.get(key);
 
+  // Helper to invalidate product cache without exporting internals
+  // (used by product write endpoints)
+  req.app.locals.clearProductCache = () => {
+    for (const [k] of cache.entries()) {
+      // Keys are req.originalUrl, e.g. /api/products or /api/products?page=2
+      if (typeof k === 'string' && k.startsWith('/api/products')) {
+        cache.delete(k);
+      }
+    }
+  };
+
+
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
     // Add cache header
     res.set('X-Cache', 'HIT');
