@@ -57,14 +57,14 @@ self.addEventListener('fetch', event => {
           const response = await fetch(request);
 
           if (response && response.ok) {
-            // Clone BEFORE returning so the original body remains readable by the page.
+            // Clone exactly once for caching; return the original response to the page.
             const responseClone = response.clone();
-            caches.open(CACHE_NAME).then(c => c.put(request, responseClone));
-
-            // (No further reads of `response` body here to avoid clone/body-used errors.)
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, responseClone);
           }
 
           return response;
+
         } catch (err) {
           const cachedResponse = await caches.match(request);
           return (

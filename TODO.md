@@ -1,10 +1,6 @@
-# TODO: Implement Cart and Navigation Features
-
-## Tasks
-- [x] Add cart icon with blue badge showing item count to Navigation.tsx
-- [x] Replace "Buy Now" button with "Add to Cart" button in Products.tsx
-- [x] Update Cart.tsx to use actual cart context instead of mock data
-
-## Status
-- [x] Plan approved by user
-- [x] Implementation completed
+- [x] Inspect repo and identify causes (orders route not mounted; service worker caching bug)
+- [x] Fix backend: mount /api/orders in backend/server.js
+- [x] Fix service worker: remove Response-clone/body-used issue and ensure caching uses clones safely
+- [ ] Run build/test
+- [ ] Commit changes
+- [ ] Push changes
