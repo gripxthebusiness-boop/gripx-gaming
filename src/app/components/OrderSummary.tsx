@@ -1,10 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { CreditCard, ShieldCheck, Truck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
+
 const OrderSummary: React.FC = () => {
   const { cartItems } = useCart();
+  const navigate = useNavigate();
+
 
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -68,11 +72,22 @@ const OrderSummary: React.FC = () => {
 
       {/* Checkout Button */}
       <button
+        type="button"
+        onClick={() => {
+          // “Proceed to Checkout” behaves like the “Buy Now” flow:
+          // take the user to the order placement form.
+          // The app’s actual order form route isn’t implemented,
+          // so fall back to opening a cart-order form in-place (BuyNow flow).
+          // Behaves like the “Buy Now” flow by taking the user to checkout.
+          navigate('/checkout');
+        }}
+
         className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 text-gray-900 rounded-lg hover:from-red-700 hover:to-red-800 transition-all font-semibold"
       >
         <CreditCard className="w-5 h-5" />
         Proceed to Checkout
       </button>
+
 
       {/* Security Badge */}
       <div className="mt-4 flex items-center justify-center gap-2 text-gray-800 text-sm">
