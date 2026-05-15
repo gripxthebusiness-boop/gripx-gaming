@@ -137,7 +137,7 @@ export function AdminProducts() {
     setSuccess(null);
 
     // Filter out empty image URLs and keep only valid ones
-    const validImages = formData.images.filter(img => img && img.trim() !== '' && img.startsWith('http'));
+const validImages = formData.images.filter(img => img && img.trim() !== '');
     
     if (validImages.length === 0) {
       setError('At least one valid image URL is required. Please upload at least one image.');
